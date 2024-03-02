@@ -77,19 +77,18 @@ namespace Models
         /// <summary>
         /// 
         /// </summary>
-        public ICollection<CouplesEvent_Date>? CouplesEventsHost { get; set; } = new List<CouplesEvent_Date>();
+        public ICollection<CouplesEvent_Date>? CouplesEventsUserHost { get; set; } = new List<CouplesEvent_Date>();
+
         /// <summary>
         /// 
         /// </summary>
-        public ICollection<CouplesEvent_Date>? CouplesEventsInvited { get; set; } = new List<CouplesEvent_Date>();
+        public ICollection<CouplesEvent_Date>? CouplesEventsUserInivted { get; set; } = new List<CouplesEvent_Date>();
+
         /// <summary>
         /// 
         /// </summary>
         public ICollection<TypeEvent_User>? TypeEventsUsers { get; set; } = new List<TypeEvent_User>();
-        /// <summary>
-        /// 
-        /// </summary>
-        public ICollection<WaitList>? WaitLists { get; set; } = new List<WaitList>();
+
         /// <summary>
         /// 
         /// </summary>{ get; set; }

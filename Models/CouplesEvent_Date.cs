@@ -11,6 +11,7 @@ namespace Models
         public int EventId_FK { get; set; }
         public bool CouplesEventApproved { get; set; }
         public int RequestAccepted { get; set; }
+        public int RequestRejected{ get; set; }
 
         public Event Evento { get; set; } = new Event();
         public User HostUser { get; set; } = new User();
