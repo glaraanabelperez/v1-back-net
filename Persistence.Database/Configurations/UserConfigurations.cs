@@ -77,7 +77,15 @@ namespace Abrazos.Persistence.Database.Configurations
                 .WithMany(user => user.Users)
                 .HasForeignKey(u => u.ProfileDancerId_FK);
 
-           
+
+            builder.HasMany(e => e.CouplesEventsUserInivted)
+             .WithOne(e => e.InvitedUser)
+             .HasForeignKey(e => e.InvitedUserId_FK);
+
+            builder.HasMany(e => e.CouplesEventsUserHost)
+          .WithOne(e => e.HostUser)
+          .HasForeignKey(e => e.HostUserId_FK);
+
         }
     }
 }

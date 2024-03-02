@@ -23,7 +23,7 @@ namespace Abrazos.Persistence.Database
         public virtual DbSet<TypeEvent> TypeEvent { get; set; } = null!;
         public virtual DbSet<User> User { get; set; } = null!;
         public virtual DbSet<UserPermission> UserPermission { get; set; } = null!;
-        public virtual DbSet<WaitList> WaitList { get; set; } = null!;
+        //public virtual DbSet<WaitList> WaitList { get; set; } = null!;
         public virtual DbSet<EventState> EventStates { get; set; } = null!;
 
 
