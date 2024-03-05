@@ -38,6 +38,16 @@ namespace Abrazos.Persistence.Database.Configurations
             builder.Property(e => e.TypeEventId_fk)
            .HasColumnName("TypeEventId_fk");
 
+            builder.Property(e => e.Cupo)
+           .HasColumnName("Cupo");
+
+            builder.Property(e => e.LevelId)
+           .HasColumnName("LevelIdFK");
+
+            builder.Property(e => e.RolId)
+           .HasColumnName("RolIdFK");
+
+
             builder.HasOne(w => w.Address)
                     .WithMany(e => e.Events)
                     .HasForeignKey(w => w.AddressId_fk);
@@ -65,6 +75,19 @@ namespace Abrazos.Persistence.Database.Configurations
             builder.HasMany(ce => ce.CycleEvents)
              .WithOne(c => c.Event)
              .HasForeignKey(c => c.EventId);
+
+            builder.HasMany(ce => ce.CycleEvents)
+             .WithOne(c => c.Event)
+             .HasForeignKey(c => c.EventId);
+
+            builder.HasOne(ce => ce.Level)
+          .WithMany(c => c.Events)
+          .HasForeignKey(c => c.LevelId);
+
+            builder.HasOne(ce => ce.Rol)
+          .WithMany(c => c.Events)
+          .HasForeignKey(c => c.RolId);
+
         }
     }
 }

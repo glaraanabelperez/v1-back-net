@@ -15,9 +15,14 @@ namespace Models
         public DateTime DateFinish { get; set; }
         public int EventStateId_fk { get; set; }
         public int TypeEventId_fk { get; set; }
+
         public int Cupo { get; set; }
         public int RolId { get; set; }
         public int LevelId { get; set; }
+
+
+        public DanceLevel Level { get; set; }
+        public DanceRol Rol { get; set; }
 
         public EventState EventState_ { get; set; }
         public TypeEvent TypeEvent_ { get; set; }
@@ -26,6 +31,8 @@ namespace Models
         //public ICollection<WaitList> WaitLists { get; set; } = new List<WaitList>();
         public ICollection<CouplesEvent_Date> CouplesEvents { get; set; } = new List<CouplesEvent_Date>();
         public ICollection<CycleEvent>? CycleEvents { get; set; }
+
+
 
 
 

@@ -49,5 +49,54 @@ namespace api.abrazos.Controllers
 
         }
 
+        /// <summary>
+        /// Return All Users by some filters.
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="take"></param>
+        /// <param name="name"></param>
+        /// <param name="userName"></param>
+        /// <param name="userStates"></param>
+        /// <param name="danceLevel"></param>
+        /// <param name="danceRol"></param>
+        /// <param name="evenType"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> GetAll(
+            int page = 1,
+            int take = 500,
+            string? search = null,
+            int? organizerId = null,
+            int? CycleId = null,
+            int? danceLevel = null,
+            int? danceRol = null,
+            int? evenType = null,
+            int? CityId = null,
+            int? addressId = null,
+            int? countryId = null,
+            DateTime? dateCreated = null,
+            DateTime? dateFinish = null
+        )
+        {
+
+            var users = await _userService.GetAllAsync(
+               int page = 1,
+            int take = 500,
+            string ? search = null,
+            int ? organizerId = null,
+            int ? CycleId = null,
+            int ? danceLevel = null,
+            int ? danceRol = null,
+            int ? evenType = null,
+            int ? CityId = null,
+            int ? addressId = null,
+            int ? countryId = null,
+            DateTime ? dateCreated = null,
+            DateTime ? dateFinish = null
+               );
+
+            return Ok(users);
+        }
+
     }
 }
