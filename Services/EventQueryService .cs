@@ -100,44 +100,44 @@ namespace Abrazos.Services
                     UserCreatorName = e.UserCreator.Name,
                     UserCreatorLastName = e.UserCreator.LastName,
 
-                    Address =
-                    CouplesEvents =
-                    CycleEvents = 
-                            Customer = new CustomerDto
-                    {
-                        CustomerId = order.OrderSources.FirstOrDefault()?.externalCustomerId,
-                        Email = order.OrderCustomer.FirstOrDefault()?.META_CUS_Customer?.customerEmail,
-                        Name = order.OrderCustomer.FirstOrDefault()?.META_CUS_Customer?.customerName,
-                        LastName = order.OrderCustomer.FirstOrDefault()?.META_CUS_Customer?.customerLastName,
-                        Tel = order.OrderCustomer.FirstOrDefault()?.META_CUS_Customer?.customerPhone,
-                        BirthDate = order.OrderCustomer.FirstOrDefault()?.META_CUS_Customer?.customerBirthDate,
-                        Doc = order.OrderCustomer.FirstOrDefault()?.META_CUS_Customer?.customerDocumentNumber,
-                        Gender = order.OrderCustomer.FirstOrDefault()?.META_CUS_Customer?.Gender
-                    },
-                    Delivery = new DeliveryDto
-                    {
-                        Street = order.OrderCustomer.FirstOrDefault()?.META_FCO_Address?.addressStreet ?? string.Empty,
-                        Number = order.OrderCustomer.FirstOrDefault()?.META_FCO_Address?.addressNumber ?? string.Empty,
-                        Floor = order.OrderCustomer.FirstOrDefault()?.META_FCO_Address?.addressFloor ?? string.Empty,
-                        Province = order.OrderCustomer.FirstOrDefault()?.META_FCO_Address?.addressProvince ?? string.Empty,
-                        City = order.OrderCustomer.FirstOrDefault()?.META_FCO_Address?.addressCity ?? string.Empty,
-                        ZipCode = order.OrderCustomer.FirstOrDefault()?.META_FCO_Address?.addressZipCode ?? string.Empty
-                    },
-                    ItemsDto = order.OrderDetails.Select(
-                            orderDetail => new ItemDto
-                            {
-                                comboProd = orderDetail.DetailCombos.FirstOrDefault()?.comboId != null ? _key.Combo : _key.Producto,
-                                codigoCombo = orderDetail.DetailCombos.FirstOrDefault()?.comboCodigoCombo ?? _key.CodeComboNull,
-                                codigoSAP = orderDetail.productSAPID,
-                                quantity = orderDetail.OrderDetailLog.FirstOrDefault().orderDetailQuantity,
-                                vrkme = orderDetail.OrderDetailLog.FirstOrDefault().unitMeasurementText,
-                                listPrice = orderDetail.OrderDetailLog.FirstOrDefault().orderDetailNetPrice,
-                                discount = orderDetail.OrderDetailDiscounts.FirstOrDefault()?.orderDiscountPercentage ?? 0,
-                                price = orderDetail.OrderDetailLog.FirstOrDefault().orderDetailBasePrice,
-                            }).ToList(),
-                }).ToList(),
-                Total = orders.Total,
-                Page = orders.Page,
+                //    Address =
+                //    CouplesEvents =
+                //    CycleEvents = 
+                //            Customer = new CustomerDto
+                //    {
+                //        CustomerId = order.OrderSources.FirstOrDefault()?.externalCustomerId,
+                //        Email = order.OrderCustomer.FirstOrDefault()?.META_CUS_Customer?.customerEmail,
+                //        Name = order.OrderCustomer.FirstOrDefault()?.META_CUS_Customer?.customerName,
+                //        LastName = order.OrderCustomer.FirstOrDefault()?.META_CUS_Customer?.customerLastName,
+                //        Tel = order.OrderCustomer.FirstOrDefault()?.META_CUS_Customer?.customerPhone,
+                //        BirthDate = order.OrderCustomer.FirstOrDefault()?.META_CUS_Customer?.customerBirthDate,
+                //        Doc = order.OrderCustomer.FirstOrDefault()?.META_CUS_Customer?.customerDocumentNumber,
+                //        Gender = order.OrderCustomer.FirstOrDefault()?.META_CUS_Customer?.Gender
+                //    },
+                //    Delivery = new DeliveryDto
+                //    {
+                //        Street = order.OrderCustomer.FirstOrDefault()?.META_FCO_Address?.addressStreet ?? string.Empty,
+                //        Number = order.OrderCustomer.FirstOrDefault()?.META_FCO_Address?.addressNumber ?? string.Empty,
+                //        Floor = order.OrderCustomer.FirstOrDefault()?.META_FCO_Address?.addressFloor ?? string.Empty,
+                //        Province = order.OrderCustomer.FirstOrDefault()?.META_FCO_Address?.addressProvince ?? string.Empty,
+                //        City = order.OrderCustomer.FirstOrDefault()?.META_FCO_Address?.addressCity ?? string.Empty,
+                //        ZipCode = order.OrderCustomer.FirstOrDefault()?.META_FCO_Address?.addressZipCode ?? string.Empty
+                //    },
+                //    ItemsDto = order.OrderDetails.Select(
+                //            orderDetail => new ItemDto
+                //            {
+                //                comboProd = orderDetail.DetailCombos.FirstOrDefault()?.comboId != null ? _key.Combo : _key.Producto,
+                //                codigoCombo = orderDetail.DetailCombos.FirstOrDefault()?.comboCodigoCombo ?? _key.CodeComboNull,
+                //                codigoSAP = orderDetail.productSAPID,
+                //                quantity = orderDetail.OrderDetailLog.FirstOrDefault().orderDetailQuantity,
+                //                vrkme = orderDetail.OrderDetailLog.FirstOrDefault().unitMeasurementText,
+                //                listPrice = orderDetail.OrderDetailLog.FirstOrDefault().orderDetailNetPrice,
+                //                discount = orderDetail.OrderDetailDiscounts.FirstOrDefault()?.orderDiscountPercentage ?? 0,
+                //                price = orderDetail.OrderDetailLog.FirstOrDefault().orderDetailBasePrice,
+                //            }).ToList(),
+                //}).ToList(),
+                //Total = orders.Total,
+                //Page = orders.Page,
 
             };
 
