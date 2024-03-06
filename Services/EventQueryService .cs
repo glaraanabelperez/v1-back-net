@@ -6,13 +6,7 @@ using Abrazos.Services.Interfaces;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Models;
-using ServicesQueries.Auth;
-using System;
-using System.Linq;
-using System.Xml.Linq;
 using Utils;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Abrazos.Services
 {
@@ -44,7 +38,7 @@ namespace Abrazos.Services
             DateTime? dateFinish = null
             )
         {
-            var events = await _context.Event
+            var queryable =  _context.Event
                            .Include(a => a.TypeEvent_)
                            .Include(perm => perm.CycleEvents)
                            .ThenInclude(a => a.Cycle)
@@ -54,8 +48,8 @@ namespace Abrazos.Services
                            .Include(l => l.Level)
                            .Include(tye => tye.Rol)
 
-                  .Where(x => ( search == null || !search.Any() || search.Contains(x.Name) ) 
-                                || (search == null || !search.Any() || search.Contains(x.CycleEvents.FirstOrDefault().Cycle.CycleTitle)) )
+                  .Where(x => (search == null || !search.Any() || search.Contains(x.Name))
+                                || (search == null || !search.Any() || search.Contains(x.CycleEvents.FirstOrDefault().Cycle.CycleTitle)))
                   //.Where(x => userName == null || !userName.Any() || userName.Contains(x.UserName))
                   .Where(x => organizerId == null || (x.UserIdCreator_FK != null && x.UserIdCreator_FK == organizerId))
                   .Where(x => CycleId == null || (x.CycleEvents.FirstOrDefault().Cycle != null && x.CycleEvents.FirstOrDefault().Cycle.CycleId == CycleId))
@@ -66,11 +60,12 @@ namespace Abrazos.Services
                   .Where(x => countryId == null || (x.Address.City.Country.CountryId != null && x.Address.City.Country.CountryId == countryId))
                   .Where(x => evenType == null || (x.TypeEvent_ != null && x.TypeEvent_.TypeEventId == evenType))
 
-                  .OrderByDescending(x => x.Name)
-                  .GetPagedAsync(page, take);
+                  .OrderByDescending(x => x.Name);
+
+            var events = await queryable.GetPagedAsync(page, take);
 
 
-            _logger.LogInformation(events.ToString());
+            _logger.LogInformation(queryable.ToString());
 
             //var result = _mapper.Map<DataCollection<EventDto>>(queryable);
 
@@ -81,8 +76,8 @@ namespace Abrazos.Services
                 {
                     EventId = e.EventId,
                     UserIdCreator_FK = e.UserIdCreator_FK,
-                    Name = e.Name,
-                    Description = e.Description,
+                    EventName = e.Name,
+                    EventDescription = e.Description,
                     AddressId_fk = e.AddressId_fk, 
                     Image = e.Image, 
                     DateInit = e.DateInit,
@@ -99,45 +94,21 @@ namespace Abrazos.Services
                     TypeEventName   = e.TypeEvent_.Name,
                     UserCreatorName = e.UserCreator.Name,
                     UserCreatorLastName = e.UserCreator.LastName,
-
-                //    Address =
-                //    CouplesEvents =
-                //    CycleEvents = 
-                //            Customer = new CustomerDto
-                //    {
-                //        CustomerId = order.OrderSources.FirstOrDefault()?.externalCustomerId,
-                //        Email = order.OrderCustomer.FirstOrDefault()?.META_CUS_Customer?.customerEmail,
-                //        Name = order.OrderCustomer.FirstOrDefault()?.META_CUS_Customer?.customerName,
-                //        LastName = order.OrderCustomer.FirstOrDefault()?.META_CUS_Customer?.customerLastName,
-                //        Tel = order.OrderCustomer.FirstOrDefault()?.META_CUS_Customer?.customerPhone,
-                //        BirthDate = order.OrderCustomer.FirstOrDefault()?.META_CUS_Customer?.customerBirthDate,
-                //        Doc = order.OrderCustomer.FirstOrDefault()?.META_CUS_Customer?.customerDocumentNumber,
-                //        Gender = order.OrderCustomer.FirstOrDefault()?.META_CUS_Customer?.Gender
-                //    },
-                //    Delivery = new DeliveryDto
-                //    {
-                //        Street = order.OrderCustomer.FirstOrDefault()?.META_FCO_Address?.addressStreet ?? string.Empty,
-                //        Number = order.OrderCustomer.FirstOrDefault()?.META_FCO_Address?.addressNumber ?? string.Empty,
-                //        Floor = order.OrderCustomer.FirstOrDefault()?.META_FCO_Address?.addressFloor ?? string.Empty,
-                //        Province = order.OrderCustomer.FirstOrDefault()?.META_FCO_Address?.addressProvince ?? string.Empty,
-                //        City = order.OrderCustomer.FirstOrDefault()?.META_FCO_Address?.addressCity ?? string.Empty,
-                //        ZipCode = order.OrderCustomer.FirstOrDefault()?.META_FCO_Address?.addressZipCode ?? string.Empty
-                //    },
-                //    ItemsDto = order.OrderDetails.Select(
-                //            orderDetail => new ItemDto
-                //            {
-                //                comboProd = orderDetail.DetailCombos.FirstOrDefault()?.comboId != null ? _key.Combo : _key.Producto,
-                //                codigoCombo = orderDetail.DetailCombos.FirstOrDefault()?.comboCodigoCombo ?? _key.CodeComboNull,
-                //                codigoSAP = orderDetail.productSAPID,
-                //                quantity = orderDetail.OrderDetailLog.FirstOrDefault().orderDetailQuantity,
-                //                vrkme = orderDetail.OrderDetailLog.FirstOrDefault().unitMeasurementText,
-                //                listPrice = orderDetail.OrderDetailLog.FirstOrDefault().orderDetailNetPrice,
-                //                discount = orderDetail.OrderDetailDiscounts.FirstOrDefault()?.orderDiscountPercentage ?? 0,
-                //                price = orderDetail.OrderDetailLog.FirstOrDefault().orderDetailBasePrice,
-                //            }).ToList(),
-                //}).ToList(),
-                //Total = orders.Total,
-                //Page = orders.Page,
+                    Address = new AddressDto (){
+                        AddressId = e.AddressId_fk,
+                        UserId_FK  = e.UserIdCreator_FK,
+                        CityId_FK  = e.Address.CityId_FK,
+                        CityName  = e.Address.City.Name,
+                        Street  = e.Address.Street,
+                        Number = e.Address.Number,
+                        DetailAddress = e.Address.DetailAddress,
+                        StateAddress = e.Address.StateAddress,
+                        CountryId_FK  = e.Address.City.CountryId_FK,
+                        CountryName  = e.Address.City.Country.Name
+    }
+                }).ToList(),
+                Total = events.Total,
+                Page = events.Page,
 
             };
 

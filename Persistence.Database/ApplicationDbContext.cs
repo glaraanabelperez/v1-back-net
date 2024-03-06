@@ -15,6 +15,9 @@ namespace Abrazos.Persistence.Database
         public virtual DbSet<CouplesEvent_Date> CouplesEvent_Date { get; set; } = null!;
         public virtual DbSet<DanceLevel> DanceLevel { get; set; } = null!;
         public virtual DbSet<DanceRol> DanceRol { get; set; } = null!;
+        public virtual DbSet<Cycle> Cycle { get; set; } = null!;
+        public virtual DbSet<CycleEvent> CycleEvent { get; set; } = null!;
+
         public virtual DbSet<Event> Event { get; set; } = null!;
         public virtual DbSet<Image> Image { get; set; } = null!;
         public virtual DbSet<Permission> Permission { get; set; } = null!;
@@ -35,6 +38,8 @@ namespace Abrazos.Persistence.Database
             modelBuilder.ApplyConfiguration(new CountryConfiguration());
             modelBuilder.ApplyConfiguration(new CouplesEventDateConfiguration());
             modelBuilder.ApplyConfiguration(new DanceLevelConfiguration());
+            modelBuilder.ApplyConfiguration(new CycleConfiguration());
+            modelBuilder.ApplyConfiguration(new CiclEventConfiguration());
             modelBuilder.ApplyConfiguration(new EventConfiguration());
             modelBuilder.ApplyConfiguration(new ImageConfiguration());
             modelBuilder.ApplyConfiguration(new PermissionConfiguration());
@@ -43,8 +48,10 @@ namespace Abrazos.Persistence.Database
             modelBuilder.ApplyConfiguration(new TypeEventConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new UserPermissionConfiguration());
-            modelBuilder.ApplyConfiguration(new WaitListConfiguration());
+            //modelBuilder.ApplyConfiguration(new WaitListConfiguration());
             modelBuilder.ApplyConfiguration(new EventStateConfiguration());
+          
+
 
 
         }

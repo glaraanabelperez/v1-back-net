@@ -23,12 +23,14 @@ namespace Models
 
         public DanceLevel Level { get; set; }
         public DanceRol Rol { get; set; }
-
+        public Address Address { get; set; }
         public EventState EventState_ { get; set; }
         public TypeEvent TypeEvent_ { get; set; }
         public User UserCreator { get; set; }
         public ICollection<CouplesEvent_Date> CouplesEvents { get; set; } = new List<CouplesEvent_Date>();
-        public ICollection<CycleEvent>? CycleEvents { get; set; }
+        public ICollection<CycleEvent>? CycleEvents { get; set; } = new List<CycleEvent>();
+
+        
 
 
 

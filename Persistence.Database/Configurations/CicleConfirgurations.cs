@@ -9,20 +9,20 @@ namespace Abrazos.Persistence.Database.Configurations
         public void Configure(EntityTypeBuilder<Cycle> builder)
         {
             builder.HasKey(e => e.CycleId);
-            builder.ToTable("CycleEvent");
+            builder.ToTable("Cycle");
             builder.Property(e => e.CycleId)
                 .HasColumnType("int")
-                .HasColumnName("CycleEventId");
+                .HasColumnName("CycleId");
 
             builder.Property(e => e.CycleTitle)
               .HasColumnName("CycleTitle");
 
             builder.Property(e => e.Description)
-             .HasColumnName("Description");
+             .HasColumnName("CycleDescription");
 
-            builder.HasMany(ce => ce.CycleEvents)
-                .WithOne(c => c.Cycl)
-                .HasForeignKey(c => c.CycleId);
+            //builder.HasMany(ce => ce.CycleEvents)
+            //    .WithOne(c => c.Cycle)
+            //    .HasForeignKey(c => c.CycleId);
 
 
         }

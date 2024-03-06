@@ -30,11 +30,11 @@ namespace Abrazos.Persistence.Database.Configurations
                 .HasForeignKey(e => e.EventId_FK);
 
             builder.HasOne(e => e.HostUser)
-                .WithMany(e => e.CouplesEventsHost)
+                .WithMany(e => e.CouplesEventsUserHost)
                 .HasForeignKey(e => e.HostUserId_FK);
 
             builder.HasOne(e => e.InvitedUser)
-                .WithMany(e => e.CouplesEventsInvited)
+                .WithMany(e => e.CouplesEventsUserInivted)
                 .HasForeignKey(e => e.InvitedUserId_FK);
         }
     }

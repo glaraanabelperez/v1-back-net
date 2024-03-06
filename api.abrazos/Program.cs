@@ -40,6 +40,7 @@ builder.Services.AddTransient<IEventCommandHandler, EventCommandHandler>();
 
 
 builder.Services.AddTransient<IUserQueryService, UserQueryService>();
+builder.Services.AddTransient<IEventQueryService, EventQueryService>();
 
 //Cors
 string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";

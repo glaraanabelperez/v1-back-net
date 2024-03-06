@@ -12,7 +12,7 @@ namespace Abrazos.Services.Dto
         /// <summary>
         /// 
         /// </summary>
-        public string Name { get; set; } = null!;
+        public string Name { get; set; } 
         /// <summary>
         /// 
         /// </summary>

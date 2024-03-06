@@ -47,6 +47,9 @@ namespace Abrazos.Persistence.Database.Configurations
             builder.Property(e => e.RolId)
            .HasColumnName("RolIdFK");
 
+            builder.HasOne(w => w.Address)
+                    .WithMany(e => e.Events)
+                    .HasForeignKey(e=> e.AddressId_fk);
 
             builder.HasOne(w => w.UserCreator)
                     .WithMany(e => e.EventsCreated)

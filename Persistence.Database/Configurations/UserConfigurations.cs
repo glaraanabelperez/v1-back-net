@@ -65,9 +65,9 @@ namespace Abrazos.Persistence.Database.Configurations
                 .HasForeignKey(e => e.UserId_FK);
 
 
-            builder.HasMany(w => w.WaitLists)
-                .WithOne(e => e.User)
-                .HasForeignKey(w => w.UserId_FK);
+            //builder.HasMany(w => w.WaitLists)
+            //    .WithOne(e => e.User)
+            //    .HasForeignKey(w => w.UserId_FK);
 
             builder.HasMany(e => e.EventsCreated)
                 .WithOne(userCreator => userCreator.UserCreator)
