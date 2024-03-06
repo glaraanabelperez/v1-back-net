@@ -27,8 +27,6 @@ namespace Models
         public EventState EventState_ { get; set; }
         public TypeEvent TypeEvent_ { get; set; }
         public User UserCreator { get; set; }
-        public Address Address { get; set; }
-        //public ICollection<WaitList> WaitLists { get; set; } = new List<WaitList>();
         public ICollection<CouplesEvent_Date> CouplesEvents { get; set; } = new List<CouplesEvent_Date>();
         public ICollection<CycleEvent>? CycleEvents { get; set; }
 
