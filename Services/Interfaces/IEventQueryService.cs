@@ -7,8 +7,8 @@ namespace Abrazos.Services.Interfaces
 {
     public interface IEventQueryService
     {
-        Task<DataCollection<UserDto>> GetAllAsync(
-            int page = 1,
+        Task<DataCollection<EventDto>> GetAllAsync(
+             int page = 1,
             int take = 500,
             string? search = null,
             int? organizerId = null,
@@ -17,7 +17,6 @@ namespace Abrazos.Services.Interfaces
             int? danceRol = null,
             int? evenType = null,
             int? CityId = null,
-            int? addressId = null,
             int? countryId = null,
             DateTime? dateCreated = null,
             DateTime? dateFinish = null

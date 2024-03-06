@@ -11,7 +11,6 @@ namespace Abrazos.Services.Dto
 
         public CountryDto Country { get; set; } = new CountryDto();
 
-        public ICollection<AddressDto> Address { get; set; } = new List<AddressDto>();
 
     }
 }

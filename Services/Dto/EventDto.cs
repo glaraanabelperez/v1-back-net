@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
+using Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace Abrazos.Services.Dto
@@ -16,15 +17,23 @@ namespace Abrazos.Services.Dto
         public int EventStateId_fk { get; set; }
         public int TypeEventId_fk { get; set; }
 
-        public ICollection<WaitListDto> WaitLists { get; set; } = new List<WaitListDto>();
+        public int Cupo { get; set; }
+        public int RolId { get; set; }
+        public int LevelId { get; set; }
 
+
+        public DanceLevelDto Level { get; set; }
+        public DanceRolDto Rol { get; set; }
+
+        public EventStateDto EventState { get; set; }
+        public TypeEventDto TypeEvent { get; set; }
+        public UserDto UserCreator { get; set; }
+        public AddressDto Address { get; set; }
         public ICollection<CouplesEvent_DateDto> CouplesEvents { get; set; } = new List<CouplesEvent_DateDto>();
+        public ICollection<CycleEventDto>? CycleEvents { get; set; }
 
-        //public ICollection<TypeEvent_User> TypeEvent_User = new List<TypeEvent_User>();
 
-        public UserDto UserCreator { get; set; } = new UserDto();
 
-        public AddressDto Address { get; set; } = new AddressDto();
 
     }
 }
