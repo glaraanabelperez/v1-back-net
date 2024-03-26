@@ -18,5 +18,6 @@ namespace ServicesQueries.Dto
         public UserDto InvitedUser { get; set; } = new UserDto();
 
 
+
     }
 }

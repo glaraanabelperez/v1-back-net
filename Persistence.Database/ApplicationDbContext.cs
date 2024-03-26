@@ -16,8 +16,6 @@ namespace Abrazos.Persistence.Database
         public virtual DbSet<DanceLevel> DanceLevel { get; set; } = null!;
         public virtual DbSet<DanceRol> DanceRol { get; set; } = null!;
         public virtual DbSet<Cycle> Cycle { get; set; } = null!;
-        public virtual DbSet<Cycle> CycleEvent { get; set; } = null!;
-
         public virtual DbSet<Event> Event { get; set; } = null!;
         public virtual DbSet<Image> Image { get; set; } = null!;
         public virtual DbSet<Permission> Permission_ { get; set; } = null!;

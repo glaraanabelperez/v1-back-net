@@ -39,13 +39,16 @@ namespace Abrazos.Persistence.Database.Configurations
            .HasColumnName("TypeEventId");
 
             builder.Property(e => e.Cupo)
-           .HasColumnName("Cupo");
+           .HasColumnName("cupo");
 
             builder.Property(e => e.LevelId)
            .HasColumnName("LevelId");
 
             builder.Property(e => e.RolId)
            .HasColumnName("RolId");
+
+            builder.Property(e => e.CycleId)
+          .HasColumnName("CycleId");
 
             builder.HasOne(w => w.Address)
                     .WithMany(e => e.Events)

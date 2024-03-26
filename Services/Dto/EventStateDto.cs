@@ -1,4 +1,6 @@
-﻿namespace ServicesQueries.Dto
+﻿using Models;
+
+namespace ServicesQueries.Dto
 {
     public class EventStateDto
     {

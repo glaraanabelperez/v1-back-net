@@ -6,6 +6,5 @@ namespace ServicesQueries.Dto
         public int TypeEventId { get; set; }
         public string Name { get; set; } = string.Empty;
 
-
     }
 }

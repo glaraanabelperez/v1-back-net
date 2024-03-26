@@ -65,35 +65,35 @@ namespace api.abrazos.Controllers
         /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> GetAll(
+            string? search,
+            int? organizerId,
+            int? CycleId,
+            int? danceLevel,
+            int? danceRol,
+            int? evenType,
+            int? CityId,
+            int? addressId,
+            int? countryId,
+            DateTime? dateCreated,
+            DateTime? dateFinish,
             int page = 1,
-            int take = 500,
-            string? search = null,
-            int? organizerId = null,
-            int? CycleId = null,
-            int? danceLevel = null,
-            int? danceRol = null,
-            int? evenType = null,
-            int? CityId = null,
-            int? addressId = null,
-            int? countryId = null,
-            DateTime? dateCreated = null,
-            DateTime? dateFinish = null
+            int take = 500
         )
         {
-
             var events = await _eventQuery.GetAllAsync(
-                page = 1,
-                take = 500,
-                search = null,
-                organizerId = null,
-                CycleId = null,
-                danceLevel = null,
-                danceRol = null,
-                evenType = null,
-                CityId = null,
-                countryId = null,
-                dateCreated = null,
-                dateFinish = null
+                search,
+                organizerId,
+                CycleId,
+                danceLevel,
+                danceRol,
+                evenType,
+                CityId,
+                addressId,
+                countryId,
+                dateCreated,
+                dateFinish,
+                page,
+                take
                );
 
             return Ok(events);

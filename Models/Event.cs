@@ -15,11 +15,11 @@ namespace Models
         public DateTime DateFinish { get; set; }
         public int EventStateId { get; set; }
         public int TypeEventId { get; set; }
-        public int CycleId { get; set; }
+        public int? CycleId { get; set; }
 
         public int Cupo { get; set; }
-        public int RolId { get; set; }
-        public int LevelId { get; set; }
+        public int? RolId { get; set; }
+        public int? LevelId { get; set; }
 
 
         public DanceLevel? Level { get; set; }
