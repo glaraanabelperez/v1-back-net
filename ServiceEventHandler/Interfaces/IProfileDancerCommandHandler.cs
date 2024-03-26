@@ -10,7 +10,7 @@ namespace Abrazos.ServicesEvenetHandler.Intefaces
 {
     public interface IProfileDancerCommandHandler
     {
-        public Task<ResultApp<UserDto>> Add(ProfileDancerCreateCommand entity);
+        //public Task<ResultApp<UserDto>> Add(ProfileDancerCreateCommand entity);
 
         public Task<ResultApp<ProfileDancer>> Update(ProfileDancerUpdateCommand entity);
 

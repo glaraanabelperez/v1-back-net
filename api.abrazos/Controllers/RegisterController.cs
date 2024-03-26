@@ -21,19 +21,19 @@ namespace api.abrazos.Controllers
             _userCommandHandler = IUserCreatehandler;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddUser(UserCreateCommand User)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //[HttpPost]
+        //public async Task<IActionResult> AddUser(UserCreateCommand User)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-            var  result = await _userCommandHandler.AddUser(User);
-            return result?.Succeeded ?? false
-                    ? Ok(result)
-                    : BadRequest(result?.message);//devolver mensaje bien
+        //    var  result = await _userCommandHandler.AddUser(User);
+        //    return result?.Succeeded ?? false
+        //            ? Ok(result)
+        //            : BadRequest(result?.message);//devolver mensaje bien
 
-        }
+        //}
     }
 }

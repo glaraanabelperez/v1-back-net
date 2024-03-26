@@ -42,10 +42,7 @@ namespace Models
         /// 
         /// </summary>
         public string? AvatarImage { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
-        public int? ProfileDancerId_FK { get; set; }
+
         /// <summary>
         /// 
         /// </summary>
@@ -65,29 +62,25 @@ namespace Models
         /// 
         /// </summary>
         public ICollection<UserPermission>? UserPermissions { get; set; } = new List<UserPermission>();
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        //public ICollection<Permission>? Permissions { get; set; } = new List<Permission>();
 
         /// <summary>
         /// 
         /// </summary>
-        public ProfileDancer? ProfileDancer { get; set; }
+        public ICollection<ProfileDancer>? ProfileDancer { get; set; } = new List<ProfileDancer>();
         /// <summary>
         /// 
         /// </summary>
-        public ICollection<CouplesEvent_Date>? CouplesEventsUserHost { get; set; } = new List<CouplesEvent_Date>();
+        public ICollection<CouplesEventDate>? CouplesEventsUserHost { get; set; } = new List<CouplesEventDate>();
 
         /// <summary>
         /// 
         /// </summary>
-        public ICollection<CouplesEvent_Date>? CouplesEventsUserInivted { get; set; } = new List<CouplesEvent_Date>();
+        public ICollection<CouplesEventDate>? CouplesEventsUserInivted { get; set; } = new List<CouplesEventDate>();
 
         /// <summary>
         /// 
         /// </summary>
-        public ICollection<TypeEvent_User>? TypeEventsUsers { get; set; } = new List<TypeEvent_User>();
+        public ICollection<TypeEventUser>? TypeEventsUsers { get; set; } = new List<TypeEventUser>();
 
         /// <summary>
         /// 

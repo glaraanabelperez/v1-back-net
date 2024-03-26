@@ -32,29 +32,29 @@ namespace Abrazos.ServiceEventHandler
             _logger = logger;
         }
 
-        public async Task<ResultApp<UserDto>> Add(ProfileDancerCreateCommand command)
-        {
-            ResultApp<UserDto> res = new ResultApp<UserDto>();
-            try
-            {
-                var resProfile = await this.command.Add<ProfileDancer>(MapToProfileEntity(command));
-                User user = _dbContext.User.FirstOrDefault(u => u.UserId == command.UserId);
+        //public async Task<ResultApp<UserDto>> Add(ProfileDancerCreateCommand command)
+        //{
+        //    ResultApp<UserDto> res = new ResultApp<UserDto>();
+        //    try
+        //    {
+        //        var resProfile = await this.command.Add<ProfileDancer>(MapToProfileEntity(command));
+        //        User user = _dbContext.User.FirstOrDefault(u => u.UserId == command.UserId);
 
-                if (resProfile != null)
-                {
-                    user.ProfileDancerId_FK = resProfile.ProfileDanceId;
-                    res.objectResult = _mapper.Map<UserDto>(await this.command.Update<User>(user));
-                    res.Succeeded = true;
-                }
-            }
-            catch(Exception ex)
-            {
-                res.message = ex.Message;
-            }
+        //        if (resProfile != null)
+        //        {
+        //            //user.ProfileDancerId_FK = resProfile.ProfileDanceId;
+        //            res.objectResult = _mapper.Map<UserDto>(await this.command.Update<User>(user));
+        //            res.Succeeded = true;
+        //        }
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        res.message = ex.Message;
+        //    }
 
-            return res;
+        //    return res;
 
-        }
+        //}
 
         public async Task<ResultApp<ProfileDancer>> Update(ProfileDancerUpdateCommand command)
         {
@@ -83,8 +83,8 @@ namespace Abrazos.ServiceEventHandler
 
         public ProfileDancer UpdateEntity(ProfileDancer profile, ProfileDancerUpdateCommand comand_)
         {
-            profile.DanceRol_FK = comand_.DanceRol_FK != 0 ? comand_.DanceRol_FK : profile.DanceRol_FK;
-            profile.DanceLevel_FK = comand_.DanceLevel_FK != 0 ? comand_.DanceLevel_FK : profile.DanceLevel_FK;
+            profile.DanceRolId = comand_.DanceRolId != 0 ? comand_.DanceRolId : profile.DanceRolId;
+            profile.DanceLevelId = comand_.DanceLevelId != 0 ? comand_.DanceLevelId : profile.DanceLevelId;
             profile.Height = comand_.Height.HasValue ? comand_.Height : profile.Height;
             return profile;
         }//este es el unico que funciona con el iGenericRepository, verificar qque ande bien
@@ -92,8 +92,8 @@ namespace Abrazos.ServiceEventHandler
         public ProfileDancer MapToProfileEntity(ProfileDancerCreateCommand comand_)
         {
             ProfileDancer entity = new ProfileDancer();
-            entity.DanceRol_FK = comand_.DanceRol_FK;
-            entity.DanceLevel_FK = comand_.DanceLevel_FK;
+            //entity.DanceRolId = comand_.r;
+            //entity.DanceLevelId = comand_.DanceLevelId;
 
             return entity;
         }

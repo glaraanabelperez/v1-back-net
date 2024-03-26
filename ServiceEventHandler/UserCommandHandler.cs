@@ -31,42 +31,42 @@ namespace Abrazos.ServiceEventHandler
             _logger = logger;
         }
 
-        public async Task<ResultApp<UserDto>> AddUser(UserCreateCommand entity)
-        {
+        //public async Task<ResultApp<UserDto>> AddUser(UserCreateCommand entity)
+        //{
 
-            ResultApp<UserDto> res = new ResultApp<UserDto>();
-            try 
-            { 
-               var user_res = await this.command.Add<User>(MapToUserEntity(entity));
-                res.objectResult = _mapper.Map<UserDto>(user_res);//mappear
-                res.Succeeded = true;
-            }
-            catch (Exception ex) 
-            { 
-                res.message= ex.Message;
-            }
+        //    ResultApp<UserDto> res = new ResultApp<UserDto>();
+        //    try 
+        //    { 
+        //       var user_res = await this.command.Add<User>(MapToUserEntity(entity));
+        //        res.objectResult = _mapper.Map<UserDto>(user_res);//mappear
+        //        res.Succeeded = true;
+        //    }
+        //    catch (Exception ex) 
+        //    { 
+        //        res.message= ex.Message;
+        //    }
            
-            return res ;
+        //    return res ;
 
-        }
+        //}
 
-        public async Task<ResultApp<UserDto>> UpdateUser(UserUpdateCommand command)
-        {
-            ResultApp<UserDto> res = new ResultApp<UserDto>();
-            var result = _dbContext.User
-                .FirstOrDefault(u => u.UserId == command.userId);
+        //public async Task<ResultApp<UserDto>> UpdateUser(UserUpdateCommand command)
+        //{
+        //    ResultApp<UserDto> res = new ResultApp<UserDto>();
+        //    var result = _dbContext.User
+        //        .FirstOrDefault(u => u.UserId == command.userId);
 
-            if (result != null)
-            {
-                var user_res = await this.command.Update<User>(MapToUserEntityInUpdate(result, command));
-                res.objectResult = _mapper.Map<UserDto>(user_res);//mappear
-                res.Succeeded = true;
-                res.message = "Update Successfull";
+        //    if (result != null)
+        //    {
+        //        var user_res = await this.command.Update<User>(MapToUserEntityInUpdate(result, command));
+        //        res.objectResult = _mapper.Map<UserDto>(user_res);//mappear
+        //        res.Succeeded = true;
+        //        res.message = "Update Successfull";
 
-            }
-            return res;
+        //    }
+        //    return res;
 
-        }
+        //}
 
         public User MapToUserEntityInUpdate(User user, UserUpdateCommand userCommand)
         {
@@ -95,13 +95,13 @@ namespace Abrazos.ServiceEventHandler
             user.Pass = entity_.Pass;
             user.UserState = true;
 
-            if (entity_.ProfileDancer != null)
-            {
-                user.ProfileDancer.DanceRol_FK = entity_.ProfileDancer.DanceRol_FK;
-                user.ProfileDancer.DanceLevel_FK = entity_.ProfileDancer.DanceLevel_FK;
-                user.ProfileDancer.Height = entity_.ProfileDancer.Height;
+            //if (entity_.ProfileDancer != null)
+            //{
+            //    user.ProfileDancer.First = entity_.ProfileDancer.DanceRol_FK;
+            //    user.ProfileDancer.DanceLevel_FK = entity_.ProfileDancer.DanceLevel_FK;
+            //    user.ProfileDancer.Height = entity_.ProfileDancer.Height;
 
-            }
+            //}
 
             return user;
         }

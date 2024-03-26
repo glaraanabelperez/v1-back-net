@@ -1,16 +1,9 @@
-﻿
-
-using Abrazos.Persistence.Database;
-using Abrazos.Services.Dto;
+﻿using Abrazos.Persistence.Database;
 using Abrazos.Services.Interfaces;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Models;
-using ServicesQueries.Auth;
-using System;
-using System.Linq;
-using System.Xml.Linq;
+using ServicesQueries.Dto;
 using Utils;
 
 namespace Abrazos.Services
@@ -52,8 +45,8 @@ namespace Abrazos.Services
                   .Where(x => name == null || !name.Any() || name.Contains(x.Name))
                   .Where(x => userName == null || !userName.Any() || userName.Contains(x.UserName))
                   .Where(x => userStates == null || (x.UserState != null && x.UserState == userStates))
-                  .Where(x => danceLevel == null || (x.ProfileDancerId_FK != null && x.ProfileDancer.DanceLevel.DanceLevelId == danceLevel))
-                  .Where(x => danceRol == null || (x.ProfileDancerId_FK != null && x.ProfileDancer.DanceRol.DanceRolId == danceRol))
+                  .Where(x => danceLevel == null || (x.ProfileDancer.First().DanceLevel != null && x.ProfileDancer.First().DanceLevel.DanceLevelId == danceLevel))
+                  .Where(x => danceRol == null || (x.ProfileDancer.First().DanceRol != null && x.ProfileDancer.First().DanceRol.DanceRolId == danceRol))
                   .Where(x => evenType == null || (x.TypeEventsUsers != null && x.TypeEventsUsers.First().TypeEvent.TypeEventId == evenType))
 
                   .OrderByDescending(x => x.Name)

@@ -1,6 +1,6 @@
-﻿using Abrazos.Services.Dto;
-using AutoMapper;
+﻿using AutoMapper;
 using Models;
+using ServicesQueries.Dto;
 using Utils;
 
 namespace Services.Mapper
@@ -28,8 +28,8 @@ namespace Services.Mapper
 
 
             //-- TypeEvenet_User -----------
-            CreateMap<TypeEvent_User, TypeEvent_UserDto>().ReverseMap();
-            CreateMap<DataCollection<TypeEvent_User>, DataCollection<TypeEvent_UserDto>>().ForMember(dest => dest.Items, sour => sour.MapFrom(s => s.Items));
+            CreateMap<TypeEventUser, TypeEventUserDto>().ReverseMap();
+            CreateMap<DataCollection<TypeEventUser>, DataCollection<TypeEventUserDto>>().ForMember(dest => dest.Items, sour => sour.MapFrom(s => s.Items));
 
             //-- TypeEvenet -----------
             CreateMap<TypeEvent, TypeEventDto>().ReverseMap();

@@ -9,7 +9,7 @@ namespace Models
         public string CycleTitle { get; set; }
         public string Description { get; set; }
 
-        public ICollection<CycleEvent>? CycleEvents { get; set; } 
+        public ICollection<Event>? Events { get; set; } 
 
     }
 }

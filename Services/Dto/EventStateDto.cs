@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
-using System.ComponentModel.DataAnnotations;
-
-namespace Models
+﻿namespace ServicesQueries.Dto
 {
     public class EventStateDto
     {

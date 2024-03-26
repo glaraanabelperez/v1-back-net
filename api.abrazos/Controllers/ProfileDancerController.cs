@@ -19,20 +19,20 @@ namespace api.abrazos.Controllers
             _profile = profile;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddAsync(ProfileDancerCreateCommand profile)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //[HttpPost]
+        //public async Task<IActionResult> AddAsync(ProfileDancerCreateCommand profile)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-            var result = await _profile.Add(profile);
-            return result?.Succeeded ?? false
-                    ? Ok(result)
-                    : BadRequest(result?.message);
+        //    var result = await _profile.Add(profile);
+        //    return result?.Succeeded ?? false
+        //            ? Ok(result)
+        //            : BadRequest(result?.message);
 
-        }
+        //}
 
         [HttpPut]
         public async Task<IActionResult> UpdateAsync(ProfileDancerUpdateCommand profile)

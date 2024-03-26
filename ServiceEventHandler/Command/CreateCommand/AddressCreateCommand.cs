@@ -6,8 +6,8 @@ namespace ServiceEventHandler.Command.CreateCommand
     public class AddressCreateCommand
     {
         [Required]
-        public int UserId_FK { get; set; }
-        public int? CityId_FK { get; set; }//validar uno u otro
+        public int UserId { get; set; }
+        public int? CityId { get; set; }//validar uno u otro
         [Required]
         [StringLength(255, MinimumLength = 3)]
         public string Street { get; set; }

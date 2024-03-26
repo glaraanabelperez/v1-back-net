@@ -60,7 +60,7 @@ namespace Abrazos.ServiceEventHandler
 
         public bool ValidateCommand(EventCreateCommand command)
         {
-            var myModel = new IdOrObjectClassAttribute { id = command.AddressId_fk, objectCommand = command.Address };
+            var myModel = new IdOrObjectClassAttribute { id = command.AddressId, objectCommand = command.Address };
 
             var validationResults = new List<ValidationResult>();
             var isValid = Validator.TryValidateObject(myModel, new ValidationContext(myModel), validationResults, true);
@@ -110,20 +110,20 @@ namespace Abrazos.ServiceEventHandler
         public Event MapToEntity(EventCreateCommand command_)
         {
             Event entity = new Event();
-            entity.UserIdCreator_FK = command_.UserIdCreator_FK;
+            entity.UserIdCreator = command_.UserIdCreator;
             entity.Name = command_.Name;
             entity.Description= command_.Description;
             entity.Image = command_.Image ?? null;
             entity.DateInit = command_.DateInit;
             entity.DateFinish = command_.DateFinish;
-            entity.EventStateId_fk = command_.EventStateId_fk;
-            entity.TypeEventId_fk = command_.TypeEventId_fk;
+            entity.EventStateId = command_.EventStateId;
+            entity.TypeEventId = command_.TypeEventId;
             if (command_.Address != null)
             {
                 Address Address_ = new Address();
                 Address_.Street = command_.Address.Street;
                 Address_.Number = command_.Address.Number;
-                Address_.UserId_FK = command_.Address.UserId_FK;
+                Address_.UserId = command_.Address.UserId;
                 Address_.StateAddress = command_.Address.StateAddress;
                 Address_.DetailAddress = command_.Address.DetailAddress;
                 entity.Address = Address_;
@@ -142,17 +142,17 @@ namespace Abrazos.ServiceEventHandler
                     }
                     else
                     {
-                        entity.Address.CityId_FK = command_.Address.CityId_FK ?? 0;
+                        entity.Address.CityId = command_.Address.CityId ?? 0;
                     }
                 }
                 else
                 {
-                    entity.Address.CityId_FK = command_.Address.CityId_FK ?? 0;
+                    entity.Address.CityId = command_.Address.CityId ?? 0;
                 }
             }
             else
             {
-                entity.AddressId_fk = command_.AddressId_fk ?? 0;
+                entity.AddressId = command_.AddressId ?? 0;
             }
             
 
@@ -163,28 +163,28 @@ namespace Abrazos.ServiceEventHandler
         public Event MapToEntityOnlyFK(EventCreateCommand command_)
         {
             Event entity = new Event();
-            entity.UserIdCreator_FK = command_.UserIdCreator_FK;
+            entity.UserIdCreator = command_.UserIdCreator;
             entity.Name = command_.Name;
             entity.Description = command_.Description;
             entity.Image = command_.Image ?? null;
             entity.DateInit = command_.DateInit;
             entity.DateFinish = command_.DateFinish;
-            entity.EventStateId_fk = command_.EventStateId_fk;
-            entity.TypeEventId_fk = command_.TypeEventId_fk;
+            entity.EventStateId = command_.EventStateId;
+            entity.TypeEventId = command_.TypeEventId;
             if (command_.Address != null)
             {
                 Address Address_ = new Address();
                 Address_.Street = command_.Address.Street;
                 Address_.Number = command_.Address.Number;
-                Address_.UserId_FK = command_.Address.UserId_FK;
+                Address_.UserId = command_.Address.UserId;
                 Address_.StateAddress = command_.Address.StateAddress;
                 Address_.DetailAddress = command_.Address.DetailAddress;
-                Address_.CityId_FK = command_.Address.CityId_FK ?? 0;
+                Address_.CityId= command_.Address.CityId ?? 0;
                 entity.Address = Address_;
             }
             else
             {
-                entity.AddressId_fk = command_.AddressId_fk ?? 0;
+                entity.AddressId = command_.AddressId ?? 0;
             }
             return entity;
         }

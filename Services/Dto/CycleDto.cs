@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
 using System.ComponentModel.DataAnnotations;
 
-namespace Models
+namespace ServicesQueries.Dto
 {
     public class CycleDto
     {
@@ -9,6 +9,7 @@ namespace Models
         public string CycleTitle { get; set; }
         public string Description { get; set; }
 
+        public ICollection<EventDto>? Events { get; set; } 
 
     }
 }

@@ -1,6 +1,4 @@
-﻿using Abrazos.Services.Dto;
-using ServicesQueries.Auth;
-using System.ComponentModel.DataAnnotations;
+﻿using ServicesQueries.Dto;
 using Utils;
 
 namespace Abrazos.Services.Interfaces

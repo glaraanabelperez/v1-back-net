@@ -12,17 +12,17 @@ namespace Abrazos.Persistence.Database
         public virtual DbSet<Address> Address { get; set; } = null!;
         public virtual DbSet<City> Cities { get; set; } = null!;
         public virtual DbSet<Country> Country { get; set; } = null!;
-        public virtual DbSet<CouplesEvent_Date> CouplesEvent_Date { get; set; } = null!;
+        public virtual DbSet<CouplesEventDate> CouplesEvent_Date { get; set; } = null!;
         public virtual DbSet<DanceLevel> DanceLevel { get; set; } = null!;
         public virtual DbSet<DanceRol> DanceRol { get; set; } = null!;
         public virtual DbSet<Cycle> Cycle { get; set; } = null!;
-        public virtual DbSet<CycleEvent> CycleEvent { get; set; } = null!;
+        public virtual DbSet<Cycle> CycleEvent { get; set; } = null!;
 
         public virtual DbSet<Event> Event { get; set; } = null!;
         public virtual DbSet<Image> Image { get; set; } = null!;
-        public virtual DbSet<Permission> Permission { get; set; } = null!;
+        public virtual DbSet<Permission> Permission_ { get; set; } = null!;
         public virtual DbSet<ProfileDancer> ProfileDancer { get; set; } = null!;
-        public virtual DbSet<TypeEvent_User> TypeEvent_User { get; set; } = null!;
+        public virtual DbSet<TypeEventUser> TypeEvent_User { get; set; } = null!;
         public virtual DbSet<TypeEvent> TypeEvent { get; set; } = null!;
         public virtual DbSet<User> User { get; set; } = null!;
         public virtual DbSet<UserPermission> UserPermission { get; set; } = null!;
@@ -39,12 +39,11 @@ namespace Abrazos.Persistence.Database
             modelBuilder.ApplyConfiguration(new CouplesEventDateConfiguration());
             modelBuilder.ApplyConfiguration(new DanceLevelConfiguration());
             modelBuilder.ApplyConfiguration(new CycleConfiguration());
-            modelBuilder.ApplyConfiguration(new CiclEventConfiguration());
             modelBuilder.ApplyConfiguration(new EventConfiguration());
             modelBuilder.ApplyConfiguration(new ImageConfiguration());
             modelBuilder.ApplyConfiguration(new PermissionConfiguration());
             modelBuilder.ApplyConfiguration(new ProfileDancerConfiguration());
-            modelBuilder.ApplyConfiguration(new TypeEvent_UserConfiguration());
+            modelBuilder.ApplyConfiguration(new TypeEventConfiguration());
             modelBuilder.ApplyConfiguration(new TypeEventConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new UserPermissionConfiguration());

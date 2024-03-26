@@ -1,5 +1,6 @@
 ﻿using Abrazos.Services.Dto;
 using ServicesQueries.Auth;
+using ServicesQueries.Dto;
 using System.ComponentModel.DataAnnotations;
 using Utils;
 
