@@ -12,9 +12,9 @@ namespace api.abrazos.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserQueryService _userService;
-        private readonly IUserCommandHandler _userCommandHandler;
+        private readonly IUserCommandService _userCommandHandler;
 
-        public UserController(IUserQueryService IUserService,IUserCommandHandler userCommandHandler)
+        public UserController(IUserQueryService IUserService,IUserCommandService userCommandHandler)
         {
             _userService = IUserService;
             _userCommandHandler = userCommandHandler;
@@ -68,21 +68,21 @@ namespace api.abrazos.Controllers
             return Ok(users);
         }
 
-        //[HttpPut]
-        ////[Route("/updateUser")]
-        //public async Task<IActionResult> UpdateUser(UserUpdateCommand User)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
+        [HttpPut]
+        //[Route("/updateUser")]
+        public async Task<IActionResult> UpdateUser(UserUpdateCommand User)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-        //    //var result = await _userCommandHandler.UpdateUser(User);
-        //    //return result?.Succeeded ?? false
-        //    //        ? Ok(result)
-        //    //        : BadRequest(result?.message);
+            var result = await _userCommandHandler.UpdateUser(User);
+            return result?.Succeeded ?? false
+                    ? Ok(result)
+                    : BadRequest(result?.message);
 
-        //}
+        }
 
     }
 }

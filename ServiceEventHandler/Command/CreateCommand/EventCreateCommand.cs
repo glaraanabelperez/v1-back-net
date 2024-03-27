@@ -18,8 +18,14 @@ namespace ServiceEventHandler.Command.CreateCommand
         public int EventStateId { get; set; }
         public int TypeEventId{ get; set; }
 
+        public int RolId { get; set; }
+        public int LevelId { get; set; }
+        public int Cupo { get; set; }
+        public bool Couple { get; set; }
+
         public int eventState { get; set; }
         public AddressCreateCommand? Address { get; set; }
+        public CycleCommandCreate? Cycle { get; set; }
 
 
 

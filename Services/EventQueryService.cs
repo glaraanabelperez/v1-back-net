@@ -86,64 +86,12 @@ namespace Abrazos.Services
                                     && (dateInit == null || dateFinish == null || (dateInit >= x.DateInit && x.DateFinish >= dateFinish) )
 
                             )
-            //.Where(x => danceLevel == null || (x.LevelId != null && x.LevelId == danceLevel))
-            //.Where(x => danceRol == null || (x.RolId != null && x.RolId == danceRol))
-            //.Where(x => evenType == null || (x.TypeEvent_ != null && x.TypeEvent_.TypeEventId == evenType))
-            //.Where(x => CityId == null || (x.Address.City.CountryId_FK != null && x.Address.City.CountryId_FK == CityId))
-            //.Where(x => countryId == null || (x.Address.City.Country.CountryId != null && x.Address.City.Country.CountryId == countryId))
-            //.Where(x => evenType == null || (x.TypeEvent_ != null && x.TypeEvent_.TypeEventId == evenType))
-            //agregar que el estado d ela cakllle este activado
                   .OrderByDescending(x => x.EventId);
 
             var cycles = _mapper.Map<DataCollection<EventDto>>(
                 await queryable.GetPagedAsync(page, take));
 
-
             _logger.LogInformation(queryable.ToString());
-
-
-            //var eventsOutput = new CycleDto
-            //{
-            //    CycleId = events.
-            //    Events = events.Items.Select(e => new EventDto
-            //    {
-
-
-            //        EventId = e.EventId,
-            //        UserIdCreator = e.UserIdCreator,
-            //        UserName = e.UserCreator?.Name,
-            //        Name = e.Name,
-            //        Description = e.Description,
-            //        AddressId = e.AddressId,
-            //        Image = e.Image,
-            //        DateInit = e.DateInit,
-            //        DateFinish = e.DateFinish,
-            //        EventStateId = e.EventStateId,
-            //        EventStateName = e.EventState.Name,
-            //        TypeEventId = e.TypeEventId,
-            //        TypeEventName = e.TypeEvent.Name,
-
-            //        Cupo = e.Cupo,
-            //        RolId = e.RolId,
-            //        LevelId = e.LevelId,
-            //        LevelName = e.Level?.Name,
-            //        RolName = e.Rol?.Name,
-
-            //        Address =  new AddressDto
-            //        {
-            //            AddressId = e.AddressId,
-            //            UserId = e.UserIdCreator,
-            //            CityId = e.Address.CityId,
-            //            StateAddress = e.Address.StateAddress,
-            //            Street = e.Address.Street,
-            //            Number = e.Address.Number,
-            //            DetailAddress = e.Address.DetailAddress,
-            //            CountryId = e.Address.City.CountryId,
-            //            CountryName = e.Address.City.Country.Name
-            //        },
-
-            //    }).ToList()
-            //    };
 
             return cycles;
         }

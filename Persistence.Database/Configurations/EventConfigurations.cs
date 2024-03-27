@@ -38,6 +38,9 @@ namespace Abrazos.Persistence.Database.Configurations
             builder.Property(e => e.TypeEventId)
            .HasColumnName("TypeEventId");
 
+            builder.Property(e => e.Couple)
+           .HasColumnName("Couple");
+
             builder.Property(e => e.Cupo)
            .HasColumnName("cupo");
 

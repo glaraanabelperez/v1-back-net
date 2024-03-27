@@ -12,10 +12,10 @@ namespace api.abrazos.Controllers
     //[Authorize]
     public class EventController : ControllerBase
     {
-        private readonly IEventCommandHandler command_;
+        private readonly IEventCommandService command_;
         private readonly IEventQueryService _eventQuery;
 
-        public EventController(IEventCommandHandler command, IEventQueryService eventQuery)
+        public EventController(IEventCommandService command, IEventQueryService eventQuery)
         {
             command_ = command;
             _eventQuery = eventQuery;

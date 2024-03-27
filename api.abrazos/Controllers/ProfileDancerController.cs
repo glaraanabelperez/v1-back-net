@@ -12,27 +12,27 @@ namespace api.abrazos.Controllers
     //[Authorize]
     public class ProfileDancerController : ControllerBase
     {
-        private readonly IProfileDancerCommandHandler _profile;
+        private readonly IProfileDancerCommandService _profile;
 
-        public ProfileDancerController(IProfileDancerCommandHandler profile)
+        public ProfileDancerController(IProfileDancerCommandService profile)
         {
             _profile = profile;
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> AddAsync(ProfileDancerCreateCommand profile)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
+        [HttpPost]
+        public async Task<IActionResult> AddAsync(ProfileDancerCreateCommand profile)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-        //    var result = await _profile.Add(profile);
-        //    return result?.Succeeded ?? false
-        //            ? Ok(result)
-        //            : BadRequest(result?.message);
+            var result = await _profile.Add(profile);
+            return result?.Succeeded ?? false
+                    ? Ok(result)
+                    : BadRequest(result?.message);
 
-        //}
+        }
 
         [HttpPut]
         public async Task<IActionResult> UpdateAsync(ProfileDancerUpdateCommand profile)
