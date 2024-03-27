@@ -12,9 +12,9 @@ namespace api.abrazos.Controllers
     //[Authorize]
     public class ProfileDancerController : ControllerBase
     {
-        private readonly IProfileDancerCommandHandler _profile;
+        private readonly IProfileDancerCommandService _profile;
 
-        public ProfileDancerController(IProfileDancerCommandHandler profile)
+        public ProfileDancerController(IProfileDancerCommandService profile)
         {
             _profile = profile;
         }

@@ -12,9 +12,9 @@ namespace api.abrazos.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserQueryService _userService;
-        private readonly IUserCommandHandler _userCommandHandler;
+        private readonly IUserCommandService _userCommandHandler;
 
-        public UserController(IUserQueryService IUserService,IUserCommandHandler userCommandHandler)
+        public UserController(IUserQueryService IUserService,IUserCommandService userCommandHandler)
         {
             _userService = IUserService;
             _userCommandHandler = userCommandHandler;

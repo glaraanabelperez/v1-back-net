@@ -8,11 +8,11 @@ using Utils;
 
 namespace Abrazos.ServicesEvenetHandler.Intefaces
 {
-    public interface IProfileDancerCommandHandler
+    public interface IProfileDancerCommandService
     {
-        public Task<ResultApp<UserDto>> Add(ProfileDancerCreateCommand entity);
+        public Task<ResultApp> Add(ProfileDancerCreateCommand entity);
 
-        public Task<ResultApp<ProfileDancer>> Update(ProfileDancerUpdateCommand entity);
+        public Task<ResultApp> Update(ProfileDancerUpdateCommand entity);
 
     }
 }

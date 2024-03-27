@@ -33,13 +33,14 @@ builder.Services.AddTransient<AbrazosDbContext, ApplicationDbContext>();
 
 builder.Services.AddTransient<IGenericRepository, GenericRepository>();   //este solo se usa desde eventHandler
 
-builder.Services.AddTransient<IProfileDancerCommandHandler, ProfileDancerCommandHandler>(); //de aca accedo a los metodos particulares y a los que estan en el genericreposotory
-builder.Services.AddTransient<IUserCommandHandler, UserCommandHandler>();
-builder.Services.AddTransient<IEventCommandHandler, EventCommandHandler>();
+builder.Services.AddTransient<IProfileDancerCommandService, ProfileDancerCommandService>(); //de aca accedo a los metodos particulares y a los que estan en el genericreposotory
+builder.Services.AddTransient<IUserCommandService, UserCommandService>();
+builder.Services.AddTransient<IEventCommandService, EventCommandService>();
 
 
 
 builder.Services.AddTransient<IUserQueryService, UserQueryService>();
+builder.Services.AddTransient<IEventQueryService, EventQueryService>();
 
 //Cors
 string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";

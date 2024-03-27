@@ -14,20 +14,25 @@ namespace Abrazos.Persistence.Database.Configurations
                 .HasColumnType("int")
                 .HasColumnName("ProfileDanceId");
 
-            builder.Property(e => e.DanceLevel_FK)
-              .HasColumnName("DanceLevel_FK");
-            builder.Property(e => e.DanceRol_FK)
-             .HasColumnName("DanceRol_FK");
+            builder.Property(e => e.DanceLevelId)
+              .HasColumnName("DanceLevel");
+            builder.Property(e => e.DanceRolId)
+             .HasColumnName("DanceRol");
+            builder.Property(e => e.UserId)
+              .HasColumnName("UserId");
             builder.Property(e => e.Height)
              .HasColumnName("Height");
 
             builder.HasOne(e => e.DanceLevel)
                 .WithMany()
-                .HasForeignKey(e => e.DanceLevel_FK);
+                .HasForeignKey(e => e.DanceLevelId);
             builder.HasOne(e => e.DanceRol)
                .WithMany()
-               .HasForeignKey(e => e.DanceRol_FK);
+               .HasForeignKey(e => e.DanceRolId);
 
+            builder.HasOne(e => e.Users)
+               .WithMany()
+               .HasForeignKey(e => e.UserId);
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Abrazos.Services.Dto;
-using Models;
 using ServiceEventHandler.Command;
 using ServiceEventHandler.Command.CreateCommand;
 using System;
@@ -7,11 +6,11 @@ using Utils;
 
 namespace Abrazos.ServicesEvenetHandler.Intefaces
 {
-    public interface IEventCommandHandler
+    public interface IUserCommandService
     {
-        public Task<ResultApp<Event>> Add(EventCreateCommand entity);
+        public Task<ResultApp> AddUser(UserCreateCommand entity);
 
-        public Task<ResultApp<Event>> Update(EventUpdateCommand entity);
+        public Task<ResultApp> UpdateUser(UserUpdateCommand entity);
 
     }
 }

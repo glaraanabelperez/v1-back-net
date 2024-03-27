@@ -9,21 +9,22 @@ using Microsoft.Extensions.Logging;
 using Models;
 using ServiceEventHandler.Command;
 using ServiceEventHandler.Command.CreateCommand;
+using ServicesQueries.Dto;
 using System.Data.Entity;
 using System.Net.NetworkInformation;
 using Utils;
 
 namespace Abrazos.ServiceEventHandler
 {
-    public class UserCommandHandler: IUserCommandHandler
+    public class UserCommandService: IUserCommandService
     {
-        private readonly ILogger<UserCommandHandler> _logger;
+        private readonly ILogger<UserCommandService> _logger;
         private readonly ApplicationDbContext _dbContext;
         private readonly IMapper _mapper;
         public IGenericRepository command;
 
-        public UserCommandHandler(ApplicationDbContext dbContext, IGenericRepository command, 
-            ILogger<UserCommandHandler> logger, IMapper mapper)
+        public UserCommandService(ApplicationDbContext dbContext, IGenericRepository command, 
+            ILogger<UserCommandService> logger, IMapper mapper)
         {
             _dbContext = dbContext;
             this.command = command;
@@ -31,35 +32,34 @@ namespace Abrazos.ServiceEventHandler
             _logger = logger;
         }
 
-        public async Task<ResultApp<UserDto>> AddUser(UserCreateCommand entity)
+        public async Task<ResultApp> AddUser(UserCreateCommand entity)
         {
 
-            ResultApp<UserDto> res = new ResultApp<UserDto>();
-            try 
-            { 
-               var user_res = await this.command.Add<User>(MapToUserEntity(entity));
-                res.objectResult = _mapper.Map<UserDto>(user_res);//mappear
+            ResultApp res = new ResultApp();
+            try
+            {
+                var user_res = await this.command.Add<User>(MapToUserEntity(entity));
+                //alguna verificacion ok?
                 res.Succeeded = true;
             }
-            catch (Exception ex) 
-            { 
-                res.message= ex.Message;
+            catch (Exception ex)
+            {
+                res.message = ex.Message;
             }
-           
-            return res ;
+
+            return res;
 
         }
 
-        public async Task<ResultApp<UserDto>> UpdateUser(UserUpdateCommand command)
+        public async Task<ResultApp> UpdateUser(UserUpdateCommand command)
         {
-            ResultApp<UserDto> res = new ResultApp<UserDto>();
+            ResultApp res = new ResultApp();
+
             var result = _dbContext.User
                 .FirstOrDefault(u => u.UserId == command.userId);
-
             if (result != null)
             {
                 var user_res = await this.command.Update<User>(MapToUserEntityInUpdate(result, command));
-                res.objectResult = _mapper.Map<UserDto>(user_res);//mappear
                 res.Succeeded = true;
                 res.message = "Update Successfull";
 
@@ -93,16 +93,8 @@ namespace Abrazos.ServiceEventHandler
             user.LastName = entity_.LastName;
             user.Name = entity_.Name;
             user.Pass = entity_.Pass;
-            user.UserState = true;
-
-            if (entity_.ProfileDancer != null)
-            {
-                user.ProfileDancer.DanceRol_FK = entity_.ProfileDancer.DanceRol_FK;
-                user.ProfileDancer.DanceLevel_FK = entity_.ProfileDancer.DanceLevel_FK;
-                user.ProfileDancer.Height = entity_.ProfileDancer.Height;
-
-            }
-
+            user.UserState = true; //datos en appsetting
+   
             return user;
         }
 

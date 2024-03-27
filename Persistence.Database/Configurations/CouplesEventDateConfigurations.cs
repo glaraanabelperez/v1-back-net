@@ -4,9 +4,9 @@ using Models;
 
 namespace Abrazos.Persistence.Database.Configurations
 {
-    public class CouplesEventDateConfiguration : IEntityTypeConfiguration<CouplesEvent_Date>
+    public class CouplesEventDateConfiguration : IEntityTypeConfiguration<CouplesEventDate>
     {
-        public void Configure(EntityTypeBuilder<CouplesEvent_Date> builder)
+        public void Configure(EntityTypeBuilder<CouplesEventDate> builder)
         {
             builder.HasKey(e => e.CouplesEventId);
             builder.ToTable("CouplesEvent_Date>");
@@ -14,12 +14,12 @@ namespace Abrazos.Persistence.Database.Configurations
                 .HasColumnType("int")
                 .HasColumnName("CouplesEventId");
 
-            builder.Property(e => e.EventId_FK)
-              .HasColumnName("EventId_FK");
-            builder.Property(e => e.HostUserId_FK)
-              .HasColumnName("HostUserId_FK");
-            builder.Property(e => e.InvitedUserId_FK)
-              .HasColumnName("InvitedUserId_FK");
+            builder.Property(e => e.EventId)
+              .HasColumnName("EventId");
+            builder.Property(e => e.HostUserId)
+              .HasColumnName("HostUserId");
+            builder.Property(e => e.InvitedUserId)
+              .HasColumnName("InvitedUserId");
             builder.Property(e => e.CouplesEventApproved)
               .HasColumnName("CouplesEventApproved");
             builder.Property(e => e.RequestAccepted)
@@ -27,15 +27,15 @@ namespace Abrazos.Persistence.Database.Configurations
 
             builder.HasOne(e => e.Evento)
                 .WithMany(e => e.CouplesEvents)
-                .HasForeignKey(e => e.EventId_FK);
+                .HasForeignKey(e => e.EventId);
 
             builder.HasOne(e => e.HostUser)
-                .WithMany(e => e.CouplesEventsHost)
-                .HasForeignKey(e => e.HostUserId_FK);
+                .WithMany(e => e.CouplesEventsUserHost)
+                .HasForeignKey(e => e.HostUserId);
 
             builder.HasOne(e => e.InvitedUser)
-                .WithMany(e => e.CouplesEventsInvited)
-                .HasForeignKey(e => e.InvitedUserId_FK);
+                .WithMany(e => e.CouplesEventsUserInivted)
+                .HasForeignKey(e => e.InvitedUserId);
         }
     }
 }

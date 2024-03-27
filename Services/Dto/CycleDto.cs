@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
 using System.ComponentModel.DataAnnotations;
 
-namespace Models
+namespace ServicesQueries.Dto
 {
-    public class Cycle
+    public class CycleDto
     {
         public int CycleId { get; set; }
         public string CycleTitle { get; set; }
         public string Description { get; set; }
 
-        public ICollection<Event>? Events { get; set; } 
+        public ICollection<EventDto>? Events { get; set; }
 
     }
 }

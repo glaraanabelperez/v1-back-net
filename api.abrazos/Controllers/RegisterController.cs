@@ -12,10 +12,10 @@ namespace api.abrazos.Controllers
     [Route("v1/register")]
     public class RegisterController : ControllerBase
     {
-        private readonly IUserCommandHandler _userCommandHandler;
+        private readonly IUserCommandService _userCommandHandler;
 
         public RegisterController(
-          IUserCommandHandler IUserCreatehandler
+          IUserCommandService IUserCreatehandler
         )
         {
             _userCommandHandler = IUserCreatehandler;
@@ -29,7 +29,7 @@ namespace api.abrazos.Controllers
                 return BadRequest(ModelState);
             }
 
-            var  result = await _userCommandHandler.AddUser(User);
+            var result = await _userCommandHandler.AddUser(User);
             return result?.Succeeded ?? false
                     ? Ok(result)
                     : BadRequest(result?.message);//devolver mensaje bien

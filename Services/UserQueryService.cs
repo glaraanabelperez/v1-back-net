@@ -1,16 +1,10 @@
-﻿
-
-using Abrazos.Persistence.Database;
-using Abrazos.Services.Dto;
+﻿using Abrazos.Persistence.Database;
 using Abrazos.Services.Interfaces;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Models;
-using ServicesQueries.Auth;
+using ServicesQueries.Dto;
 using System;
-using System.Linq;
-using System.Xml.Linq;
 using Utils;
 
 namespace Abrazos.Services
@@ -52,15 +46,12 @@ namespace Abrazos.Services
                   .Where(x => name == null || !name.Any() || name.Contains(x.Name))
                   .Where(x => userName == null || !userName.Any() || userName.Contains(x.UserName))
                   .Where(x => userStates == null || (x.UserState != null && x.UserState == userStates))
-                  .Where(x => danceLevel == null || (x.ProfileDancerId_FK != null && x.ProfileDancer.DanceLevel.DanceLevelId == danceLevel))
-                  .Where(x => danceRol == null || (x.ProfileDancerId_FK != null && x.ProfileDancer.DanceRol.DanceRolId == danceRol))
+                  .Where(x => danceLevel == null || (x.ProfileDancer.First().DanceLevel != null && x.ProfileDancer.First().DanceLevel.DanceLevelId == danceLevel))
+                  .Where(x => danceRol == null || (x.ProfileDancer.First().DanceRol != null && x.ProfileDancer.First().DanceRol.DanceRolId == danceRol))
                   .Where(x => evenType == null || (x.TypeEventsUsers != null && x.TypeEventsUsers.First().TypeEvent.TypeEventId == evenType))
 
                   .OrderByDescending(x => x.Name)
                   .GetPagedAsync(page, take);
-            //.Skip((page - 1) * take)
-            //.Take(take)
-            //.ToListAsync();
 
             _logger.LogInformation(queryable.ToString());
 
@@ -70,55 +61,29 @@ namespace Abrazos.Services
             return result;
         }
 
-        public async Task<ResultApp<UserDto>> GatAsync(long userId)
+        public async Task<UserDto> GatAsync(long userId)
         {
-            ResultApp<UserDto> resultApp = new ResultApp<UserDto>();
-            try
-            {
 
-                var queryable = (await _context.User
-                              .Include(a => a.UserPermissions)
-                                  .ThenInclude(perm => perm.Permission)
-                              .Include(a => a.ProfileDancer)
-                                  .ThenInclude(details => details.DanceRol)
-                              .Include(a => a.ProfileDancer)
-                                  .ThenInclude(details => details.DanceLevel)
-                              .Include(tyeu => tyeu.TypeEventsUsers)
-                                .ThenInclude(tye => tye.TypeEvent)
-                            .Include(ad => ad.Address)
-                //.ThenInclude(tye => tye.TypeEvent)
-                .SingleOrDefaultAsync(x => x.UserId == userId));
-
-                if (queryable != null)
-                {
-                    resultApp.Succeeded = true;
-                    resultApp.objectResult = _mapper.Map<UserDto>(queryable);
-                    _logger.LogWarning(queryable.ToString());
-                }
-                else
-                {
-                    resultApp.message = "Without Data";
-                }
-
-                return resultApp;
-
-            }
-            catch (System.Exception ex)
-            {
-                string value = ((ex.InnerException != null) ? ex.InnerException!.Message : ex.Message);
-                _logger.LogWarning(value);
-                resultApp.errors = value;
-                resultApp.Succeeded = false;
-                return resultApp;
-            }
-
-
+            var queryable = (await _context.User
+                          .Include(a => a.UserPermissions)
+                              .ThenInclude(perm => perm.Permission)
+                          .Include(a => a.ProfileDancer)
+                              .ThenInclude(details => details.DanceRol)
+                          .Include(a => a.ProfileDancer)
+                              .ThenInclude(details => details.DanceLevel)
+                          .Include(tyeu => tyeu.TypeEventsUsers)
+                            .ThenInclude(tye => tye.TypeEvent)
+                        .Include(ad => ad.Address)
+            .SingleOrDefaultAsync(x => x.UserId == userId));
+            _logger.LogWarning(queryable.ToString());
+            return _mapper.Map<UserDto>(queryable);
+ 
         }
 
-        public async Task<ResultApp<UserDto>> LoginAsync(string email, string pass)
+        public async Task<ResultApp> LoginAsync(string email, string pass)
         {
 
-            ResultApp<UserDto> res = new ResultApp<UserDto>();
+            ResultApp res = new ResultApp();
             try
             {
                 var queryable = await _context.User
@@ -135,7 +100,7 @@ namespace Abrazos.Services
                 else
                 {
                     res.Succeeded = false;
-                    res.errors = "The user is not registered";
+                    res.message = "UnSuccessful login";
                     return res;
                 }
 
@@ -144,10 +109,22 @@ namespace Abrazos.Services
             }
             catch (System.Exception ex)
             {
-                string value = ((ex.InnerException != null) ? ex.InnerException!.Message : ex.Message);
-                _logger.LogWarning(value);
+                string exMessage = ex.InnerException != null ? ex.InnerException!.Message : ex.Message;
+                _logger.LogWarning(exMessage);
                 res.Succeeded = false;
-                res.errors = "Error in Login";
+                res.message = "Error in Login";
+                res.errors = new ErrorResult
+                {
+                    type = ex.GetType().Name,
+                    title = exMessage,
+                    status = "500",
+                    traceId = Guid.NewGuid().ToString(),
+                    errors = new Dictionary<string, List<string>>
+                    {
+                            {"GetError : Failed to Get User ", new List<string> { exMessage }}
+                        }
+                };
+
                 return res;
             }
 

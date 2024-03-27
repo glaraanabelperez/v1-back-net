@@ -2,9 +2,9 @@
 
 namespace ServicesQueries.Dto
 {
-    public class DanceLevelDto
+    public class EventStateDto
     {
-        public int DanceLevelId { get; set; }
+        public int EventStateId { get; set; }
         public string Name { get; set; }
 
     }

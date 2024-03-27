@@ -3,12 +3,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Models
 {
-    public class CouplesEvent_Date 
+    public class CouplesEventDate 
     {
         public int CouplesEventId { get; set; }
-        public int HostUserId_FK { get; set; }
-        public int InvitedUserId_FK { get; set; }
-        public int EventId_FK { get; set; }
+        public int HostUserId { get; set; }
+        public int InvitedUserId { get; set; }
+        public int EventId { get; set; }
         public bool CouplesEventApproved { get; set; }
         public int RequestAccepted { get; set; }
         public int RequestRejected{ get; set; }

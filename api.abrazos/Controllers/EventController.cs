@@ -12,11 +12,13 @@ namespace api.abrazos.Controllers
     //[Authorize]
     public class EventController : ControllerBase
     {
-        private readonly IEventCommandHandler command_;
+        private readonly IEventCommandService command_;
+        private readonly IEventQueryService _eventQuery;
 
-        public EventController(IEventCommandHandler command)
+        public EventController(IEventCommandService command, IEventQueryService eventQuery)
         {
             command_ = command;
+            _eventQuery = eventQuery;
         }
 
         [HttpPost]
@@ -47,6 +49,54 @@ namespace api.abrazos.Controllers
             //        ? Ok(result)
             //        : BadRequest(result?.message);
 
+        }
+
+        /// <summary>
+        /// Return All Users by some filters.
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="take"></param>
+        /// <param name="name"></param>
+        /// <param name="userName"></param>
+        /// <param name="userStates"></param>
+        /// <param name="danceLevel"></param>
+        /// <param name="danceRol"></param>
+        /// <param name="evenType"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> GetAll(
+            string? search,
+            int? organizerId,
+            int? CycleId,
+            int? danceLevel,
+            int? danceRol,
+            int? evenType,
+            int? CityId,
+            int? addressId,
+            int? countryId,
+            DateTime? dateCreated,
+            DateTime? dateFinish,
+            int page = 1,
+            int take = 500
+        )
+        {
+            var events = await _eventQuery.GetAllAsync(
+                search,
+                organizerId,
+                CycleId,
+                danceLevel,
+                danceRol,
+                evenType,
+                CityId,
+                addressId,
+                countryId,
+                dateCreated,
+                dateFinish,
+                page,
+                take
+               );
+
+            return Ok(events);
         }
 
     }
