@@ -65,25 +65,25 @@ namespace Abrazos.Services
         {
             var queryable =  _context.Event
                            .Include(e => e.Cycle)
+                           .Include(e => e.EventState)
                            .Include(e => e.TypeEvent)
+                           .Include(u => u.UserCreator)
+                           .Include(l => l.Level)
+                           .Include(r => r.Rol)
                            .Include(a => a.Address)
                                .ThenInclude(c => c.City)
-                                    .ThenInclude(co => co.Country)
-                                .Include(u=> u.UserCreator)
-                                .Include(l => l.Level)
-                                .Include(tye => tye.Rol)
+                                
 
-            //.Where(x => (  search == null || !search.Any() || search.Contains(x.Name) || (x.Cycle!=null && search.Contains(x.Cycle.CycleTitle)) ))
+            .Where(x => (  search == null || !search.Any() || search.Contains(x.Name) || (x.Cycle!=null && search.Contains(x.Cycle.CycleTitle)) ))
                             .Where(x => (organizerId == null || x.UserIdCreator == organizerId)
                                     && (CycleId == null || x.Cycle.CycleId == CycleId)
                                     && (danceLevel == null || x.LevelId == danceLevel)
                                     && (danceRol == null || x.RolId == danceRol)
                                     && (evenType == null || x.TypeEventId == evenType)
                                     && (CityId == null || x.Address.City.CityId == CityId)
-                                    && (addressId == null || x.Address.AddressId== addressId)
-                                    && (countryId == null || x.Address.City.Country.CountryId == countryId)
+                                    && (addressId == null || x.Address.AddressId == addressId)
                                     && (evenType == null || x.TypeEventId == evenType)
-                                    && (dateInit == null || dateFinish == null || (dateInit >= x.DateInit && x.DateFinish >= dateFinish) )
+                                    && (dateInit == null || dateFinish == null || (dateInit >= x.DateInit && x.DateFinish >= dateFinish))
 
                             )
                   .OrderByDescending(x => x.EventId);

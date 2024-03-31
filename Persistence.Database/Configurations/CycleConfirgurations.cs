@@ -20,10 +20,6 @@ namespace Abrazos.Persistence.Database.Configurations
             builder.Property(e => e.Description)
              .HasColumnName("CycleDescription");
 
-            builder.HasMany(ce => ce.Events)
-                .WithOne(c => c.Cycle)
-                .HasForeignKey(c => c.CycleId);
-
 
         }
     }
