@@ -9,7 +9,6 @@ namespace ServicesQueries.Dto
         public string CycleTitle { get; set; }
         public string Description { get; set; }
 
-        public ICollection<EventDto>? Events { get; set; }
 
     }
 }

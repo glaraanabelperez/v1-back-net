@@ -64,7 +64,11 @@ namespace Abrazos.ServiceEventHandler
             entity.Couple = command_.Couple;
             entity.Cupo = command_.Cupo;
 
-            if (command_.Address != null)
+            if ( command_.AddressId != null)
+            {
+                entity.AddressId = command_.AddressId ?? 0;          
+            }
+            else if(command_.Address != null )
             {
                 Address Address_ = new Address();
                 Address_.Street = command_.Address.Street;
@@ -72,36 +76,29 @@ namespace Abrazos.ServiceEventHandler
                 Address_.UserId = command_.Address.UserId;
                 Address_.StateAddress = command_.Address.StateAddress;
                 Address_.DetailAddress = command_.Address.DetailAddress;
+                Address_.CityId = command_.Address.CityId ?? 0;
+
+                if (command_.Address.CityId == null)
+                {
+                    City city = new City();
+                    city.CityName = command_.Address.city.CityName;
+                    city.CountryName = command_.Address.city.CountryName;
+                    city.StateName = command_.Address.city.StateName;
+                    Address_.City = city;
+                }
+                
                 entity.Address = Address_;
 
-                if (command_.Address.city != null)
-                {
-                    City city_ = new City();
-                    city_.Name = command_.Address.city.Name;
-                    entity.Address.City = city_;
-
-                    if (command_.Address.city.Country_ != null)
-                    {
-                        Country country = new Country();
-                        country.Name = command_.Address.city.Country_.Name;
-                        entity.Address.City.Country = country;
-                    }
-                    else
-                    {
-                        entity.Address.CityId = command_.Address.CityId ?? 0;
-                    }
-                }
-                else
-                {
-                    entity.Address.CityId = command_.Address.CityId ?? 0;
-                }
             }
             else
             {
-                entity.AddressId = command_.AddressId ?? 0;
+                throw new Exception("La direccion no puede estar vacia");
             }
+            if(command_.CycleId!= null)
+            {
+                entity.CycleId = command_.CycleId;
 
-            if (command_.Cycle != null)
+            }else if (command_.Cycle != null)
             {
                 Cycle cicle = new Cycle();
                 cicle.CycleTitle = command_.Cycle.Tittle;
