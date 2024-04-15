@@ -72,6 +72,7 @@ namespace Abrazos.Services
                            .Include(r => r.Rol)
                            .Include(a => a.Address)
                                .ThenInclude(c => c.City)
+                               .ThenInclude(c => c.Country)
                                 
 
             .Where(x => (  search == null || !search.Any() || search.Contains(x.Name) || (x.Cycle!=null && search.Contains(x.Cycle.CycleTitle)) ))
@@ -81,6 +82,7 @@ namespace Abrazos.Services
                                     && (danceRol == null || x.RolId == danceRol)
                                     && (evenType == null || x.TypeEventId == evenType)
                                     && (CityId == null || x.Address.City.CityId == CityId)
+                                    && (countryId == null || x.Address.City.CountryId == countryId)
                                     && (addressId == null || x.Address.AddressId == addressId)
                                     && (evenType == null || x.TypeEventId == evenType)
                                     && (dateInit == null || dateFinish == null || (dateInit >= x.DateInit && x.DateFinish >= dateFinish))

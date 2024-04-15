@@ -1,13 +1,14 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
-using Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace ServicesQueries.Dto
+namespace Models
 {
-    public class CountryDto
+    public class Country
     {
         public int CountryId { get; set; }
         public string Name { get; set; }
+
+        public ICollection<City>? Cities { get; set; } = new List<City>();
 
     }
 }

@@ -8,6 +8,7 @@ using Models;
 using ServiceEventHandler.Command.CreateCommand;
 using ServiceEventHandler.Validators;
 using Utils;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Abrazos.ServiceEventHandler
 {
@@ -30,18 +31,14 @@ namespace Abrazos.ServiceEventHandler
         public async Task<ResultApp> Add(EventCreateCommand command)
         {
             ResultApp res = new ResultApp();
-
-            if (IdOrObjectMandatory.Validate(command.AddressId, command.Address))
+            try
             {
-                try
-                {
-                    var resEntity = await this.commandGeneric.Add<Event>(MapToEntity(command));
-                    res.Succeeded = true;
-                }
-                catch (Exception ex)
-                {
-                    res.message = ex.Message;
-                }
+                var resEntity = await this.commandGeneric.Add<Event>(MapToEntity(command));
+                res.Succeeded = true;
+            }
+            catch (Exception ex)
+            {
+                res.message = ex.Message;
             }
             return res;
 
@@ -64,41 +61,61 @@ namespace Abrazos.ServiceEventHandler
             entity.Couple = command_.Couple;
             entity.Cupo = command_.Cupo;
 
-            if ( command_.AddressId != null)
+            if (!IdOrObjectMandatory.Validate(command_.AddressId, command_.Address))
             {
-                entity.AddressId = command_.AddressId ?? 0;          
+                throw new Exception("La direccion no puede estar vacia");
             }
-            else if(command_.Address != null )
-            {
-                Address Address_ = new Address();
-                Address_.Street = command_.Address.Street;
-                Address_.Number = command_.Address.Number;
-                Address_.UserId = command_.Address.UserId;
-                Address_.StateAddress = command_.Address.StateAddress;
-                Address_.DetailAddress = command_.Address.DetailAddress;
-                Address_.CityId = command_.Address.CityId ?? 0;
 
-                if (command_.Address.CityId == null)
-                {
-                    City city = new City();
-                    city.CityName = command_.Address.city.CityName;
-                    city.CountryName = command_.Address.city.CountryName;
-                    city.StateName = command_.Address.city.StateName;
-                    Address_.City = city;
+            entity.AddressId = command_.AddressId ?? 0;
+            if(command_.Address != null )
+            {
+               Address Address_ = new Address();
+               Address_.Street = command_.Address.Street;
+               Address_.Number = command_.Address.Number;
+               //If the direction is new, only in case of creating an event,  the user id is the creator.
+               Address_.UserId = command_.UserIdCreator;
+               Address_.StateAddress = command_.Address.StateAddress;
+               Address_.DetailAddress = command_.Address.DetailAddress;
+
+               if (command_.Address.CityId == null && string.IsNullOrEmpty(command_.Address.city.CityName))
+               {
+                   throw new Exception("La ciudad no puede estar vacia");
+               }
+
+               Address_.CityId = command_.Address.CityId ?? 0;
+               if(command_.Address.CityId == null)
+               {
+                  City city = new City();
+                  city.CityName = command_.Address.city.CityName;
+                  city.StateName = command_.Address.city.StateName;
+
+                  //Validating and adding Country
+                  if (command_.Address.city.CountryId == null || string.IsNullOrEmpty(command_.Address.city.CountryName))
+                  {
+                      throw new Exception("El pais no puede estar vacio");
+                  }
+                  city.CountryId = command_.Address.city.CountryId ?? 0;
+                  if (command_.Address.city.CountryId == null)
+                  {
+                      city.Country = new Country()
+                      {
+                          Name = command_.Address.city.CountryName
+                      };
+                  }    
+                  //Adding city
+                  Address_.City = city;
                 }
                 
-                entity.Address = Address_;
+               entity.Address = Address_;
 
             }
             else
             {
                 throw new Exception("La direccion no puede estar vacia");
             }
-            if(command_.CycleId!= null)
-            {
-                entity.CycleId = command_.CycleId;
 
-            }else if (command_.Cycle != null)
+            entity.CycleId = command_.CycleId ?? 0;
+            if (command_.CycleId == null)
             {
                 Cycle cicle = new Cycle();
                 cicle.CycleTitle = command_.Cycle.Tittle;

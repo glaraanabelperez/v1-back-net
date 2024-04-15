@@ -5,9 +5,11 @@ namespace ServiceEventHandler.Command.CreateCommand
 {
     public class AddressCreateCommand
     {
-        [Required]
-        public int UserId { get; set; }
-        public int? CityId { get; set; }//validar uno u otro
+        /// <summary>
+        /// User relationship with Address, in Case be a new register to Address-
+        /// </summary>
+        public int? UserId { get; set; }
+        public int? CityId { get; set; }
         [Required]
         [StringLength(255, MinimumLength = 3)]
         public string Street { get; set; }

@@ -24,7 +24,6 @@ namespace ServiceEventHandler.Command.CreateCommand
         public bool Couple { get; set; }
         public int? CycleId { get; set; }
 
-        public int eventState { get; set; }
         public AddressCreateCommand? Address { get; set; }
         public CycleCommandCreate? Cycle { get; set; }
 

@@ -11,6 +11,7 @@ namespace Abrazos.Persistence.Database
 
         public virtual DbSet<Address> Address { get; set; } = null!;
         public virtual DbSet<City> Cities { get; set; } = null!;
+        public virtual DbSet<Country> Conutry { get; set; } = null!;
         public virtual DbSet<CouplesEventDate> CouplesEvent_Date { get; set; } = null!;
         public virtual DbSet<DanceLevel> DanceLevel { get; set; } = null!;
         public virtual DbSet<DanceRol> DanceRol { get; set; } = null!;
@@ -32,6 +33,8 @@ namespace Abrazos.Persistence.Database
             modelBuilder.UseCollation("Modern_Spanish_CI_AS");
             modelBuilder.ApplyConfiguration(new AddressConfiguration());
             modelBuilder.ApplyConfiguration(new CityConfiguration());
+            modelBuilder.ApplyConfiguration(new CountryConfigurations());
+
             modelBuilder.ApplyConfiguration(new CouplesEventDateConfiguration());
             modelBuilder.ApplyConfiguration(new DanceLevelConfiguration());
             modelBuilder.ApplyConfiguration(new CycleConfiguration());

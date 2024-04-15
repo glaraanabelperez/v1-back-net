@@ -28,6 +28,9 @@ namespace Services.Mapper
 
             CreateMap<City, CityDto>();
             CreateMap<DataCollection<City>, DataCollection<CityDto>>().ForMember(dest => dest.Items, sour => sour.MapFrom(s => s.Items));
+           
+            CreateMap<Country, CountryDto>();
+            CreateMap<DataCollection<Country>, DataCollection<CountryDto>>().ForMember(dest => dest.Items, sour => sour.MapFrom(s => s.Items));
 
 
             //-- ProfileDAncer -----------
