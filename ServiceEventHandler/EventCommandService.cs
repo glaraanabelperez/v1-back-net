@@ -126,9 +126,39 @@ namespace Abrazos.ServiceEventHandler
             return entity;
         }
 
-        public Task<ResultApp> Update(EventUpdateCommand entity)
+        public async Task<ResultApp> Update(EventUpdateCommand command_)
         {
-            throw new NotImplementedException();
+            ResultApp res = new ResultApp();
+            try
+            {
+                var resEntity = await this.commandGeneric.Update<Event>(MapToEntityUpdate(command_));
+                res.Succeeded = true;
+            }
+            catch (Exception ex)
+            {
+                res.message = ex.Message;
+            }
+            return res;
+        }
+        public Event MapToEntityUpdate(EventUpdateCommand command_)
+        {
+            Event entity = new Event();
+            entity.UserIdCreator = command_.UserIdCreator;
+            entity.Name = command_.Name;
+            entity.Description = command_.Description;
+            entity.DateInit = command_.DateInit;
+            entity.DateFinish = command_.DateFinish;
+            entity.EventStateId = command_.EventStateId;
+            entity.TypeEventId = command_.TypeEventId;
+            entity.LevelId = command_.LevelId != null ? command_.LevelId : null;
+            entity.RolId = command_.RolId != null ? command_.LevelId : null; ;
+            entity.Couple = command_.Couple;
+            entity.Cupo = command_.Cupo;
+            entity.AddressId = command_.AddressId;
+            entity.CycleId = command_.CycleId;
+
+
+            return entity;
         }
     }
 }

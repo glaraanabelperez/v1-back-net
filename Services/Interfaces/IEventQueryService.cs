@@ -21,6 +21,9 @@ namespace Abrazos.Services.Interfaces
             int take = 500
         );
 
+        Task<EventDto> GetAsync(int eventId);
+
+
     }
 
 }
