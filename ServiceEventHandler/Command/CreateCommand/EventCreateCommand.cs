@@ -15,6 +15,7 @@ namespace ServiceEventHandler.Command.CreateCommand
         [Required]
         [StringLength(250, MinimumLength = 3)]
         public string Description { get; set; }
+        public string? Image { get; set; }
         public int AddressId { get; set; }
         public DateTime DateInit { get; set; }
         public DateTime DateFinish { get; set; }
