@@ -34,7 +34,7 @@ namespace api.abrazos.Controllers
 
         }
 
-        [HttpPut]
+        [HttpPatch]
         public async Task<IActionResult> UpdateAsync(ProfileDancerUpdateCommand profile)
         {
             if (!ModelState.IsValid)

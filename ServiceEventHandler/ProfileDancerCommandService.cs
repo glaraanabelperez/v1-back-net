@@ -55,7 +55,7 @@ namespace Abrazos.ServiceEventHandler
             ResultApp res = new ResultApp();
             try
             {
-                ProfileDancer profile = _dbContext.ProfileDancer.FirstOrDefault(u => u.ProfileDanceId == command.ProfileDanceId);
+                ProfileDancer profile = _dbContext.ProfileDancer.FirstOrDefault(u => u.ProfileDanceId == command.ProfileDancerId);
 
                 if (profile != null)
                 {
@@ -69,16 +69,37 @@ namespace Abrazos.ServiceEventHandler
                 res.message = ex.Message;
             }
 
-            return null;
+            return res;
 
+        }
 
+        public async Task<ResultApp> Delete(int profileDancerId)
+        {
+            ResultApp res = new ResultApp();
+            try
+            {
+                ProfileDancer profile = _dbContext.ProfileDancer.SingleOrDefault(u => u.ProfileDanceId == profileDancerId);
+
+                if (profile != null)
+                {
+
+                    await this.command.Delete<ProfileDancer>(profileDancerId);
+                    res.Succeeded = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                res.message = ex.Message;
+            }
+            return res;
 
         }
 
         public ProfileDancer MapToUpdateEntity(ProfileDancer profile, ProfileDancerUpdateCommand comand_)
         {
-            profile.DanceRolId = comand_.DanceRolId != 0 ? comand_.DanceRolId : profile.DanceRolId;
-            profile.DanceLevelId = comand_.DanceLevelId != 0 ? comand_.DanceLevelId : profile.DanceLevelId;
+
+            profile.DanceRolId = comand_.DanceRolId  ??  profile.DanceRolId;
+            profile.DanceLevelId = comand_.DanceLevelId ??  profile.DanceLevelId;
             profile.Height = comand_.Height.HasValue ? comand_.Height : profile.Height;
             return profile;
         }
@@ -88,7 +109,8 @@ namespace Abrazos.ServiceEventHandler
             ProfileDancer entity = new ProfileDancer();
             entity.DanceRolId = comand_.DanceRolId;
             entity.DanceLevelId = comand_.DanceLevelId;
-
+            entity.UserId = comand_.UserId;
+            entity.Height = comand_.Height?? null;
             return entity;
         }
 

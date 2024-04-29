@@ -12,12 +12,12 @@ namespace Abrazos.Persistence.Database.Configurations
             builder.ToTable("ProfileDancer");
             builder.Property(e => e.ProfileDanceId)
                 .HasColumnType("int")
-                .HasColumnName("ProfileDanceId");
+                .HasColumnName("ProfileDancerId");
 
             builder.Property(e => e.DanceLevelId)
-              .HasColumnName("DanceLevel");
+              .HasColumnName("DanceLevelId");
             builder.Property(e => e.DanceRolId)
-             .HasColumnName("DanceRol");
+             .HasColumnName("DanceRolId");
             builder.Property(e => e.UserId)
               .HasColumnName("UserId");
             builder.Property(e => e.Height)
@@ -26,12 +26,13 @@ namespace Abrazos.Persistence.Database.Configurations
             builder.HasOne(e => e.DanceLevel)
                 .WithMany()
                 .HasForeignKey(e => e.DanceLevelId);
+
             builder.HasOne(e => e.DanceRol)
                .WithMany()
                .HasForeignKey(e => e.DanceRolId);
 
-            builder.HasOne(e => e.Users)
-               .WithMany()
+            builder.HasOne(e => e.User)
+               .WithMany(prof => prof.ProfileDancer)
                .HasForeignKey(e => e.UserId);
         }
     }

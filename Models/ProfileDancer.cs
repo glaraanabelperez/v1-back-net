@@ -10,7 +10,7 @@
         public DanceRol? DanceRol { get; set; } 
         public DanceLevel? DanceLevel { get; set; }
 
-        public User Users { get; set; }
+        public User User { get; set; }
 
     }
 }
