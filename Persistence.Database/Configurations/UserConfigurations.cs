@@ -70,8 +70,8 @@ namespace Abrazos.Persistence.Database.Configurations
                 .WithOne(userCreator => userCreator.UserCreator)
                 .HasForeignKey(e => e.UserIdCreator);
 
-            builder.HasMany(e => e.ProfileDancer)
-                .WithOne(user => user.Users)
+            builder.HasMany(p => p.ProfileDancer)
+                .WithOne(user => user.User)
                 .HasForeignKey(p => p.UserId);
 
 
