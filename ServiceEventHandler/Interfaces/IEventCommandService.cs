@@ -11,7 +11,7 @@ namespace Abrazos.ServicesEvenetHandler.Intefaces
     {
         public Task<ResultApp> Add(EventCreateCommand entity);
         public Task<ResultApp> Update(EventUpdateCommand entity);
-        public Task<ResultApp> UpdateCupo(int eventiId, int cupo);
+        //public Task<ResultApp> UpdateCupo(int eventiId, int cupo);
 
     }
 }

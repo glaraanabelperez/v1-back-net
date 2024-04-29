@@ -8,8 +8,6 @@ using Abrazos.Services;
 using Serilog;
 using ServicesQueries.Auth;
 using Serilog.Sinks.MSSqlServer;
-using Serilog.Formatting.Compact;
-using ServiceEventHandler.Command.CreateCommand;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,8 +42,6 @@ builder.Services.AddTransient<IEventQueryService, EventQueryService>();
 
 //Cors
 string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
-
-
  builder.Services.AddCors(options =>
     {
         options.AddPolicy(name: MyAllowSpecificOrigins,

@@ -16,6 +16,8 @@ namespace ServiceEventHandler.Command.CreateCommand
         [StringLength(250, MinimumLength = 3)]
         public string Description { get; set; }
         public string? Image { get; set; }
+        [Required]
+        [Range(1, long.MaxValue, ErrorMessage = "El valor de la direccion debe ser mayor que cero.")]
         public int AddressId { get; set; }
         public DateTime DateInit { get; set; }
         public DateTime DateFinish { get; set; }
@@ -36,7 +38,7 @@ namespace ServiceEventHandler.Command.CreateCommand
         public int Cupo { get; set; }
         [Required]
         public bool Couple { get; set; }
-        public int CycleId { get; set; }
+        public int? CycleId { get; set; }
 
         public AddressCreateCommand? Address { get; set; }
         public CycleCommandCreate? Cycle { get; set; }
