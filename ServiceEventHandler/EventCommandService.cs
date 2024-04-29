@@ -66,7 +66,7 @@ namespace Abrazos.ServiceEventHandler
                 throw new Exception("La direccion no puede estar vacia");
             }
 
-            entity.AddressId = command_.AddressId ?? 0;
+            //entity.AddressId = command_.AddressId ?? 0;
             if(command_.Address != null )
             {
                Address Address_ = new Address();
@@ -126,9 +126,42 @@ namespace Abrazos.ServiceEventHandler
             return entity;
         }
 
-        public Task<ResultApp> Update(EventUpdateCommand entity)
+        public async Task<ResultApp> Update(EventUpdateCommand command_)
         {
-            throw new NotImplementedException();
+            ResultApp res = new ResultApp();
+            try
+            {
+                var resEntity = await this.commandGeneric.Update<Event>(MapToEntityUpdate(command_));
+                res.Succeeded = true;
+            }
+            catch (Exception ex)
+            {
+                res.message = ex.Message;
+            }
+            return res;
+        }
+        public  Event MapToEntityUpdate(EventUpdateCommand command_)
+        {
+            var entity =  _dbContext.Event
+                                     .SingleOrDefault(x => x.EventId == command_.EventId);
+
+            entity.EventId=command_.EventId;
+            entity.UserIdCreator = command_.UserIdCreator??entity.UserIdCreator;
+            entity.Name = command_.Name?? entity.Name;
+            entity.Description = command_.Description?? entity.Description;
+            entity.DateInit = command_.DateInit?? entity.DateInit;
+            entity.DateFinish = command_.DateFinish ?? entity.DateFinish;
+            entity.EventStateId = command_.EventStateId ?? entity.EventStateId;
+            entity.TypeEventId = command_.TypeEventId ?? entity.TypeEventId;
+            entity.LevelId = command_.LevelId ?? entity.LevelId;
+            entity.RolId = command_.RolId ?? entity.RolId ;
+            entity.Couple = command_.Couple ?? entity.Couple;
+            entity.Cupo = command_.Cupo ?? entity.Cupo;
+            entity.AddressId = command_.AddressId ?? entity.AddressId;
+            entity.CycleId = command_.CycleId ?? entity.CycleId;
+
+
+            return entity;
         }
     }
 }

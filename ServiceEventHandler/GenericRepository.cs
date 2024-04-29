@@ -67,9 +67,6 @@ namespace Abrazos.ServiceEventHandler
                     _dbContext.Entry(entity).State = EntityState.Modified;
                     _dbContext.SaveChanges();
                     await transac.CommitAsync();
-
-                    //_logger.LogWarning(res_.Metadata.ToString());
-
                     return entyResult;
                 }
                 catch (System.Exception ex)

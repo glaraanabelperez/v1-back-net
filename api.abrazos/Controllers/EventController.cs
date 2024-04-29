@@ -36,18 +36,18 @@ namespace api.abrazos.Controllers
 
         }
 
-        [HttpPut]
-        public async Task<IActionResult> UpdateAsync(ProfileDancerUpdateCommand profile)
+        [HttpPatch]
+        public async Task<IActionResult> UpdateAsync(EventUpdateCommand command)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            return null;
-            //var result = await command_.Update(profile);
-            //return result?.Succeeded ?? false
-            //        ? Ok(result)
-            //        : BadRequest(result?.message);
+
+            var result = await command_.Update(command);
+            return result?.Succeeded ?? false
+                    ? Ok(result)
+                    : BadRequest(result?.message);
 
         }
 
@@ -99,5 +99,20 @@ namespace api.abrazos.Controllers
             return Ok(events);
         }
 
+
+        /// <summary>
+        /// Return Evenet by Id.
+        /// </summary>
+        /// <param name="eventId"></param>
+        /// <returns></returns>
+        [HttpGet("{eventId}")]
+        public async Task<IActionResult> GetAsync(int eventId)
+        {
+            var event_ = await _eventQuery.GetAsync(eventId);
+            return event_ != null
+            ? Ok(event_)
+            : StatusCode(204);
+
+        }
     }
 }

@@ -98,6 +98,35 @@ namespace Abrazos.Services
             return cycles;
         }
 
+
+        /// <summary>
+        /// GetById
+        /// </summary>
+        /// <returns>EventDto</returns>
+        public async Task<EventDto> GetAsync(int eventId)
+        {
+            var query = await _context.Event
+                           .Include(e => e.Cycle)
+                           .Include(e => e.EventState)
+                           .Include(e => e.TypeEvent)
+                           .Include(u => u.UserCreator)
+                           .Include(l => l.Level)
+                           .Include(r => r.Rol)
+                           .Include(a => a.Address)
+                               .ThenInclude(c => c.City)
+                               .ThenInclude(c => c.Country)
+
+
+            .Where(x => eventId == null || x.EventId == eventId)
+            .SingleAsync();
+            _logger.LogInformation(query.ToString());
+
+            var event_ = _mapper.Map<EventDto>(query);
+
+
+            return event_;
+        }
+
     }
 }
 
