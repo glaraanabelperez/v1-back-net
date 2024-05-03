@@ -16,12 +16,21 @@ namespace Abrazos.Persistence.Database.Configurations
 
             builder.Property(e => e.DanceLevelId)
               .HasColumnName("DanceLevelId");
+
             builder.Property(e => e.DanceRolId)
              .HasColumnName("DanceRolId");
+
+            builder.Property(e => e.DanceId)
+              .HasColumnName("DanceId");
+
             builder.Property(e => e.UserId)
               .HasColumnName("UserId");
+
             builder.Property(e => e.Height)
              .HasColumnName("Height");
+
+            builder.Property(e => e.Experience)
+            .HasColumnName("Experience");
 
             builder.HasOne(e => e.DanceLevel)
                 .WithMany()
@@ -34,6 +43,10 @@ namespace Abrazos.Persistence.Database.Configurations
             builder.HasOne(e => e.User)
                .WithMany(prof => prof.ProfileDancer)
                .HasForeignKey(e => e.UserId);
+
+            builder.HasOne(x => x.Dance)
+                .WithMany(e => e.ProfileDancers)
+                .HasForeignKey(x => x.DanceId);
         }
     }
 }
