@@ -26,6 +26,8 @@ namespace Models
         public ICollection<TypeEventUser>? TypeEventsUsers { get; set; } = new List<TypeEventUser>();
 
         public ICollection<Event>? EventsCreated = new List<Event>();
+        public ICollection<UserLanguage>? Userlanguages { get; set; } = new List<UserLanguage>();
+
 
 
     }

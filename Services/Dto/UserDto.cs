@@ -1,4 +1,6 @@
-﻿namespace ServicesQueries.Dto
+﻿using Models;
+
+namespace ServicesQueries.Dto
 
 {
     public class UserDto 
@@ -26,6 +28,7 @@
         public ICollection<TypeEventUserDto>? TypeEventsUsers { get; set; } = new List<TypeEventUserDto>();
 
         public ICollection<EventDto>? EventsCreated = new List<EventDto>();
+        public ICollection<UserLanguageDto>? Userlanguages { get; set; } = new List<UserLanguageDto>();
 
 
     }

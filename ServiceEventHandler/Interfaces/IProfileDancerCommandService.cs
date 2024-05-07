@@ -2,6 +2,7 @@
 using Models;
 using ServiceEventHandler.Command;
 using ServiceEventHandler.Command.CreateCommand;
+using ServicesQueries.Dto;
 using System;
 using System.Threading.Tasks;
 using Utils;

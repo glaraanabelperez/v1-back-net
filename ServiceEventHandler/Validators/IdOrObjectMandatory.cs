@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace ServiceEventHandler.Validators
 {
-    public static class IdOrObjectMandatory
+    public static class Validations
     {
-        public static bool Validate(int? id, object? objectCommand)
+        public static bool IdOrObjectMandatory(int? id, object? objectCommand)
         {
-            if (id == 0 && objectCommand == null)
+            if ((id == 0 && objectCommand == null) || (id != 0 || id != null && objectCommand != null))
             {
                 return false;
             }
