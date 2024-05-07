@@ -23,6 +23,8 @@ namespace Abrazos.Persistence.Database.Configurations
               .HasColumnName("Number");
             builder.Property(e => e.Street)
               .HasColumnName("Street");
+            builder.Property(e => e.VenueName)
+             .HasColumnName("VenueName");
             builder.Property(e => e.DetailAddress)
                .HasColumnName("DetailAddress");
 

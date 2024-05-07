@@ -2,13 +2,12 @@
 
 namespace Models
 {
-    public class UserLanguage
+    public class UserLanguageDto
     {
         public int UserLanguageId { get; set; }
         public int LanguageId { get; set; }
         public int UserId { get; set; }
-        public User User { get; set; }
-        public Language Language { get; set; }
+        public LanguageDto Language { get; set; }
 
 
     }

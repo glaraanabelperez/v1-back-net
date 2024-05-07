@@ -1,4 +1,6 @@
-﻿namespace ServicesQueries.Dto
+﻿using Models;
+
+namespace ServicesQueries.Dto
 {
     public class ProfileDancerDto
     {
@@ -13,6 +15,7 @@
 
         public DanceRolDto? DanceRol { get; set; } 
         public DanceLevelDto? DanceLevel { get; set; }
+        public DanceDto? Dance { get; set; }
 
         public UserDto Users { get; set; }
 

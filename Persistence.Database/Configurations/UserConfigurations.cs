@@ -83,6 +83,10 @@ namespace Abrazos.Persistence.Database.Configurations
           .WithOne(e => e.HostUser)
           .HasForeignKey(e => e.HostUserId);
 
+            builder.HasMany(e => e.Userlanguages)
+         .WithOne(e => e.User)
+         .HasForeignKey(e => e.UserId);
+
         }
     }
 }

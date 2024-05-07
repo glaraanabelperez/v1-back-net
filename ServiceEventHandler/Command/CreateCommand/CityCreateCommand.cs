@@ -6,8 +6,7 @@ namespace ServiceEventHandler.Command.CreateCommand
     public class CityCreateCommand
     {
         public string? CityName { get; set; }
-        public string? CountryName { get; set; }//Id Country o Name
-        public int? CountryId { get; set; }
+        public string? CountryName { get; set; }
         public string? StateName { get; set; }
 
     }

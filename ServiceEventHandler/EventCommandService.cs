@@ -3,10 +3,12 @@
 using Abrazos.Persistence.Database;
 using Abrazos.ServicesEvenetHandler.Intefaces;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
 using Models;
 using ServiceEventHandler.Command.CreateCommand;
 using ServiceEventHandler.Validators;
+using ServicesQueries.Dto;
 using Utils;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
@@ -30,98 +32,126 @@ namespace Abrazos.ServiceEventHandler
 
         public async Task<ResultApp> Add(EventCreateCommand command)
         {
+            //Buscar si la direccion existe en la bbdd para traer el id, sino crearlo
             ResultApp res = new ResultApp();
-            try
+
+            using (IDbContextTransaction transac = await _dbContext.Database.BeginTransactionAsync())
             {
-                var resEntity = await this.commandGeneric.Add<Event>(MapToEntity(command));
-                res.Succeeded = true;
+                try
+                {
+
+                    _dbContext.AddRange(MapToEntity(command));
+                    _dbContext.SaveChanges();
+                    await transac.CommitAsync();
+                    res.Succeeded = true;
+                }
+                catch (System.Exception ex)
+                {
+                    await transac.RollbackAsync();
+                    string value = ((ex.InnerException != null) ? ex.InnerException!.Message : ex.Message);
+                    res.message = ex.Message;
+                    _logger.LogWarning(value);
+                    throw;
+                }
+                return res;
+
             }
-            catch (Exception ex)
-            {
-                res.message = ex.Message;
-            }
-            return res;
 
         }
 
 
-        public Event MapToEntity(EventCreateCommand command_)
+        public ICollection<Event> MapToEntity(EventCreateCommand command_)
         {
-            Event entity = new Event();
-            entity.UserIdCreator = command_.UserIdCreator;
-            entity.Name = command_.Name;
-            entity.Description= command_.Description;
-            entity.Image = command_.Image ?? null;
-            entity.DateInit = command_.DateInit;
-            entity.DateFinish = command_.DateFinish;
-            entity.EventStateId = command_.EventStateId;
-            entity.TypeEventId = command_.TypeEventId;
-            entity.LevelId = command_.LevelId != null ? command_.LevelId  : null ;
-            entity.RolId = command_.RolId != null ? command_.LevelId : null; ;
-            entity.Couple = command_.Couple;
-            entity.Cupo = command_.Cupo;
+            ICollection<Event> Eventos = new List<Event>();
 
-            if (!IdOrObjectMandatory.Validate(command_.AddressId, command_.Address))
+            foreach(var e in command_.DateTimes)
             {
-                throw new Exception("La direccion no puede estar vacia");
-            }
+                Event entity = new Event();
+                entity.UserIdCreator = command_.UserIdCreator;
+                entity.Name = command_.Name;
+                entity.Description = command_.Description;
+                entity.Image = command_.Image ?? null;
+                entity.DateInit = e.DateInit;
+                entity.DateFinish = e.DateFinish;
+                entity.EventStateId = command_.EventStateId;
+                entity.TypeEventId = command_.TypeEventId;
+                entity.LevelId = command_.LevelId != null ? command_.LevelId : null;
+                entity.RolId = command_.RolId != null ? command_.LevelId : null;
+                entity.Couple = command_.Couple;
+                entity.Cupo = command_.Cupo;
 
-            //entity.AddressId = command_.AddressId ?? 0;
-            if(command_.Address != null )
-            {
-               Address Address_ = new Address();
-               Address_.Street = command_.Address.Street;
-               Address_.Number = command_.Address.Number;
-               //If the direction is new, only in case of creating an event,  the user id is the creator.
-               Address_.UserId = command_.UserIdCreator;
-               Address_.StateAddress = command_.Address.StateAddress;
-               Address_.DetailAddress = command_.Address.DetailAddress;
+                if (!Validations.IdOrObjectMandatory(command_.AddressId, command_.Address))
+                {
+                    throw new Exception("La direccion o el identificador de la misma son necesarios.");
+                }
 
-               if (command_.Address.CityId == null && string.IsNullOrEmpty(command_.Address.city.CityName))
-               {
-                   throw new Exception("La ciudad no puede estar vacia");
-               }
+                entity.AddressId = command_.AddressId ?? 0;
+                if (command_.Address != null)
+                {
+                    Address Address_ = new Address();
+                    Address_.Street = command_.Address.Street;
+                    Address_.Number = command_.Address.Number;
+                    Address_.UserId = command_.UserIdCreator;
+                    Address_.StateAddress = true;
+                    Address_.DetailAddress = command_.Address.DetailAddress;
+                    Address_.VenueName = command_.Address.VenueName?? null;
 
-               Address_.CityId = command_.Address.CityId ?? 0;
-               if(command_.Address.CityId == null)
-               {
-                  City city = new City();
-                  city.CityName = command_.Address.city.CityName;
-                  city.StateName = command_.Address.city.StateName;
+                    // If City exist use the id, else create a new city and verify if country exist -
+                    City cityentity = GetCity(command_.Address.CityName);
+                    if(cityentity != null)
+                    {
+                        Address_.CityId= cityentity.CityId;
+                    }
+                    else
+                    {
+                        City city = new City();                      
+                        Country countryEntity = GetCountrie(command_.Address.CityName);
+                        if (countryEntity != null)
+                            city.CountryId = countryEntity.CountryId;
+                        else
+                        {
+                            countryEntity =  new Country();
+                            countryEntity.Name = command_.Address.CountryName;
+                            city.Country = countryEntity;
+                        }
+                        Address_.City = city;
+                        
+                    }                
+                    entity.Address = Address_;
 
-                  //Validating and adding Country
-                  if (command_.Address.city.CountryId == null || string.IsNullOrEmpty(command_.Address.city.CountryName))
-                  {
-                      throw new Exception("El pais no puede estar vacio");
-                  }
-                  city.CountryId = command_.Address.city.CountryId ?? 0;
-                  if (command_.Address.city.CountryId == null)
-                  {
-                      city.Country = new Country()
-                      {
-                          Name = command_.Address.city.CountryName
-                      };
-                  }    
-                  //Adding city
-                  Address_.City = city;
                 }
                 
-               entity.Address = Address_;
 
-            }
-            else
-            {
-                throw new Exception("La direccion no puede estar vacia");
+                entity.CycleId = command_.CycleId ?? 0;
+                if (command_.CycleId == null || command_.CycleId == 0)
+                {
+                    Cycle cicle = new Cycle();
+                    cicle.CycleTitle = command_.Name;
+                    cicle.Description = command_.Description;
+                    entity.Cycle = cicle;
+                }
+
+                Eventos.Add(entity);
             }
 
-            entity.CycleId = command_.CycleId ?? 0;
-            if (command_.CycleId == null)
-            {
-                Cycle cicle = new Cycle();
-                cicle.CycleTitle = command_.Cycle.Tittle;
-                cicle.Description= command_.Cycle.Description;
-                entity.Cycle = cicle;
-            }
+            return Eventos;
+        }
+
+        public  City GetCity(string name)
+        {
+            var entity =  _dbContext.Cities
+                              .SingleOrDefault(x => x.CityName.Equals(name));
+
+            _logger.LogInformation(entity.ToString());
+
+            return entity;
+        }
+        public Country GetCountrie(string name)
+        {
+            var entity = _dbContext.Conutry
+                              .SingleOrDefault(x => x.Name.Equals(name));
+
+            _logger.LogInformation(entity.ToString());
 
             return entity;
         }

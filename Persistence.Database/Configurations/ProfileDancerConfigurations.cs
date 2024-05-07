@@ -47,6 +47,7 @@ namespace Abrazos.Persistence.Database.Configurations
             builder.HasOne(x => x.Dance)
                 .WithMany(e => e.ProfileDancers)
                 .HasForeignKey(x => x.DanceId);
+
         }
     }
 }
