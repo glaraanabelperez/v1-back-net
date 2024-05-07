@@ -9,9 +9,9 @@ namespace ServiceEventHandler.Validators
 {
     public static class Validations
     {
-        public static bool IdOrObjectMandatory(int? id, object? objectCommand)
+        public static bool IdOrObjectMandatory(int? id = null, object? objectCommand = null)
         {
-            if ((id == 0 && objectCommand == null) || (id != 0 || id != null && objectCommand != null))
+            if (id == null && objectCommand == null ||  id != null && objectCommand != null)
             {
                 return false;
             }
