@@ -15,7 +15,10 @@ namespace Abrazos.Persistence.Database.Configurations
                 .HasColumnName("CountryId");
             builder.Property(e => e.Name)
               .HasColumnName("Name");
-       
+
+            builder.HasMany(e => e.Cities)
+                .WithOne(e => e.Country)
+                .HasForeignKey(e => e.CountryId);
 
         }
     }

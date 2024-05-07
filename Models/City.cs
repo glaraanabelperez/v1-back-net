@@ -10,9 +10,9 @@ namespace Models
 
         public string CityName { get; set; }
         public string StateName { get; set; }
-        public Country? Country { get; set; }
+        public Country Country { get; set; }
 
-        public ICollection<Address>? Address { get; set; } = new List<Address>();
+        public ICollection<Address> Address { get; set; } = new List<Address>();
 
     }
 }

@@ -1,22 +1,29 @@
 ﻿
 
 using Abrazos.Persistence.Database;
+using Abrazos.Services.Dto;
 using Abrazos.Services.Interfaces;
 using AutoMapper;
+using AutoMapper.Execution;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Logging;
+using Models;
 using ServicesQueries.Dto;
+using System.ComponentModel;
+using System.IO;
+using System.Xml.Linq;
 using Utils;
 
 namespace Abrazos.Services
 {
-    public class EventQueryService :IEventQueryService
+    public class CityQueryService :ICityQueryService
     {
         private readonly IMapper _mapper;
         private readonly ApplicationDbContext _context;
         ILogger _logger;
 
-        public EventQueryService(ApplicationDbContext context, ILogger<UserQueryService> logger, IMapper mapper)
+        public CityQueryService(ApplicationDbContext context, ILogger<UserQueryService> logger, IMapper mapper)
         {
             _mapper = mapper;
             _context = context;
@@ -91,6 +98,11 @@ namespace Abrazos.Services
             return cycles;
         }
 
+        public Task<DataCollection<CityDto>> GetAllCityWithEventsByCountry(int? countryId)
+        {
+            throw new NotImplementedException();
+        }
+
 
         /// <summary>
         /// GetById
@@ -120,6 +132,10 @@ namespace Abrazos.Services
             return event_;
         }
 
+        public Task<CityDto> GetCityByName(string cityName)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

@@ -11,7 +11,7 @@ namespace Abrazos.Persistence.Database
 
         public virtual DbSet<Address> Address { get; set; } = null!;
         public virtual DbSet<City> Cities { get; set; } = null!;
-        public virtual DbSet<Country> Conutry { get; set; } = null!;
+        public virtual DbSet<Country> Conuntry { get; set; } = null!;
         public virtual DbSet<CouplesEventDate> CouplesEvent_Date { get; set; } = null!;
         public virtual DbSet<DanceLevel> DanceLevel { get; set; } = null!;
         public virtual DbSet<DanceRol> DanceRol { get; set; } = null!;
