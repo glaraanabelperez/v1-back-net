@@ -11,12 +11,9 @@ namespace Models
         public string Street { get; set; }
         public string Number { get; set; }
         public string? VenueName { get; set; }
-
         public string DetailAddress { get; set; }
-        public bool StateAddress { get; set; }
-        
+        public bool StateAddress { get; set; }  
         public City? City { get; set; } 
-
         public ICollection<Event>? Events { get; set; } = new List<Event>();
 
 

@@ -1,18 +1,11 @@
 ﻿
 
 using Abrazos.Persistence.Database;
-using Abrazos.Services.Dto;
 using Abrazos.Services.Interfaces;
 using AutoMapper;
-using AutoMapper.Execution;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Logging;
-using Models;
 using ServicesQueries.Dto;
-using System.ComponentModel;
-using System.IO;
-using System.Xml.Linq;
 using Utils;
 
 namespace Abrazos.Services
@@ -56,7 +49,7 @@ namespace Abrazos.Services
             int? evenType,
             int? CityId,
             int? addressId,
-            int? countryId,
+            char? countryId,
             DateTime? dateInit,
             DateTime? dateFinish,
             int page = 1,

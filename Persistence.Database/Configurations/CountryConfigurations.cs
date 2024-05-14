@@ -11,11 +11,14 @@ namespace Abrazos.Persistence.Database.Configurations
             builder.HasKey(e => e.CountryId);
             builder.ToTable("Country");
             builder.Property(e => e.CountryId)
-                .HasColumnType("int")
+                .HasColumnType("char")
                 .HasColumnName("CountryId");
             builder.Property(e => e.Name)
               .HasColumnName("Name");
-       
+
+            builder.HasMany(e => e.Cities)
+                .WithOne(e => e.Country)
+                .HasForeignKey(e => e.CountryId);
 
         }
     }
