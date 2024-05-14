@@ -49,7 +49,7 @@ namespace Abrazos.Services
             int? evenType,
             int? CityId,
             int? addressId,
-            int? countryId,
+            char? countryId,
             DateTime? dateInit,
             DateTime? dateFinish,
             int page = 1,

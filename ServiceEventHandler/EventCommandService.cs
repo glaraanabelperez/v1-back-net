@@ -58,8 +58,6 @@ namespace Abrazos.ServiceEventHandler
             }
 
         }
-
-
         public ICollection<Event> MapToEntity(EventCreateCommand command_)
         {
             ICollection<Event> Eventos = new List<Event>();
@@ -95,30 +93,9 @@ namespace Abrazos.ServiceEventHandler
                     Address_.StateAddress = true;
                     Address_.DetailAddress = command_.Address.DetailAddress;
                     Address_.VenueName = command_.Address.VenueName?? null;
+                    Address_.CityId = command_.Address.CityId;
 
-                    // If City exist use the id, else create a new city and verify if country exist -
-                    City cityentity = GetCity(command_.Address.CityName);
-                    if(cityentity != null)
-                    {
-                        Address_.CityId= cityentity.CityId;
-                    }
-                    else
-                    {
-                        City city = new City();                      
-                        Country countryEntity = GetCountrie(command_.Address.CityName);
-                        if (countryEntity != null)
-                            city.CountryId = countryEntity.CountryId;
-                        else
-                        {
-                            countryEntity =  new Country();
-                            countryEntity.Name = command_.Address.CountryName;
-                            city.Country = countryEntity;
-                        }
-                        Address_.City = city;
-                        
-                    }                
                     entity.Address = Address_;
-
                 }
                 
 
@@ -136,26 +113,6 @@ namespace Abrazos.ServiceEventHandler
 
             return Eventos;
         }
-
-        public  City GetCity(string name)
-        {
-            var entity =  _dbContext.Cities
-                              .SingleOrDefault(x => x.CityName.Equals(name));
-
-            _logger.LogInformation(entity.ToString());
-
-            return entity;
-        }
-        public Country GetCountrie(string name)
-        {
-            var entity = _dbContext.Conutry
-                              .SingleOrDefault(x => x.Name.Equals(name));
-
-            _logger.LogInformation(entity.ToString());
-
-            return entity;
-        }
-
         public async Task<ResultApp> Update(EventUpdateCommand command_)
         {
             ResultApp res = new ResultApp();

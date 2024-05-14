@@ -25,6 +25,11 @@ namespace Abrazos.Services
             _logger = logger;
         }
 
+        public Task<DataCollection<CountryDto>> GetAll(int page = 1, int take = 500)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<DataCollection<CountryDto>> GetAllCountryWithEvents(int page = 1,int take = 500)
         {
             var queryable =  _context.Conuntry
@@ -37,10 +42,11 @@ namespace Abrazos.Services
             return result;
         }
 
-        public Task<CountryDto> GetCountryByName(string countryName)
+        public Task<CountryDto> GetAsync(char countryId)
         {
             throw new NotImplementedException();
         }
+
     }
 }
 

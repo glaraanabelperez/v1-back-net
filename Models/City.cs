@@ -6,7 +6,7 @@ namespace Models
     public class City
     {
         public int CityId { get; set; }
-        public int CountryId { get; set; }
+        public char CountryId { get; set; }
 
         public string CityName { get; set; }
         public string StateName { get; set; }
