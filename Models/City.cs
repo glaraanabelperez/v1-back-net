@@ -7,7 +7,6 @@ namespace Models
     {
         public int CityId { get; set; }
         public char CountryId { get; set; }
-
         public string CityName { get; set; }
         public string StateName { get; set; }
         public Country Country { get; set; }
