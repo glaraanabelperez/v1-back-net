@@ -17,5 +17,6 @@ namespace ServiceEventHandler.Command.CreateCommand
         [Range(1, int.MaxValue, ErrorMessage = "Value must be greater than zero.")]
         public int UserId { get; set; }
         public double? Height { get; set; }
+        public int? Experience { get; set; }
     }
 }

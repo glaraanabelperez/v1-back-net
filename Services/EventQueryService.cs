@@ -35,13 +35,13 @@ namespace Abrazos.Services
         /// <param name="CityId"></param>
         /// <param name="addressId"></param>
         /// <param name="countryId"></param>
-        /// <param name="dateCreated"></param>
+        /// <param name="dateInit"></param>
         /// <param name="dateFinish"></param>
         /// <param name="page"></param>
         /// <param name="take"></param>
         /// <returns>DataCollection<EventDto></EventDto></returns>
         public async Task<DataCollection<EventDto>> GetAllAsync(
-            string? search,
+            string? eventNameSearch,
             int? organizerId,
             int? CycleId,
             int? danceLevel,
@@ -49,7 +49,7 @@ namespace Abrazos.Services
             int? evenType,
             int? CityId,
             int? addressId,
-            char? countryId,
+            int? countryId,
             DateTime? dateInit,
             DateTime? dateFinish,
             int page = 1,
@@ -68,7 +68,7 @@ namespace Abrazos.Services
                                .ThenInclude(c => c.Country)
                                 
 
-            .Where(x => (  search == null || !search.Any() || search.Contains(x.Name) || (x.Cycle!=null && search.Contains(x.Cycle.CycleTitle)) ))
+            .Where(x => (eventNameSearch == null || !eventNameSearch.Any() || eventNameSearch.Contains(x.Name) || (x.Cycle!=null && eventNameSearch.Contains(x.Cycle.CycleTitle)) ))
                             .Where(x => (organizerId == null || x.UserIdCreator == organizerId)
                                     && (CycleId == null || x.Cycle.CycleId == CycleId)
                                     && (danceLevel == null || x.LevelId == danceLevel)

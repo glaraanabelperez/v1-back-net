@@ -5,7 +5,7 @@ namespace Models
 {
     public class Country
     {
-        public char CountryId { get; set; }
+        public int CountryId { get; set; }
         public string Name { get; set; }
 
         public ICollection<City> Cities { get; set; } = new List<City>();

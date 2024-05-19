@@ -1,8 +1,5 @@
-﻿using Abrazos.Services.Dto;
-using Models;
-using ServiceEventHandler.Command;
-using ServiceEventHandler.Command.CreateCommand;
-using System;
+﻿using ServiceEventHandler.Command.CreateCommand;
+using ServiceEventHandler.Command.UpdateCommand;
 using Utils;
 
 namespace Abrazos.ServicesEvenetHandler.Intefaces

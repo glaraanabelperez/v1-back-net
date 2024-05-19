@@ -1,22 +1,17 @@
 ﻿using Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace ServiceEventHandler.Command.CreateCommand
+namespace ServiceEventHandler.Command.UpdateCommand
 {
     public class EventUpdateCommand
     {
-        [Required]
-        [Range(1, long.MaxValue, ErrorMessage = "El valor de AplicationId debe ser mayor que cero.")]
         public int EventId { get; set; }
         public int? UserIdCreator { get; set; }
-        [MaxLength(250)]
         public string? Name { get; set; }
-        [MaxLength(250)]
         public string? Description { get; set; }
         public string? Image { get; set; }
         public int? AddressId { get; set; }
-        public DateTime? DateInit { get; set; }
-        public DateTime? DateFinish { get; set; }        
+        public List<DateTimes>? DateTimes { get; set; } = new List<DateTimes>();
         public int? EventStateId { get; set; }
         public int? TypeEventId { get; set; }
         public int? RolId { get; set; }
@@ -25,6 +20,14 @@ namespace ServiceEventHandler.Command.CreateCommand
         public bool? Couple { get; set; }
         public int? CycleId { get; set; }
 
+        public AddressUpdateCommand? Address { get; set; }
+
+    }
+
+    public class DateTimes
+    {
+        public DateTime DateInit { get; set; }
+        public DateTime DateFinish { get; set; }
 
     }
 }
