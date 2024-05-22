@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ServiceEventHandler.Validators
 {
-    public class ValidateDateTime : ValidationAttribute
+    public class ValidateDateTimeAtributte : ValidationAttribute
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
@@ -15,12 +15,26 @@ namespace ServiceEventHandler.Validators
 
             foreach (var dateRange in dateRanges)
             {
-                if (dateRange.dateInit > dateRange.dateFinish)
+                if (dateRange.dateInit >= dateRange.dateFinish)
                 {
                     return new ValidationResult($"La fecha de inicio ({dateRange.dateInit}) no puede ser mayor que la fecha de fin ({dateRange.dateFinish}).");
                 }
+   
             }
 
+            return ValidationResult.Success;
+        }
+    }
+
+    public static class ValidateDateTime
+    {
+        public static  ValidationResult IsValiddateTime(DateTime dateInit, DateTime dateFinish)
+        {
+
+            if (dateInit >= dateFinish)
+            {
+                return new ValidationResult($"La fecha de inicio ({dateInit}) no puede ser mayor que la fecha de fin ({dateFinish}).");
+            }
             return ValidationResult.Success;
         }
     }

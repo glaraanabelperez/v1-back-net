@@ -20,7 +20,7 @@ namespace ServiceEventHandler.Command.CreateCommand
         public string? Image { get; set; }
         public int? AddressId { get; set; }
 
-        [ValidateDateTime(ErrorMessage = "Las fechas en el campo DateTimes no son válidas.")]
+        [ValidateDateTimeAtributte(ErrorMessage = "Las fechas en el campo DateTimes no son válidas.")]
         public List<Rangedate> dateTimes { get; set; } 
 
         [Required]

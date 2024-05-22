@@ -40,7 +40,7 @@ namespace Abrazos.ServiceEventHandler
             {
                 try
                 {
-
+                    // AddRange is not in Generci Repository.
                     _dbContext.AddRange(MapToEntity(command));
                     _dbContext.SaveChanges();
                     await transac.CommitAsync();
@@ -50,9 +50,12 @@ namespace Abrazos.ServiceEventHandler
                 {
                     await transac.RollbackAsync();
                     string value = ((ex.InnerException != null) ? ex.InnerException!.Message : ex.Message);
-                    res.message = ex.Message;
                     _logger.LogWarning(value);
-                    throw;
+
+                    if (!string.IsNullOrEmpty(ex.InnerException.Message))
+                        res.message = ex.InnerException.Message;
+                    else
+                        res.message = ex.Message;
                 }
                 return res;
 
@@ -118,7 +121,10 @@ namespace Abrazos.ServiceEventHandler
             }
             catch (Exception ex)
             {
-                res.message = ex.Message;
+                if (!string.IsNullOrEmpty(ex.InnerException.Message))
+                    res.message = ex.InnerException.Message;
+                else
+                    res.message = ex.Message;
             }
             return res;
         }
@@ -142,8 +148,11 @@ namespace Abrazos.ServiceEventHandler
             entity.AddressId = command_.AddressId ?? entity.AddressId;
             entity.CycleId = command_.CycleId ?? entity.CycleId;
 
+            ValidateDateTime.IsValiddateTime(entity.DateInit, entity.DateFinish);
+                
 
-            return entity;
+
+                return entity;
         }
 
      
