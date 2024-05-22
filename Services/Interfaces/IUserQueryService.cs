@@ -14,13 +14,23 @@ namespace Abrazos.Services.Interfaces
                                                     string? name = null,
                                                     string? userName = null,
                                                     bool? userStates = null,
-                                                    int? danceLevel = null,
-                                                    int? danceRol = null,
-                                                    int? evenType = null
-                                              );
+                                                    int? cityId = null,
+                                                    string? countryId = null
+                                                );
 
         Task<UserDto> GatAsync(long userId);
         Task<ResultApp> LoginAsync(string email, string pass);
+        Task<DataCollection<UserProfileDto>> GetAllUserProfileAsync(
+                                                   int page = 1,
+                                                   int take = 500,
+                                                   string? name = null,
+                                                   string? userName = null,
+                                                   int? danceLevel = null,
+                                                   int? danceRol = null,
+                                                   int? evenType = null,
+                                                   int? cityId = null,
+                                                   string? countryId = null
+                                               );
     }
 
 }

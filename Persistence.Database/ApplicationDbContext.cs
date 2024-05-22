@@ -28,6 +28,7 @@ namespace Abrazos.Persistence.Database
         public virtual DbSet<EventState> EventStates { get; set; } = null!;
         public virtual DbSet<Dance> Dances { get; set; } = null!;
         public virtual DbSet<Language> Language { get; set; } = null!;
+        public virtual DbSet<UserLanguage> UserLanguages { get; set; } = null!;
 
 
         protected override void ModelConfig(ModelBuilder modelBuilder)
@@ -51,6 +52,7 @@ namespace Abrazos.Persistence.Database
             //modelBuilder.ApplyConfiguration(new WaitListConfiguration());
             modelBuilder.ApplyConfiguration(new EventStateConfiguration());
             modelBuilder.ApplyConfiguration(new LanguageConfiguration());
+            modelBuilder.ApplyConfiguration(new UserLanguageConfiguration());
             modelBuilder.ApplyConfiguration(new DanceConfiguration());
 
 

@@ -6,8 +6,9 @@ namespace ServicesQueries.Dto
 {
     public class CountryDto
     {
-        public char CountryId { get; set; }
+        public int CountryId { get; set; }
         public string Name { get; set; }
+
 
     }
 }

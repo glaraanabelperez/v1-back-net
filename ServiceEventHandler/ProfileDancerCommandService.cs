@@ -45,7 +45,6 @@ namespace Abrazos.ServiceEventHandler
             {
                 res.message = ex.Message;
             }
-
             return res;
 
         }

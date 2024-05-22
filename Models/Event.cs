@@ -18,7 +18,7 @@ namespace Models
 
         public int? CycleId { get; set; }
         public bool Couple { get; set; }
-        public int Cupo { get; set; }
+        public int? Cupo { get; set; }
         public int? RolId { get; set; }
         public int? LevelId { get; set; }
 

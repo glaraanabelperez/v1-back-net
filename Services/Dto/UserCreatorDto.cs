@@ -3,7 +3,7 @@
 namespace ServicesQueries.Dto
 
 {
-    public class UserDto 
+    public class UserCreatorDto 
     {
 
         public int UserId { get; set; }

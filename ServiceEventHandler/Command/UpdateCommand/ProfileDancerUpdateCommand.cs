@@ -10,6 +10,6 @@ namespace ServiceEventHandler.Command.CreateCommand
         public int? DanceLevelId { get; set; }
         public int? DanceRolId { get; set; }
         public double? Height { get; set; }
-
+        public int? Experience { get; set; }
     }
 }

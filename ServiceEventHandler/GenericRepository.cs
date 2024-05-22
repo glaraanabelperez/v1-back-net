@@ -74,7 +74,7 @@ namespace Abrazos.ServiceEventHandler
                     await transac.RollbackAsync();
                     string value = ((ex.InnerException != null) ? ex.InnerException!.Message : ex.Message);
                     _logger.LogWarning(value);
-                    throw;
+                    throw ;
                 }
 
             }

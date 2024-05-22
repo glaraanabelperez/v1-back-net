@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
 using Models;
 using ServiceEventHandler.Command.CreateCommand;
+using ServiceEventHandler.Command.UpdateCommand;
 using ServiceEventHandler.Validators;
 using ServicesQueries.Dto;
 using Utils;
@@ -39,7 +40,7 @@ namespace Abrazos.ServiceEventHandler
             {
                 try
                 {
-
+                    // AddRange is not in Generci Repository.
                     _dbContext.AddRange(MapToEntity(command));
                     _dbContext.SaveChanges();
                     await transac.CommitAsync();
@@ -49,9 +50,12 @@ namespace Abrazos.ServiceEventHandler
                 {
                     await transac.RollbackAsync();
                     string value = ((ex.InnerException != null) ? ex.InnerException!.Message : ex.Message);
-                    res.message = ex.Message;
                     _logger.LogWarning(value);
-                    throw;
+
+                    if (!string.IsNullOrEmpty(ex.InnerException.Message))
+                        res.message = ex.InnerException.Message;
+                    else
+                        res.message = ex.Message;
                 }
                 return res;
 
@@ -62,25 +66,25 @@ namespace Abrazos.ServiceEventHandler
         {
             ICollection<Event> Eventos = new List<Event>();
 
-            foreach(var e in command_.DateTimes)
+            foreach(var e in command_.dateTimes)
             {
                 Event entity = new Event();
                 entity.UserIdCreator = command_.UserIdCreator;
                 entity.Name = command_.Name;
                 entity.Description = command_.Description;
                 entity.Image = command_.Image ?? null;
-                entity.DateInit = e.DateInit;
-                entity.DateFinish = e.DateFinish;
+                entity.DateInit = e.dateInit;
+                entity.DateFinish = e.dateFinish;
                 entity.EventStateId = command_.EventStateId;
                 entity.TypeEventId = command_.TypeEventId;
                 entity.LevelId = command_.LevelId != null ? command_.LevelId : null;
                 entity.RolId = command_.RolId != null ? command_.LevelId : null;
                 entity.Couple = command_.Couple;
-                entity.Cupo = command_.Cupo;
+                entity.Cupo = command_.Cupo ?? null;
 
                 if (!Validations.IdOrObjectMandatory(command_.AddressId, command_.Address))
                 {
-                    throw new Exception("La direccion o el identificador de la misma son necesarios.");
+                    throw new Exception("Hubo un problema en la direccion. Asegurese de mandar, el AddresId ó la nueva direccion a ingresar");
                 }
 
                 entity.AddressId = command_.AddressId ?? 0;
@@ -97,17 +101,11 @@ namespace Abrazos.ServiceEventHandler
 
                     entity.Address = Address_;
                 }
-                
-
-                entity.CycleId = command_.CycleId ?? 0;
-                if (command_.CycleId == null || command_.CycleId == 0)
-                {
-                    Cycle cicle = new Cycle();
-                    cicle.CycleTitle = command_.Name;
-                    cicle.Description = command_.Description;
-                    entity.Cycle = cicle;
-                }
-
+ 
+                Cycle cicle = new Cycle();
+                cicle.CycleTitle = command_.Name;
+                cicle.Description = command_.Description;
+                entity.Cycle = cicle;
                 Eventos.Add(entity);
             }
 
@@ -123,7 +121,10 @@ namespace Abrazos.ServiceEventHandler
             }
             catch (Exception ex)
             {
-                res.message = ex.Message;
+                if (!string.IsNullOrEmpty(ex.InnerException.Message))
+                    res.message = ex.InnerException.Message;
+                else
+                    res.message = ex.Message;
             }
             return res;
         }
@@ -147,9 +148,14 @@ namespace Abrazos.ServiceEventHandler
             entity.AddressId = command_.AddressId ?? entity.AddressId;
             entity.CycleId = command_.CycleId ?? entity.CycleId;
 
+            ValidateDateTime.IsValiddateTime(entity.DateInit, entity.DateFinish);
+                
 
-            return entity;
+
+                return entity;
         }
+
+     
     }
 }
 

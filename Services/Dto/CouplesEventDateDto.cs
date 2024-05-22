@@ -14,8 +14,8 @@ namespace ServicesQueries.Dto
         public int RequestRejected{ get; set; }
 
         public EventDto Evento { get; set; } = new EventDto();
-        public UserDto HostUser { get; set; } = new UserDto();
-        public UserDto InvitedUser { get; set; } = new UserDto();
+        //public UserDto HostUser { get; set; } = new UserDto();
+        //public UserDto InvitedUser { get; set; } = new UserDto();
 
 
 
