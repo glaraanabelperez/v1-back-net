@@ -9,5 +9,6 @@ namespace ServicesQueries.Dto
         public int CountryId { get; set; }
         public string Name { get; set; }
 
+
     }
 }

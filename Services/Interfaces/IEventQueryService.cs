@@ -14,7 +14,7 @@ namespace Abrazos.Services.Interfaces
             int? evenType,
             int? CityId,
             int? addressId,
-            int? countryId,
+            string? countryId,
             DateTime? dateInit,
             DateTime? dateFinish,
             int page = 1,

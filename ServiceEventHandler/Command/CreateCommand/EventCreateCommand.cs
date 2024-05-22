@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
 using Models;
+using ServiceEventHandler.Command.UpdateCommand;
+using ServiceEventHandler.Validators;
 using System.ComponentModel.DataAnnotations;
 
 namespace ServiceEventHandler.Command.CreateCommand
@@ -17,7 +19,9 @@ namespace ServiceEventHandler.Command.CreateCommand
         public string Description { get; set; }
         public string? Image { get; set; }
         public int? AddressId { get; set; }
-        public List<DateTimes> DateTimes { get; set; } = new List<DateTimes>();
+
+        [ValidateDateTime(ErrorMessage = "Las fechas en el campo DateTimes no son válidas.")]
+        public List<Rangedate> dateTimes { get; set; } 
 
         [Required]
         [Range(1, long.MaxValue, ErrorMessage = "El valor de EventStateId debe ser mayor que cero.")]
@@ -31,21 +35,18 @@ namespace ServiceEventHandler.Command.CreateCommand
         [Required]
         [Range(1, long.MaxValue, ErrorMessage = "El valor de Level debe ser mayor que cero.")]
         public int LevelId { get; set; }
-        [Required]
-        [Range(1, long.MaxValue, ErrorMessage = "El valor de Cupo debe ser mayor que cero.")]
-        public int Cupo { get; set; }
+        public int? Cupo { get; set; }
         [Required]
         public bool Couple { get; set; }
-        public int? CycleId { get; set; }
 
         public AddressUpdateCommand? Address { get; set; }
 
     }
 
-    public class DateTimes
+    public class Rangedate
     {
-        public DateTime DateInit { get; set; }
-        public DateTime DateFinish { get; set; }
+        public DateTime dateInit { get; set; }
+        public DateTime dateFinish { get; set; }
 
     }
 }

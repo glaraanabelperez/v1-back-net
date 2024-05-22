@@ -4,6 +4,7 @@ using Abrazos.ServicesEvenetHandler.Intefaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ServiceEventHandler.Command.CreateCommand;
+using ServiceEventHandler.Command.UpdateCommand;
 
 namespace api.abrazos.Controllers
 {
@@ -24,6 +25,7 @@ namespace api.abrazos.Controllers
         [HttpPost]
         public async Task<IActionResult> AddAsync(EventCreateCommand commandCreate)
         {
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -73,7 +75,7 @@ namespace api.abrazos.Controllers
             int? evenType,
             int? CityId,
             int? addressId,
-            char? countryId,
+            string? countryId,
             DateTime? dateCreated,
             DateTime? dateFinish,
             int page = 1,

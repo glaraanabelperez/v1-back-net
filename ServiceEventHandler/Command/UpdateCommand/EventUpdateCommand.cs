@@ -11,7 +11,8 @@ namespace ServiceEventHandler.Command.UpdateCommand
         public string? Description { get; set; }
         public string? Image { get; set; }
         public int? AddressId { get; set; }
-        public List<DateTimes>? DateTimes { get; set; } = new List<DateTimes>();
+        public DateTime? DateInit { get; set; }
+        public DateTime? DateFinish { get; set; }
         public int? EventStateId { get; set; }
         public int? TypeEventId { get; set; }
         public int? RolId { get; set; }
@@ -24,10 +25,5 @@ namespace ServiceEventHandler.Command.UpdateCommand
 
     }
 
-    public class DateTimes
-    {
-        public DateTime DateInit { get; set; }
-        public DateTime DateFinish { get; set; }
 
-    }
 }

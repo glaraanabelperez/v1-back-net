@@ -29,6 +29,8 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 // Add services to the container.
 builder.Services.AddTransient<AbrazosDbContext, ApplicationDbContext>();
 
+
+
 builder.Services.AddTransient<IGenericRepository, GenericRepository>();   //este solo se usa desde eventHandler
 
 builder.Services.AddTransient<IProfileDancerCommandService, ProfileDancerCommandService>(); //de aca accedo a los metodos particulares y a los que estan en el genericreposotory
@@ -83,6 +85,10 @@ Log.Logger = new LoggerConfiguration()
 builder.Host.UseSerilog();
 
 builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.PropertyNamingPolicy = null;
+});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

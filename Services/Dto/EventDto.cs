@@ -19,7 +19,7 @@ namespace ServicesQueries.Dto
         public int? CycleId { get; set; }
 
         public bool? Couple { get; set; }
-        public int Cupo { get; set; }
+        public int? Cupo { get; set; }
         public int? RolId { get; set; }
         public int? LevelId { get; set; }
 
@@ -29,7 +29,7 @@ namespace ServicesQueries.Dto
         public AddressDto? Address { get; set; }
         public EventStateDto? EventState { get; set; }
         public TypeEventDto? TypeEvent { get; set; }
-        public UserDto? UserCreator { get; set; }
+        //public UserDto? UserCreator { get; set; }
         public CycleDto? Cycle { get; set; }
 
         public ICollection<CouplesEventDateDto>? CouplesEvents { get; set; } = new List<CouplesEventDateDto>();

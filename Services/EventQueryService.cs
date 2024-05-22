@@ -49,7 +49,7 @@ namespace Abrazos.Services
             int? evenType,
             int? CityId,
             int? addressId,
-            int? countryId,
+            string? countryId,
             DateTime? dateInit,
             DateTime? dateFinish,
             int page = 1,
@@ -63,24 +63,24 @@ namespace Abrazos.Services
                            .Include(u => u.UserCreator)
                            .Include(l => l.Level)
                            .Include(r => r.Rol)
-                           .Include(a => a.Address)
-                               .ThenInclude(c => c.City)
-                               .ThenInclude(c => c.Country)
-                                
+                  .Include(a => a.Address)
+                      .ThenInclude(c => c.City)
+                      .ThenInclude(c => c.Country)
 
-            .Where(x => (eventNameSearch == null || !eventNameSearch.Any() || eventNameSearch.Contains(x.Name) || (x.Cycle!=null && eventNameSearch.Contains(x.Cycle.CycleTitle)) ))
-                            .Where(x => (organizerId == null || x.UserIdCreator == organizerId)
-                                    && (CycleId == null || x.Cycle.CycleId == CycleId)
-                                    && (danceLevel == null || x.LevelId == danceLevel)
-                                    && (danceRol == null || x.RolId == danceRol)
-                                    && (evenType == null || x.TypeEventId == evenType)
-                                    && (CityId == null || x.Address.City.CityId == CityId)
-                                    && (countryId == null || x.Address.City.CountryId == countryId)
-                                    && (addressId == null || x.Address.AddressId == addressId)
-                                    && (evenType == null || x.TypeEventId == evenType)
-                                    && (dateInit == null || dateFinish == null || (dateInit >= x.DateInit && x.DateFinish >= dateFinish))
 
-                            )
+                  .Where(x => (eventNameSearch == null || !eventNameSearch.Any() || eventNameSearch.Contains(x.Name) || (x.Cycle != null && eventNameSearch.Contains(x.Cycle.CycleTitle))))
+                                  .Where(x => (organizerId == null || x.UserIdCreator == organizerId)
+                                          && (CycleId == null || x.Cycle.CycleId == CycleId)
+                                          && (danceLevel == null || x.LevelId == danceLevel)
+                                          && (danceRol == null || x.RolId == danceRol)
+                                          && (evenType == null || x.TypeEventId == evenType)
+                                          && (CityId == null || x.Address.City.CityId == CityId)
+                                          && (countryId == null || x.Address.City.CountryId.Equals(countryId))
+                                          && (addressId == null || x.Address.AddressId == addressId)
+                                          && (evenType == null || x.TypeEventId == evenType)
+                                          && (dateInit == null || dateFinish == null || (dateInit >= x.DateInit && x.DateFinish >= dateFinish))
+
+                                  )
                   .OrderByDescending(x => x.EventId);
 
             var cycles = _mapper.Map<DataCollection<EventDto>>(

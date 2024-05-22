@@ -39,7 +39,7 @@ namespace Abrazos.Services
             string? userName = null, 
             bool? userStates = null, 
             int? cityId = null,
-            int? countryId = null
+            string? countryId = null
             )
         {
             var queryable = await _context.User
@@ -55,7 +55,7 @@ namespace Abrazos.Services
                   .Where(x => userName == null || !userName.Any() || userName.Contains(x.UserName))
                   .Where(x => userStates == null || (x.UserState != null && x.UserState == userStates))
                   .Where(x => cityId == null || (x.Address.First().City.CityId == cityId))
-                  .Where(x => countryId == null || (x.Address.First().City.Country.CountryId == countryId))
+                  .Where(x => string.IsNullOrEmpty(countryId) || (x.Address.First().City.Country.CountryId.Equals(countryId)))
 
                   .OrderByDescending(x => x.Name)
                   .GetPagedAsync(page, take);
@@ -158,7 +158,7 @@ namespace Abrazos.Services
            int? danceRol = null,
            int? evenType = null,
            int? cityId = null,
-           int? countryId = null
+           string? countryId = null
            )
         {
             var queryable = await _context.User
@@ -178,7 +178,7 @@ namespace Abrazos.Services
                   .Where(x => danceLevel == null || (x.ProfileDancer.First().DanceLevel != null && x.ProfileDancer.First().DanceLevel.DanceLevelId == danceLevel))
                   .Where(x => danceRol == null || (x.ProfileDancer.First().DanceRol != null && x.ProfileDancer.First().DanceRol.DanceRolId == danceRol))
                   .Where(x => cityId == null || (x.Address.First().City.CityId == cityId))
-                  .Where(x => countryId == null || (x.Address.First().City.Country.CountryId == countryId))
+                  .Where(x => string.IsNullOrEmpty(countryId) || (x.Address.First().City.Country.CountryId.Equals(countryId)))
                   .Where(x => evenType == null || (x.TypeEventsUsers != null && x.TypeEventsUsers.First().TypeEvent.TypeEventId == evenType))
 
                   .OrderByDescending(x => x.Name)
@@ -210,7 +210,6 @@ namespace Abrazos.Services
                       {
                             ProfileDanceId =x.ProfileDanceId,
                             DanceLevelId =x.DanceLevelId,
-                            DanceRolName = x.DanceRol.Name,
                             DanceRolId =x.DanceRol.DanceRolId,
                             DanceLevelName = x.DanceLevel.Name,
                             Height = x.Height,

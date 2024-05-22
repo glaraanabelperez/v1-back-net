@@ -13,8 +13,8 @@ namespace ServicesQueries.Dto
         public string? AvatarImage { get; set; }
         public bool UserState { get; set; }
         public List<ImageDto>? Images { get; set; } = new List<ImageDto>();
-        public List<ProfileDancerDto> ProfileDancer { get; set; } = new List<ProfileDancerDto>();
-        public List<UserLanguageDto> Userlanguages { get; set; } = new List<UserLanguageDto>();
+        public List<ProfileDancerDto>? ProfileDancer { get; set; } = new List<ProfileDancerDto>();
+        public List<UserLanguageDto>? Userlanguages { get; set; } = new List<UserLanguageDto>();
 
 
     }

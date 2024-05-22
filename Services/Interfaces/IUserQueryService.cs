@@ -15,7 +15,7 @@ namespace Abrazos.Services.Interfaces
                                                     string? userName = null,
                                                     bool? userStates = null,
                                                     int? cityId = null,
-                                                    int? countryId = null
+                                                    string? countryId = null
                                                 );
 
         Task<UserDto> GatAsync(long userId);
@@ -29,7 +29,7 @@ namespace Abrazos.Services.Interfaces
                                                    int? danceRol = null,
                                                    int? evenType = null,
                                                    int? cityId = null,
-                                                   int? countryId = null
+                                                   string? countryId = null
                                                );
     }
 
