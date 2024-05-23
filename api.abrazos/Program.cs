@@ -35,7 +35,8 @@ builder.Services.AddTransient<IGenericRepository, GenericRepository>();   //este
 
 builder.Services.AddTransient<IProfileDancerCommandService, ProfileDancerCommandService>(); //de aca accedo a los metodos particulares y a los que estan en el genericreposotory
 builder.Services.AddTransient<IUserCommandService, UserCommandService>();
-builder.Services.AddTransient<IEventCommandService, EventCommandService>();
+builder.Services.AddTransient<IEventCommandService, EventCommandService>(); 
+builder.Services.AddTransient<IProfileDancerQueryService, ProfileDancerQueryService>(); 
 
 
 
