@@ -2,6 +2,7 @@ using Abrazos.Services.Interfaces;
 using Abrazos.ServicesEvenetHandler.Intefaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Models;
 using ServiceEventHandler.Command.CreateCommand;
 
 namespace api.abrazos.Controllers
@@ -48,21 +49,19 @@ namespace api.abrazos.Controllers
             string? name = null,
             string? userName = null,
             bool? userStates = null,
-            int? danceLevel = null,
-            int? danceRol = null,
-            int? evenType = null
+            int? cityId = null,
+            string? countryId = null
         )
         {
 
             var users = await _userService.GetAllAsync(
-              page,
-              take,
-              name,
-              userName,
-              userStates,
-              danceLevel,
-              danceRol,
-              evenType
+                                                   page = 1,
+                                                   take = 500,
+                                                   name = null,
+                                                   userName = null,
+                                                   userStates = null,
+                                                   cityId = null,
+                                                   countryId = null
                );
 
             return Ok(users);

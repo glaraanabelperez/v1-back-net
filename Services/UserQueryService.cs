@@ -186,13 +186,13 @@ namespace Abrazos.Services
 
             _logger.LogInformation(queryable.ToString());
 
-            var result = mapToProfileDamcerDto(queryable);
+            var result = mapToProfileDancerDto(queryable);
 
 
             return result;
         }
 
-        public DataCollection<UserProfileDto> mapToProfileDamcerDto(DataCollection<User> query)
+        public DataCollection<UserProfileDto> mapToProfileDancerDto(DataCollection<User> query)
         {
             DataCollection<UserProfileDto> profiles = new DataCollection<UserProfileDto>();
             profiles.Total = query.Total;
@@ -210,12 +210,11 @@ namespace Abrazos.Services
                       {
                             ProfileDanceId =x.ProfileDanceId,
                             DanceLevelId =x.DanceLevelId,
-                            DanceRolId =x.DanceRol.DanceRolId,
-                            DanceLevelName = x.DanceLevel.Name,
+                            DanceRolId = x.DanceRolId,
+                            DanceRol = new DanceRolDto() { DanceRolId = x.DanceRolId, Name = x.DanceRol.Name },
+                            DanceLevel = new DanceLevelDto() { DanceLevelId= x.DanceLevelId, Name = x.DanceLevel.Name },
                             Height = x.Height,
-                            Experience = x.Experience,
-                            DanceId = x.Dance.DanceId,
-                            DanceName = x.Dance.Name
+                            Experience = x.Experience
                         }).ToList(),
                       Userlanguages= x.Userlanguages.Select(x => new UserLanguageDto()
                       {

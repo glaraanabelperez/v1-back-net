@@ -30,7 +30,7 @@ namespace Abrazos.Services.Interfaces
                                                    int? evenType = null,
                                                    int? cityId = null,
                                                    string? countryId = null
-                                               );
+                                                    );
     }
 
 }

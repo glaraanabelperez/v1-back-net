@@ -1,10 +1,6 @@
-using Abrazos.ServiceEventHandler;
 using Abrazos.Services.Interfaces;
 using Abrazos.ServicesEvenetHandler.Intefaces;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Models;
 using ServiceEventHandler.Command.CreateCommand;
 
 namespace api.abrazos.Controllers
@@ -63,6 +59,7 @@ namespace api.abrazos.Controllers
         [HttpGet("{profileId}")]
         public async Task<IActionResult> GetAsync(int profileId)
         {
+
             var event_ = await _queryService.GatAsync(profileId);
             return event_ != null
             ? Ok(event_)

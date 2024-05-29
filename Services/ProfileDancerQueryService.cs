@@ -7,6 +7,7 @@ using Models;
 using ServicesQueries.Dto;
 using System;
 using Utils;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Abrazos.Services
 {
@@ -30,47 +31,13 @@ namespace Abrazos.Services
                                         .Include(u => u.User)
                                         .Include(x => x.DanceRol)
                                         .Include(x => x.DanceLevel)
-                                        .SingleOrDefaultAsync(x => x.UserId == userId);
-                              
-            //_logger.LogWarning(queryable.ToString());
-            return _mapper.Map<ProfileDancerDto>(queryable);
+                                        .SingleAsync(x => x.UserId == userId);
+
+            var profile = _mapper.Map<ProfileDancerDto>(queryable);
+
+
+            return profile;
  
-        }
-
-        public DataCollection<UserProfileDto> mapToProfileDamcerDto(DataCollection<User> query)
-        {
-            DataCollection<UserProfileDto> profiles = new DataCollection<UserProfileDto>();
-            profiles.Total = query.Total;
-            profiles.Page = query.Page;
-            profiles.Items =
-                query.Items.Select(x => new UserProfileDto()
-                {
-                      UserId = x.UserId,
-                      Name = x.Name,
-                      LastName= x.LastName,
-                      UserName = x.UserName,
-                      AvatarImage = x.AvatarImage,
-                      UserState = x.UserState,
-                      ProfileDancer = x.ProfileDancer.Select(x => new ProfileDancerDto()
-                      {
-                            ProfileDanceId =x.ProfileDanceId,
-                            DanceLevelId =x.DanceLevelId,
-                            DanceRolId =x.DanceRol.DanceRolId,
-                            DanceLevelName = x.DanceLevel.Name,
-                            Height = x.Height,
-                            Experience = x.Experience,
-                            DanceId = x.Dance.DanceId,
-                            DanceName = x.Dance.Name
-                        }).ToList(),
-                      Userlanguages= x.Userlanguages.Select(x => new UserLanguageDto()
-                      {
-                            UserLanguageId = x.UserLanguageId,
-                            LanguageId = x.LanguageId,
-                            LanguageName = x.Language.Name
-                       }).ToList(),
-                }).ToList();
-
-            return profiles;
         }
 
     }

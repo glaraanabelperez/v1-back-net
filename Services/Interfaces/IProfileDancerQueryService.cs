@@ -8,7 +8,7 @@ namespace Abrazos.Services.Interfaces
 {
     public interface IProfileDancerQueryService
     {
-        Task<ProfileDancerDto> GatAsync(long userId);
+        Task<ProfileDancerDto> GatAsync(int userId);
    
     }
 
