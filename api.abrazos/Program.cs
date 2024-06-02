@@ -1,13 +1,12 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authentication;
 using Abrazos.Persistence.Database;
 using Abrazos.ServicesEvenetHandler.Intefaces;
 using Abrazos.ServiceEventHandler;
 using Abrazos.Services.Interfaces;
 using Abrazos.Services;
 using Serilog;
-using ServicesQueries.Auth;
 using Serilog.Sinks.MSSqlServer;
+using Utils.Exception;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,18 +25,24 @@ builder.Services.AddHealthChecks();
 //Config Mapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+
+// Add Filters, tu handler Exceeptions with microsoft'libreries
+builder.Services.AddMvc(option =>
+{
+    option.Filters.Add<ExceptionHandlerFilter>();
+});
+
 // Add services to the container.
 builder.Services.AddTransient<AbrazosDbContext, ApplicationDbContext>();
 
+builder.Services.AddTransient<IGenericRepository, GenericRepository>();   //Solo para persistencia.
 
-
-builder.Services.AddTransient<IGenericRepository, GenericRepository>();   //este solo se usa desde eventHandler
-
-builder.Services.AddTransient<IProfileDancerCommandService, ProfileDancerCommandService>(); //de aca accedo a los metodos particulares y a los que estan en el genericreposotory
+//Command Service
+builder.Services.AddTransient<IProfileDancerCommandService, ProfileDancerCommandService>(); 
 builder.Services.AddTransient<IUserCommandService, UserCommandService>();
 builder.Services.AddTransient<IEventCommandService, EventCommandService>();
-
-
+builder.Services.AddTransient<IProfileDancerQueryService, ProfileDancerQueryService>(); 
+//Query services
 
 builder.Services.AddTransient<IUserQueryService, UserQueryService>();
 builder.Services.AddTransient<IEventQueryService, EventQueryService>();
@@ -56,11 +61,8 @@ string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
     });
 
 
-
-
 //Config Logger
-
-var logDB = "workstation id=abrazoApp.mssql.somee.com;packet size=4096;user id=glaraanabelperez_SQLLogin_1;pwd=cngl7g9dti;data source=abrazoApp.mssql.somee.com;persist security info=False;initial catalog=abrazoApp";
+var logDB = builder.Configuration["ConnectionStrings:DefaultConnection"];
 var sinkOpts = new MSSqlServerSinkOptions();
 sinkOpts.TableName = "Log";
 var columnOpts = new ColumnOptions();
@@ -94,8 +96,8 @@ builder.Services.AddSwaggerGen();
 
 
 
-builder.Services.AddAuthentication("BasicAuthentication")
-    .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
+//builder.Services.AddAuthentication("BasicAuthentication")
+//    .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
 
 
 var app = builder.Build();
@@ -110,8 +112,8 @@ app.UseHttpsRedirection();
 app.UseCors(MyAllowSpecificOrigins);
 
 
-app.UseAuthentication();
-app.UseAuthorization();
+//app.UseAuthentication();
+//app.UseAuthorization();
 
 app.MapControllers();
 //app.UseEndpoints(endpoints =>

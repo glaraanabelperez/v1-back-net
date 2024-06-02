@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ServiceEventHandler.Command.CreateCommand;
 using ServiceEventHandler.Command.UpdateCommand;
+using System.Net.NetworkInformation;
 
 namespace api.abrazos.Controllers
 {
@@ -31,7 +32,7 @@ namespace api.abrazos.Controllers
                 return BadRequest(ModelState);
             }
 
-            var result = await command_.Add(commandCreate);
+            var result = await command_.AddRange(commandCreate);
             return result?.Succeeded ?? false
                     ? Ok(result)
                     : BadRequest(result?.message);
@@ -111,10 +112,12 @@ namespace api.abrazos.Controllers
         public async Task<IActionResult> GetAsync(int eventId)
         {
             var event_ = await _eventQuery.GetAsync(eventId);
+
             return event_ != null
             ? Ok(event_)
             : StatusCode(204);
 
         }
+
     }
 }

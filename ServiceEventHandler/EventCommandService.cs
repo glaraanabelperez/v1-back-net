@@ -31,7 +31,7 @@ namespace Abrazos.ServiceEventHandler
             _logger = logger;
         }
 
-        public async Task<ResultApp> Add(EventCreateCommand command)
+        public async Task<ResultApp> AddRange(EventCreateCommand command)
         {
             //Buscar si la direccion existe en la bbdd para traer el id, sino crearlo
             ResultApp res = new ResultApp();

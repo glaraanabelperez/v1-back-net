@@ -1,7 +1,4 @@
-﻿using Abrazos.Services.Dto;
-using ServicesQueries.Auth;
-using ServicesQueries.Dto;
-using System.ComponentModel.DataAnnotations;
+﻿using ServicesQueries.Dto;
 using Utils;
 
 namespace Abrazos.Services.Interfaces
@@ -19,7 +16,6 @@ namespace Abrazos.Services.Interfaces
                                                 );
 
         Task<UserDto> GatAsync(long userId);
-        Task<ResultApp> LoginAsync(string email, string pass);
         Task<DataCollection<UserProfileDto>> GetAllUserProfileAsync(
                                                    int page = 1,
                                                    int take = 500,
@@ -30,7 +26,7 @@ namespace Abrazos.Services.Interfaces
                                                    int? evenType = null,
                                                    int? cityId = null,
                                                    string? countryId = null
-                                               );
+                                                    );
     }
 
 }

@@ -26,11 +26,6 @@ namespace Abrazos.Persistence.Database.Configurations
             builder.Property(e => e.UserId)
               .HasColumnName("UserId");
 
-            builder.Property(e => e.Height)
-             .HasColumnName("Height");
-
-            builder.Property(e => e.Experience)
-            .HasColumnName("Experience");
 
             builder.HasOne(e => e.DanceLevel)
                 .WithMany()

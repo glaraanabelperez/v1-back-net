@@ -4,14 +4,18 @@ using Abrazos.Persistence.Database;
 using Abrazos.Services.Dto;
 using Abrazos.ServicesEvenetHandler.Intefaces;
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
 using Models;
 using ServiceEventHandler.Command;
 using ServiceEventHandler.Command.CreateCommand;
+using ServiceEventHandler.Validators;
 using System.Data.Entity;
 using System.Net.NetworkInformation;
 using Utils;
+using Utils.Exception;
 
 namespace Abrazos.ServiceEventHandler
 {
@@ -23,8 +27,8 @@ namespace Abrazos.ServiceEventHandler
         private readonly IMapper _mapper;
         public IGenericRepository command;
 
-        public ProfileDancerCommandService(ApplicationDbContext dbContext, IGenericRepository command, 
-            ILogger<ProfileDancerCommandService> logger, IMapper mapper)
+        public ProfileDancerCommandService(ApplicationDbContext dbContext, IGenericRepository command,
+           ILogger<ProfileDancerCommandService> logger, IMapper mapper)
         {
             _dbContext = dbContext;
             this.command = command;
@@ -34,62 +38,111 @@ namespace Abrazos.ServiceEventHandler
 
         public async Task<ResultApp> Add(ProfileDancerCreateCommand command)
         {
+            //Buscar si la direccion existe en la bbdd para traer el id, sino crearlo
             ResultApp res = new ResultApp();
-            try
+
+            using (IDbContextTransaction transac = await _dbContext.Database.BeginTransactionAsync())
             {
-                var resProfile = await this.command.Add<ProfileDancer>(MapToCreateEntity(command));
-                User user = _dbContext.User.FirstOrDefault(u => u.UserId == command.UserId);
-                res.Succeeded = resProfile != null ? true: false;
-            }
-            catch (Exception ex)
-            {
-                res.message = ex.Message;
+                try
+                {
+                    User user = _dbContext.User.FirstOrDefault(u => u.UserId == command.UserId);
+                    if (user != null)
+                    {
+                        // AddRange is not in Generci Repository.
+                        _dbContext.AddRange(MapToEntity(command));
+                        _dbContext.SaveChanges();
+                        await transac.CommitAsync();
+                        res.Succeeded = true;
+                    }
+                    else
+                    {
+                        res.errors = null;
+                        res.Succeeded = false;
+                        res.message = "El usuario no existe";
+                    }
+                    
+                }
+                catch (System.Exception ex)
+                {
+                    await transac.RollbackAsync();
+                    throw;
+                }
             }
             return res;
 
         }
+
+        public ICollection<ProfileDancer> MapToEntity(ProfileDancerCreateCommand command_)
+        {
+            ICollection<ProfileDancer> profiles = new List<ProfileDancer>();
+
+            foreach (var e in command_.DancerSkils)
+            {
+                ProfileDancer entity = new ProfileDancer();
+                entity.UserId = command_.UserId;
+                entity.DanceRolId = e.DanceRolId;
+                entity.DanceLevelId = e.DanceLevelId;
+                profiles.Add(entity);
+            }
+
+            return profiles;
+        }
+
 
         public async Task<ResultApp> Update(ProfileDancerUpdateCommand command)
         {
             ResultApp res = new ResultApp();
-            try
-            {
-                ProfileDancer profile = _dbContext.ProfileDancer.FirstOrDefault(u => u.ProfileDanceId == command.ProfileDancerId);
-
-                if (profile != null)
+ 
+                try
                 {
+                    ProfileDancer profile = _dbContext.ProfileDancer.FirstOrDefault(u => u.ProfileDanceId == command.ProfileDancerId);
 
-                    await this.command.Update<ProfileDancer>(MapToUpdateEntity(profile, command));
-                    res.Succeeded = true;
+                    if (profile != null)
+                    {
+
+                        await this.command.Update<ProfileDancer>(MapToUpdateEntity(profile, command));
+                        res.Succeeded = true;
+                    }
+                    else
+                    {
+                        res.Succeeded = false;
+                        res.message = "El usuario no tiene este perfil asociado";
+                    }
+
                 }
-            }
-            catch (Exception ex)
-            {
-                res.message = ex.Message;
-            }
-
+                catch (Exception ex)
+                {
+                    throw;
+                }
             return res;
-
+                
         }
 
-        public async Task<ResultApp> Delete(int profileDancerId)
+        public async Task<ResultApp> DeleteAsync(int profileDancerId)
         {
             ResultApp res = new ResultApp();
-            try
-            {
-                ProfileDancer profile = _dbContext.ProfileDancer.SingleOrDefault(u => u.ProfileDanceId == profileDancerId);
 
-                if (profile != null)
+                try
                 {
+                    ProfileDancer profile = _dbContext.ProfileDancer.SingleOrDefault(u => u.ProfileDanceId == profileDancerId);
 
-                    await this.command.Delete<ProfileDancer>(profileDancerId);
-                    res.Succeeded = true;
+                    if (profile != null)
+                    {
+
+                        await this.command.Delete<ProfileDancer>(profile);
+                        res.Succeeded = true;
+                    }
+                    else
+                    {
+                        res.Succeeded = false;
+                        res.message = "El perfil no se encuentra";
+                    }
+
                 }
-            }
-            catch (Exception ex)
-            {
-                res.message = ex.Message;
-            }
+                catch (Exception ex)
+                {
+                    throw;
+                }
             return res;
 
         }
@@ -99,18 +152,7 @@ namespace Abrazos.ServiceEventHandler
 
             profile.DanceRolId = comand_.DanceRolId  ??  profile.DanceRolId;
             profile.DanceLevelId = comand_.DanceLevelId ??  profile.DanceLevelId;
-            profile.Height = comand_.Height.HasValue ? comand_.Height : profile.Height;
             return profile;
-        }
-
-        public ProfileDancer MapToCreateEntity(ProfileDancerCreateCommand comand_)
-        {
-            ProfileDancer entity = new ProfileDancer();
-            entity.DanceRolId = comand_.DanceRolId;
-            entity.DanceLevelId = comand_.DanceLevelId;
-            entity.UserId = comand_.UserId;
-            entity.Height = comand_.Height?? null;
-            return entity;
         }
 
 

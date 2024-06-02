@@ -87,54 +87,6 @@ namespace Abrazos.Services
  
         }
 
-        public async Task<ResultApp> LoginAsync(string email, string pass)
-        {
-            ResultApp res = new ResultApp();
-            try
-            {
-                var queryable = await _context.User
-                                     .Where(x => x.Email == email)
-                                     .Where(x => x.Pass == pass)
-                                     .SingleOrDefaultAsync();
-
-                if (queryable != null)
-                {
-                    res.Succeeded = true;
-                    res.message = "Successful login";
-                    return res;
-                }
-                else
-                {
-                    res.Succeeded = false;
-                    res.message = "UnSuccessful login";
-                    return res;
-                }
-
-                //_logger.LogWarning(res_.Metadata.ToString());
-
-            }
-            catch (System.Exception ex)
-            {
-                string exMessage = ex.InnerException != null ? ex.InnerException!.Message : ex.Message;
-                _logger.LogWarning(exMessage);
-                res.Succeeded = false;
-                res.message = "Error in Login";
-                res.errors = new ErrorResult
-                {
-                    type = ex.GetType().Name,
-                    title = exMessage,
-                    status = "500",
-                    traceId = Guid.NewGuid().ToString(),
-                    errors = new Dictionary<string, List<string>>
-                    {
-                            {"GetError : Failed to Get User ", new List<string> { exMessage }}
-                        }
-                };
-
-                return res;
-            }
-        }
-
         /// <summary>
         /// Get User con su perfil completo, pudiendo filtrar por ubicacion del mismo, por intereses (EventType) 
         /// e incluso Rol y niveles en el baile -
@@ -186,13 +138,13 @@ namespace Abrazos.Services
 
             _logger.LogInformation(queryable.ToString());
 
-            var result = mapToProfileDamcerDto(queryable);
+            var result = mapToProfileDancerDto(queryable);
 
 
             return result;
         }
 
-        public DataCollection<UserProfileDto> mapToProfileDamcerDto(DataCollection<User> query)
+        public DataCollection<UserProfileDto> mapToProfileDancerDto(DataCollection<User> query)
         {
             DataCollection<UserProfileDto> profiles = new DataCollection<UserProfileDto>();
             profiles.Total = query.Total;
@@ -210,12 +162,9 @@ namespace Abrazos.Services
                       {
                             ProfileDanceId =x.ProfileDanceId,
                             DanceLevelId =x.DanceLevelId,
-                            DanceRolId =x.DanceRol.DanceRolId,
-                            DanceLevelName = x.DanceLevel.Name,
-                            Height = x.Height,
-                            Experience = x.Experience,
-                            DanceId = x.Dance.DanceId,
-                            DanceName = x.Dance.Name
+                            DanceRolId = x.DanceRolId,
+                            DanceRol = new DanceRolDto() { DanceRolId = x.DanceRolId, Name = x.DanceRol.Name },
+                            DanceLevel = new DanceLevelDto() { DanceLevelId= x.DanceLevelId, Name = x.DanceLevel.Name },
                         }).ToList(),
                       Userlanguages= x.Userlanguages.Select(x => new UserLanguageDto()
                       {
@@ -227,6 +176,54 @@ namespace Abrazos.Services
 
             return profiles;
         }
+
+        //public async Task<ResultApp> LoginAsync(string email, string pass)
+        //{
+        //    ResultApp res = new ResultApp();
+        //    try
+        //    {
+        //        var queryable = await _context.User
+        //                             .Where(x => x.Email == email)
+        //                             .Where(x => x.Pass == pass)
+        //                             .SingleOrDefaultAsync();
+
+        //        if (queryable != null)
+        //        {
+        //            res.Succeeded = true;
+        //            res.message = "Successful login";
+        //            return res;
+        //        }
+        //        else
+        //        {
+        //            res.Succeeded = false;
+        //            res.message = "UnSuccessful login";
+        //            return res;
+        //        }
+
+        //        //_logger.LogWarning(res_.Metadata.ToString());
+
+        //    }
+        //    catch (System.Exception ex)
+        //    {
+        //        string exMessage = ex.InnerException != null ? ex.InnerException!.Message : ex.Message;
+        //        _logger.LogWarning(exMessage);
+        //        res.Succeeded = false;
+        //        res.message = "Error in Login";
+        //        res.errors = new ErrorResult
+        //        {
+        //            type = ex.GetType().Name,
+        //            title = exMessage,
+        //            status = "500",
+        //            traceId = Guid.NewGuid().ToString(),
+        //            errors = new Dictionary<string, List<string>>
+        //            {
+        //                    {"GetError : Failed to Get User ", new List<string> { exMessage }}
+        //                }
+        //        };
+
+        //        return res;
+        //    }
+        //}
 
     }
 }

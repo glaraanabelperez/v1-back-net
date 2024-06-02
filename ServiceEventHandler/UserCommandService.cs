@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Models;
 using ServiceEventHandler.Command;
 using ServiceEventHandler.Command.CreateCommand;
+using ServiceEventHandler.Command.UpdateCommand;
 using ServicesQueries.Dto;
 using System.Data.Entity;
 using System.Net.NetworkInformation;
@@ -98,7 +99,7 @@ namespace Abrazos.ServiceEventHandler
             return user;
         }
 
-
+ 
     }
 }
 

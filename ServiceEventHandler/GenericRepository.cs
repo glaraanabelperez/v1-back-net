@@ -7,8 +7,10 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
+using Models;
 using ServiceEventHandler.Command;
 using Utils;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Abrazos.ServiceEventHandler
 {
@@ -50,9 +52,28 @@ namespace Abrazos.ServiceEventHandler
             }
         }
 
-        public Task<int> Delete<T1>(int id) where T1 : class
+        public async Task<T> Delete<T>(T entity) where T : class
         {
-            throw new NotImplementedException();
+            using (IDbContextTransaction transac = await _dbContext.Database.BeginTransactionAsync())
+            {
+                try
+                {
+
+                    var dbSet = _dbContext.Set<T>();
+                    var entyResult = dbSet.Remove(entity);
+                    _dbContext.SaveChanges();
+                    await transac.CommitAsync();
+                    return entity;
+                }
+                catch (System.Exception ex)
+                {
+                    await transac.RollbackAsync();
+                    string value = ((ex.InnerException != null) ? ex.InnerException!.Message : ex.Message);
+                    _logger.LogWarning(value);
+                    throw;
+                }
+
+            }
         }
 
         public async Task<T1> Update<T1>(T1 entity) where T1 : class
@@ -61,7 +82,6 @@ namespace Abrazos.ServiceEventHandler
             {
                 try
                 {
-
                     var dbSet = _dbContext.Set<T1>();
                     var entyResult = dbSet.Attach(entity).Entity;
                     _dbContext.Entry(entity).State = EntityState.Modified;
