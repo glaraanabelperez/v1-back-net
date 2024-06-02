@@ -22,16 +22,15 @@ namespace Abrazos.Services
             _mapper = mapper;
             _context = context;
             _logger = logger;
-        }     
+        }
 
-        public async Task<ProfileDancerDto> GatAsync(int userId)
+        public async Task<ProfileDancerDto> GatAsync(int profileId)
         {
 
             var queryable = await _context.ProfileDancer
-                                        .Include(u => u.User)
                                         .Include(x => x.DanceRol)
                                         .Include(x => x.DanceLevel)
-                                        .SingleAsync(x => x.UserId == userId);
+                                        .SingleAsync(x => x.ProfileDanceId == profileId);
 
             var profile = _mapper.Map<ProfileDancerDto>(queryable);
 

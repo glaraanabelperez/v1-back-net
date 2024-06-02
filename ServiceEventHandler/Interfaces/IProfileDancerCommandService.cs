@@ -14,7 +14,7 @@ namespace Abrazos.ServicesEvenetHandler.Intefaces
         public Task<ResultApp> Add(ProfileDancerCreateCommand entity);
 
         public Task<ResultApp> Update(ProfileDancerUpdateCommand entity);
-        public Task<ResultApp> Delete(int profileDancerId);
+        public Task<ResultApp> DeleteAsync(int profileDancerId);
 
 
     }

@@ -62,7 +62,7 @@ string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 
 //Config Logger
-var logDB = "workstation id=abrazoApp.mssql.somee.com;packet size=4096;user id=glaraanabelperez_SQLLogin_1;pwd=cngl7g9dti;data source=abrazoApp.mssql.somee.com;persist security info=False;initial catalog=abrazoApp";
+var logDB = builder.Configuration["ConnectionStrings:DefaultConnection"];
 var sinkOpts = new MSSqlServerSinkOptions();
 sinkOpts.TableName = "Log";
 var columnOpts = new ColumnOptions();

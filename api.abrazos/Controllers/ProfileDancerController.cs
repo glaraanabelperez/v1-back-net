@@ -31,7 +31,7 @@ namespace api.abrazos.Controllers
             var result = await _queryCommand.Add(profile);
             return result?.Succeeded ?? false
                     ? Ok(result)
-                    : BadRequest(result?.message);
+                    : BadRequest(result);
 
         }
 
@@ -52,7 +52,8 @@ namespace api.abrazos.Controllers
 
 
         /// <summary>
-        /// Return Evenet by Id.
+        /// Return Profile by Id. 
+        ///     (The app show all users, by city for example, and then on click in one user, the app will shor the profile-)
         /// </summary>
         /// <param name="eventId"></param>
         /// <returns></returns>
@@ -61,6 +62,21 @@ namespace api.abrazos.Controllers
         {
 
             var event_ = await _queryService.GatAsync(profileId);
+            return event_ != null
+            ? Ok(event_)
+            : StatusCode(204);
+
+        }
+        /// <summary>
+        /// Delete profile by Id.
+        /// </summary>
+        /// <param name="eventId"></param>
+        /// <returns></returns>
+        [HttpDelete("{profileId}")]
+        public async Task<IActionResult> DeleteAsync(int profileId)
+        {
+
+            var event_ = await _queryCommand.DeleteAsync(profileId);
             return event_ != null
             ? Ok(event_)
             : StatusCode(204);

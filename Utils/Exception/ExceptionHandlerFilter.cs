@@ -21,7 +21,8 @@ namespace Utils.Exception
 
         public void OnException(ExceptionContext context)
         {
-            string message = context.Exception.InnerException != null ? context.Exception.InnerException!.Message : context.Exception.Message;
+            string message = context.Exception.InnerException != null ? context.Exception.InnerException!.Message 
+                + context.Exception.InnerException.GetHashCode().ToString() : context.Exception.Message + context.Exception.GetHashCode().ToString();
             _logger.LogError("ERROR - " + DateTime.Now.ToShortDateString() + " - " + DateTime.Now.ToShortTimeString());
             _logger.LogError(message);
             context.Result = new JsonResult(ExceptionHandler.CreateErrorResult(context.Exception));

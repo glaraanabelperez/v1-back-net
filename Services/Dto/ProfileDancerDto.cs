@@ -10,13 +10,10 @@ namespace ServicesQueries.Dto
         public int? DanceId { get; set; }
 
         public int UserId { get; set; }
-        public double? Height { get; set; }
-        public int? Experience { get; set; }
 
-        public DanceDto? Dance { get; set; }
+        //public DanceDto? Dance { get; set; }
         public DanceRolDto DanceRol { get; set; }
         public DanceLevelDto DanceLevel { get; set; }
-        public UserDto User { get; set; }
 
     }
 }
