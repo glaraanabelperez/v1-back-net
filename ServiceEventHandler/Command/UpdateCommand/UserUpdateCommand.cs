@@ -14,8 +14,8 @@ namespace ServiceEventHandler.Command.CreateCommand
         public string? LastName { get; set; }
         [MaxLength(250)]
         public string? UserName { get; set; }
-        [MaxLength(50)]
-        public string? Pass { get; set; }
+        [MaxLength(100)]
+        public string? UserIdFirebase { get; set; }
         [MaxLength(100)]
         public string? Email { get; set; }
         public int? Age { get; set; }

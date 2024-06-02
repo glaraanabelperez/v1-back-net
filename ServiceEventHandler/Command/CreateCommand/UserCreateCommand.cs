@@ -15,11 +15,11 @@ namespace ServiceEventHandler.Command.CreateCommand
         [MaxLength(250)]
         public string UserName { get; set; } 
         [Required]
-        [MaxLength(50)]
-        public string Pass { get; set; }
-        [Required]
         [MaxLength(100)]
         public string Email { get; set; } = null!;
+        [Required]
+        [MaxLength(100)]
+        public string UserIdFirebase { get; set; } = null!;
         public int? Age { get; set; }
         [MaxLength(250)]
         public string? Celphone { get; set; }

@@ -20,7 +20,7 @@ namespace Abrazos.Persistence.Database
         public virtual DbSet<Image> Image { get; set; } = null!;
         public virtual DbSet<Permission> Permission_ { get; set; } = null!;
         public virtual DbSet<ProfileDancer> ProfileDancer { get; set; } = null!;
-        public virtual DbSet<TypeEventUser> TypeEvent_User { get; set; } = null!;
+        public virtual DbSet<TypeEventUser> TypeEventUser { get; set; } = null!;
         public virtual DbSet<TypeEvent> TypeEvent { get; set; } = null!;
         public virtual DbSet<User> User { get; set; } = null!;
         public virtual DbSet<UserPermission> UserPermission { get; set; } = null!;

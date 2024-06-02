@@ -55,16 +55,21 @@ namespace api.abrazos.Controllers
         }
 
         /// <summary>
-        /// Return All Users by some filters.
+        /// 
         /// </summary>
-        /// <param name="page"></param>
-        /// <param name="take"></param>
-        /// <param name="name"></param>
-        /// <param name="userName"></param>
-        /// <param name="userStates"></param>
+        /// <param name="search"></param>
+        /// <param name="organizerId"></param>
+        /// <param name="CycleId"></param>
         /// <param name="danceLevel"></param>
         /// <param name="danceRol"></param>
         /// <param name="evenType"></param>
+        /// <param name="CityId"></param>
+        /// <param name="addressId"></param>
+        /// <param name="countryId"></param>
+        /// <param name="dateCreated"></param>
+        /// <param name="dateFinish"></param>
+        /// <param name="page"></param>
+        /// <param name="take"></param>
         /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> GetAll(

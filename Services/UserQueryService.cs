@@ -6,6 +6,8 @@ using Microsoft.Extensions.Logging;
 using Models;
 using ServicesQueries.Dto;
 using System;
+using System.Security.Cryptography;
+using System.Xml.Linq;
 using Utils;
 
 namespace Abrazos.Services
@@ -16,6 +18,8 @@ namespace Abrazos.Services
         private readonly ApplicationDbContext _context;
         ILogger _logger;
 
+        private bool state = true;//Luego agregar en appsettings
+
         public UserQueryService(ApplicationDbContext context, ILogger<UserQueryService> logger, IMapper mapper)
         {
             _mapper = mapper;
@@ -23,6 +27,7 @@ namespace Abrazos.Services
             _logger = logger;
         }     
         /// <summary>
+        /// Get Alll user - active and not active
         /// </summary>
         /// <param name="page"></param>
         /// <param name="take"></param>
@@ -47,15 +52,15 @@ namespace Abrazos.Services
                             .ThenInclude(x => x.City)
                             .ThenInclude(x => x.Country)
                            .Include(a => a.UserPermissions)
-                               .ThenInclude(perm => perm.Permission)
+                               .ThenInclude(perm => perm.Permission) //Pueden pedir todos los usuarios organizadores o solo followers?
                             .Include(tyeu => tyeu.TypeEventsUsers)
                                 .ThenInclude(tye => tye.TypeEvent)
 
                   .Where(x => name == null || !name.Any() || name.Contains(x.Name))
                   .Where(x => userName == null || !userName.Any() || userName.Contains(x.UserName))
                   .Where(x => userStates == null || (x.UserState != null && x.UserState == userStates))
-                  .Where(x => cityId == null || (x.Address.First().City.CityId == cityId))
-                  .Where(x => string.IsNullOrEmpty(countryId) || (x.Address.First().City.Country.CountryId.Equals(countryId)))
+                  .Where(x => cityId == null || (x.Address.FirstOrDefault().City.CityId == cityId))
+                  .Where(x => string.IsNullOrEmpty(countryId) || (x.Address.FirstOrDefault().City.Country.CountryId.Equals(countryId)))
 
                   .OrderByDescending(x => x.Name)
                   .GetPagedAsync(page, take);
@@ -72,15 +77,17 @@ namespace Abrazos.Services
         {
 
             var queryable = (await _context.User
-                          .Include(a => a.UserPermissions)
-                              .ThenInclude(perm => perm.Permission)
-                          .Include(a => a.ProfileDancer)
-                              .ThenInclude(details => details.DanceRol)
-                          .Include(a => a.ProfileDancer)
-                              .ThenInclude(details => details.DanceLevel)
-                          .Include(tyeu => tyeu.TypeEventsUsers)
-                            .ThenInclude(tye => tye.TypeEvent)
-                        .Include(ad => ad.Address)
+                                .Include(p => p.ProfileDancer)
+                                    .ThenInclude(d => d.DanceRol)
+                                .Include(p => p.ProfileDancer)
+                                    .ThenInclude(d => d.DanceLevel)
+                                .Include(a => a.Address)
+                                .ThenInclude(x => x.City)
+                                .ThenInclude(x => x.Country)
+                               .Include(a => a.UserPermissions)
+                                   .ThenInclude(perm => perm.Permission) 
+                                .Include(tyeu => tyeu.TypeEventsUsers)
+                                    .ThenInclude(tye => tye.TypeEvent)
             .SingleOrDefaultAsync(x => x.UserId == userId));
             _logger.LogWarning(queryable.ToString());
             return _mapper.Map<UserDto>(queryable);
@@ -126,7 +133,7 @@ namespace Abrazos.Services
 
                   .Where(x => name == null || !name.Any() || name.Contains(x.Name))
                   .Where(x => userName == null || !userName.Any() || userName.Contains(x.UserName))
-                  //.Where(x => userStates == null || (x.UserState != null && x.UserState == userStates))
+                  .Where(x => x.UserState == state)
                   .Where(x => danceLevel == null || (x.ProfileDancer.First().DanceLevel != null && x.ProfileDancer.First().DanceLevel.DanceLevelId == danceLevel))
                   .Where(x => danceRol == null || (x.ProfileDancer.First().DanceRol != null && x.ProfileDancer.First().DanceRol.DanceRolId == danceRol))
                   .Where(x => cityId == null || (x.Address.First().City.CityId == cityId))
