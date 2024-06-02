@@ -23,8 +23,8 @@ namespace Abrazos.Persistence.Database.Configurations
             builder.Property(e => e.UserName)
               .HasColumnName("UserName");
 
-            builder.Property(e => e.Pass)
-              .HasColumnName("Pass");
+            builder.Property(e => e.UserIdFirebase)
+              .HasColumnName("UserIdFirebase");
 
             builder.Property(e => e.Email)
               .HasColumnName("Email");

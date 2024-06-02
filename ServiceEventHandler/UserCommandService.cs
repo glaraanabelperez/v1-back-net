@@ -78,7 +78,7 @@ namespace Abrazos.ServiceEventHandler
             user.AvatarImage = (userCommand.AvatarImage != null && userCommand.AvatarImage != string.Empty) ? userCommand.AvatarImage : user.AvatarImage;
             user.LastName = (userCommand.LastName != null && userCommand.LastName != string.Empty )? userCommand.LastName : user.LastName;
             user.Name = (userCommand.Name != null && userCommand.Name != string.Empty) ? userCommand.Name : user.Name;
-            user.Pass = (userCommand.Pass != null && userCommand.Pass != string.Empty )? userCommand.Pass : user.Pass;
+            user.UserIdFirebase = (userCommand.UserIdFirebase != null && userCommand.UserIdFirebase != string.Empty )? userCommand.UserIdFirebase : user.UserIdFirebase;
 
             return user;
         }
@@ -93,7 +93,7 @@ namespace Abrazos.ServiceEventHandler
             user.AvatarImage = entity_.AvatarImage;
             user.LastName = entity_.LastName;
             user.Name = entity_.Name;
-            user.Pass = entity_.Pass;
+            user.UserIdFirebase = entity_.UserIdFirebase;
             user.UserState = true; //datos en appsetting
    
             return user;
