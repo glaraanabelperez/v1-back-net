@@ -73,7 +73,7 @@ namespace Abrazos.Services
             return result;
         }
 
-        public async Task<UserDto> GatAsync(long userId)
+        public async Task<UserDto> GatAsync(int userId)
         {
 
             var queryable = (await _context.User

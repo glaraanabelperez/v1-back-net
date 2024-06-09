@@ -21,14 +21,6 @@ namespace api.abrazos.Controllers
             _userCommandHandler = userCommandHandler;
         }
 
-        [HttpGet("{userId}")]
-        public async Task<IActionResult> GetUserById(int userId)
-        {
-            var user = await _userService.GatAsync(userId);
-
-            return Ok(user);
-
-        }
 
         /// <summary>
         /// Return All Users by some filters. 
@@ -109,7 +101,7 @@ namespace api.abrazos.Controllers
                     : NoContent();
         }
 
-        [HttpPut]
+        [HttpPatch]
         public async Task<IActionResult> UpdateUser(UserUpdateCommand User)
         {
             if (!ModelState.IsValid)
@@ -121,6 +113,36 @@ namespace api.abrazos.Controllers
             return result?.Succeeded ?? false
                     ? Ok(result)
                     : BadRequest(result?.message);
+
+        }
+        [HttpPost]
+        public async Task<IActionResult> Add(UserCreateCommand User)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await _userCommandHandler.AddUser(User);
+            return result?.Succeeded ?? false
+                    ? Ok(result)
+                    : BadRequest(result?.message);
+
+        }
+
+        /// <summary>
+        /// Return Evenet by Id.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetAsync(int userId)
+        {
+            var event_ = await _userService.GatAsync(userId);
+
+            return event_ != null
+            ? Ok(event_)
+            : StatusCode(204);
 
         }
 

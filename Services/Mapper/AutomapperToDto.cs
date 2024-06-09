@@ -17,7 +17,7 @@ namespace Services.Mapper
             CreateMap<EventState, EventStateDto>();
             CreateMap<DataCollection<EventState>, DataCollection<EventStateDto>>().ForMember(dest => dest.Items, sour => sour.MapFrom(s => s.Items));
 
-            CreateMap<Event, EventDto>().ReverseMap();
+            CreateMap<Event, EventDto>();
             CreateMap<DataCollection<Event>, DataCollection<EventDto>>().ForMember(dest => dest.Items, sour => sour.MapFrom(s => s.Items));
 
             CreateMap<Address, AddressDto>();

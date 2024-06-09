@@ -38,7 +38,6 @@ namespace Abrazos.ServiceEventHandler
 
         public async Task<ResultApp> Add(ProfileDancerCreateCommand command)
         {
-            //Buscar si la direccion existe en la bbdd para traer el id, sino crearlo
             ResultApp res = new ResultApp();
 
             using (IDbContextTransaction transac = await _dbContext.Database.BeginTransactionAsync())
@@ -65,6 +64,8 @@ namespace Abrazos.ServiceEventHandler
                 catch (System.Exception ex)
                 {
                     await transac.RollbackAsync();
+                    string value = "Error Saving Profile Dancer" + ((ex.InnerException != null) ? ex.InnerException!.Message : ex.Message);
+                    _logger.LogWarning("Error Saving Events" + ex.Message);
                     throw;
                 }
             }
@@ -88,32 +89,41 @@ namespace Abrazos.ServiceEventHandler
             return profiles;
         }
 
-
+        /// <summary>
+        /// Send entity to update in Generic Repository.
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
         public async Task<ResultApp> Update(ProfileDancerUpdateCommand command)
         {
             ResultApp res = new ResultApp();
- 
-                try
-                {
-                    ProfileDancer profile = _dbContext.ProfileDancer.FirstOrDefault(u => u.ProfileDanceId == command.ProfileDancerId);
+            ProfileDancer profile = null;
 
-                    if (profile != null)
-                    {
+            try
+            {
+                profile = _dbContext.ProfileDancer.FirstOrDefault(u => u.ProfileDanceId == command.ProfileDancerId);
 
-                        await this.command.Update<ProfileDancer>(MapToUpdateEntity(profile, command));
-                        res.Succeeded = true;
-                    }
-                    else
-                    {
-                        res.Succeeded = false;
-                        res.message = "El usuario no tiene este perfil asociado";
-                    }
+            }
+            catch (Exception ex)
+            {
+                string value = "Error Updating Profile" + ((ex.InnerException != null) ? ex.InnerException!.Message : ex.Message);
+                _logger.LogWarning("Error Saving Events" + ex.Message);
+                throw;
+            }
 
-                }
-                catch (Exception ex)
-                {
-                    throw;
-                }
+            if (profile != null)
+            {
+
+                await this.command.Update<ProfileDancer>(MapToUpdateEntity(profile, command));
+                res.Succeeded = true;
+            }
+            else
+            {
+                res.Succeeded = false;
+                res.message = "El usuario no tiene este perfil asociado";
+            }
+
+           
             return res;
                 
         }
@@ -121,28 +131,30 @@ namespace Abrazos.ServiceEventHandler
         public async Task<ResultApp> DeleteAsync(int profileDancerId)
         {
             ResultApp res = new ResultApp();
+            ProfileDancer profile = null;
 
-                try
-                {
-                    ProfileDancer profile = _dbContext.ProfileDancer.SingleOrDefault(u => u.ProfileDanceId == profileDancerId);
+            try
+            {
+               profile = _dbContext.ProfileDancer.SingleOrDefault(u => u.ProfileDanceId == profileDancerId);
 
-                    if (profile != null)
-                    {
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
 
-                        await this.command.Delete<ProfileDancer>(profile);
-                        res.Succeeded = true;
-                    }
-                    else
-                    {
-                        res.Succeeded = false;
-                        res.message = "El perfil no se encuentra";
-                    }
+            if (profile != null)
+            {
 
-                }
-                catch (Exception ex)
-                {
-                    throw;
-                }
+                await this.command.Delete<ProfileDancer>(profile);
+                res.Succeeded = true;
+            }
+            else
+            {
+                res.Succeeded = false;
+                res.message = "El perfil no se encuentra";
+            }
+
             return res;
 
         }

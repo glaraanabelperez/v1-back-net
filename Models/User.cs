@@ -16,6 +16,8 @@ namespace Models
         public int? Age { get; set; }
         public string? Celphone { get; set; }
         public string? AvatarImage { get; set; }
+        public string? Description { get; set; }
+        public double? Height { get; set; }
         public bool UserState { get; set; }
         public ICollection<Address>? Address { get; set; } = new List<Address>();
         public ICollection<Image>? Images { get; set; } = new List<Image>();

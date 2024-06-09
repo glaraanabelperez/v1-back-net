@@ -33,14 +33,12 @@ namespace Abrazos.ServiceEventHandler
 
         public async Task<ResultApp> AddRange(EventCreateCommand command)
         {
-            //Buscar si la direccion existe en la bbdd para traer el id, sino crearlo
+            // AddRange is not in Generci Repository. Is Necesary use try catch and transac here.
             ResultApp res = new ResultApp();
-
             using (IDbContextTransaction transac = await _dbContext.Database.BeginTransactionAsync())
             {
                 try
                 {
-                    // AddRange is not in Generci Repository.
                     _dbContext.AddRange(MapToEntity(command));
                     _dbContext.SaveChanges();
                     await transac.CommitAsync();
@@ -49,13 +47,9 @@ namespace Abrazos.ServiceEventHandler
                 catch (System.Exception ex)
                 {
                     await transac.RollbackAsync();
-                    string value = ((ex.InnerException != null) ? ex.InnerException!.Message : ex.Message);
-                    _logger.LogWarning(value);
-
-                    if (!string.IsNullOrEmpty(ex.InnerException.Message))
-                        res.message = ex.InnerException.Message;
-                    else
-                        res.message = ex.Message;
+                    string value = "Error Saving Events" + ((ex.InnerException != null) ? ex.InnerException!.Message : ex.Message);
+                    _logger.LogWarning("Error Saving Events" + ex.Message);
+                    throw;
                 }
                 return res;
 
@@ -111,21 +105,19 @@ namespace Abrazos.ServiceEventHandler
 
             return Eventos;
         }
+
+        /// <summary>
+        /// Send the entity tu Perository's Generic to update.
+        /// </summary>
+        /// <param name="command_"></param>
+        /// <returns></returns>
         public async Task<ResultApp> Update(EventUpdateCommand command_)
         {
             ResultApp res = new ResultApp();
-            try
-            {
-                var resEntity = await this.commandGeneric.Update<Event>(MapToEntityUpdate(command_));
-                res.Succeeded = true;
-            }
-            catch (Exception ex)
-            {
-                if (!string.IsNullOrEmpty(ex.InnerException.Message))
-                    res.message = ex.InnerException.Message;
-                else
-                    res.message = ex.Message;
-            }
+ 
+            var resEntity = await this.commandGeneric.Update<Event>(MapToEntityUpdate(command_));
+            res.Succeeded = true;
+ 
             return res;
         }
         public  Event MapToEntityUpdate(EventUpdateCommand command_)
@@ -137,8 +129,8 @@ namespace Abrazos.ServiceEventHandler
             entity.UserIdCreator = command_.UserIdCreator??entity.UserIdCreator;
             entity.Name = command_.Name?? entity.Name;
             entity.Description = command_.Description?? entity.Description;
-            entity.DateInit = command_.DateInit?? entity.DateInit;
-            entity.DateFinish = command_.DateFinish ?? entity.DateFinish;
+            entity.DateInit = command_.dateTimes.dateInit?? entity.DateInit;
+            entity.DateFinish = command_.dateTimes.dateFinish ?? entity.DateFinish;
             entity.EventStateId = command_.EventStateId ?? entity.EventStateId;
             entity.TypeEventId = command_.TypeEventId ?? entity.TypeEventId;
             entity.LevelId = command_.LevelId ?? entity.LevelId;
@@ -147,10 +139,7 @@ namespace Abrazos.ServiceEventHandler
             entity.Cupo = command_.Cupo ?? entity.Cupo;
             entity.AddressId = command_.AddressId ?? entity.AddressId;
             entity.CycleId = command_.CycleId ?? entity.CycleId;
-
-            ValidateDateTime.IsValiddateTime(entity.DateInit, entity.DateFinish);
                 
-
 
                 return entity;
         }

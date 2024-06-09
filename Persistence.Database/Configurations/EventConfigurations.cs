@@ -53,6 +53,7 @@ namespace Abrazos.Persistence.Database.Configurations
             builder.Property(e => e.CycleId)
           .HasColumnName("CycleId");
 
+
             builder.HasOne(w => w.Address)
                     .WithMany(e => e.Events)
                     .HasForeignKey(e=> e.AddressId);

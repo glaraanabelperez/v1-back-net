@@ -38,9 +38,14 @@ namespace Abrazos.Persistence.Database.Configurations
             builder.Property(e => e.AvatarImage)
               .HasColumnName("AvatarImage");
 
+            builder.Property(e => e.Description)
+              .HasColumnName("Description");
+
             builder.Property(e => e.UserState)
                 .HasColumnName("UserState");
 
+            builder.Property(e => e.Height)
+                .HasColumnName("Height");
 
             builder.HasMany(e => e.Address)
                 .WithOne()

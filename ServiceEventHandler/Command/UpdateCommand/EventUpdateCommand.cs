@@ -1,4 +1,5 @@
 ﻿using Models;
+using ServiceEventHandler.Command.CreateCommand;
 using ServiceEventHandler.Validators;
 using System.ComponentModel.DataAnnotations;
 
@@ -12,8 +13,10 @@ namespace ServiceEventHandler.Command.UpdateCommand
         public string? Description { get; set; }
         public string? Image { get; set; }
         public int? AddressId { get; set; }
-        public DateTime? DateInit { get; set; }
-        public DateTime? DateFinish { get; set; }
+
+        [ValidateDateTimeAtributte(ErrorMessage = "Las fechas en el campo DateTimes no son válidas.")]
+        public RangedateUpdate dateTimes { get; set; }
+
         [Range(1, long.MaxValue, ErrorMessage = "El valor estado debe ser mayor que cero.")]
         public int? EventStateId { get; set; }
         [Range(1, long.MaxValue, ErrorMessage = "El valor del Typo de evento debe ser mayor que cero.")]
@@ -28,6 +31,12 @@ namespace ServiceEventHandler.Command.UpdateCommand
         public int? CycleId { get; set; }
 
         public AddressUpdateCommand? Address { get; set; }
+
+    }
+    public class RangedateUpdate
+    {
+        public DateTime? dateInit { get; set; }
+        public DateTime? dateFinish { get; set; }
 
     }
 

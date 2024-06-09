@@ -37,16 +37,10 @@ namespace Abrazos.ServiceEventHandler
         {
 
             ResultApp res = new ResultApp();
-            try
-            {
-                var user_res = await this.command.Add<User>(MapToUserEntity(entity));
-                //alguna verificacion ok?
-                res.Succeeded = true;
-            }
-            catch (Exception ex)
-            {
-                res.message = ex.Message;
-            }
+
+            var user_res = await this.command.Add<User>(MapToUserEntity(entity));
+            res.Succeeded = true;
+
 
             return res;
 
@@ -60,7 +54,7 @@ namespace Abrazos.ServiceEventHandler
                 .FirstOrDefault(u => u.UserId == command.userId);
             if (result != null)
             {
-                var user_res = await this.command.Update<User>(MapToUserEntityInUpdate(result, command));
+                User user_res = await this.command.Update<User>(MapToUserEntityInUpdate(result, command));
                 res.Succeeded = true;
                 res.message = "Update Successfull";
 
@@ -69,17 +63,42 @@ namespace Abrazos.ServiceEventHandler
 
         }
 
-        public User MapToUserEntityInUpdate(User user, UserUpdateCommand userCommand)
+        public User MapToUserEntityInUpdate(User user, UserUpdateCommand entity_)
         {
-            user.UserName = (userCommand.UserName != null && userCommand.UserName != string.Empty) ? userCommand.UserName : user.UserName;
-            user.Email = (userCommand.Email != null && userCommand.Email != string.Empty) ? userCommand.Email : user.Email;
-            user.Celphone = ( userCommand.Celphone != null && userCommand.Celphone != string.Empty) ? userCommand.Celphone : user.Celphone;
-            user.Age = userCommand.Age != 0 ? userCommand.Age : user.Age;
-            user.AvatarImage = (userCommand.AvatarImage != null && userCommand.AvatarImage != string.Empty) ? userCommand.AvatarImage : user.AvatarImage;
-            user.LastName = (userCommand.LastName != null && userCommand.LastName != string.Empty )? userCommand.LastName : user.LastName;
-            user.Name = (userCommand.Name != null && userCommand.Name != string.Empty) ? userCommand.Name : user.Name;
-            user.UserIdFirebase = (userCommand.UserIdFirebase != null && userCommand.UserIdFirebase != string.Empty )? userCommand.UserIdFirebase : user.UserIdFirebase;
+            user.UserName = entity_.UserName ?? user.UserName;
+            user.Email = entity_.Email ?? user.Email;
+            user.Celphone = entity_.Celphone ?? user.Celphone;
+            user.Age = entity_.Age?? user.Age ;
+            user.AvatarImage = entity_.AvatarImage ?? user.AvatarImage;
+            user.LastName = entity_.LastName ?? user.LastName;
+            user.Name = entity_.Name ?? user.Name;
+            user.UserIdFirebase = entity_.UserIdFirebase ?? user.UserIdFirebase;
+            user.UserState = true; //datos en appsetting
+            user.Description = entity_.Description ?? user.Description;
+            user.Height = entity_.Height ?? user.Height;
+            user.UserIdFirebase = entity_.UserIdFirebase ??  user.UserIdFirebase;
+            if (entity_.TypeEvents != null)
+            {
+                user.TypeEventsUsers = entity_.TypeEvents.Select(ty => new TypeEventUser()
+                {
+                    TypeEventId = ty
 
+                }).ToList();
+            }
+
+            if (entity_.Addresses != null)
+            {
+                user.Address = entity_.Addresses.Select(ad => new Address()
+                {
+                    DetailAddress = ad.DetailAddress,
+                    CityId = ad.CityId,
+                    Street = ad.Street,
+                    Number = ad.Number,
+                    VenueName = ad.VenueName,
+                    StateAddress = true
+
+                }).ToList();
+            }
             return user;
         }
 
@@ -90,12 +109,28 @@ namespace Abrazos.ServiceEventHandler
             user.Email = entity_.Email;
             user.Celphone = entity_.Celphone;
             user.Age = entity_.Age;
-            user.AvatarImage = entity_.AvatarImage;
+            user.AvatarImage = entity_.AvatarImage??null;
             user.LastName = entity_.LastName;
             user.Name = entity_.Name;
             user.UserIdFirebase = entity_.UserIdFirebase;
             user.UserState = true; //datos en appsetting
-   
+            user.Description= entity_.Description;
+            user.Height = entity_.Height;
+            user.TypeEventsUsers = entity_.TypeEvents.Select(ty => new TypeEventUser()
+            {
+                TypeEventId=ty
+
+            }).ToList();
+            user.Address = entity_.Addresses.Select(ad => new Address()
+            {
+                DetailAddress = ad.DetailAddress,
+                CityId = ad.CityId,
+                Street = ad.Street,
+                Number = ad.Number,
+                VenueName = ad.VenueName,
+                StateAddress = true
+
+            }).ToList();
             return user;
         }
 
