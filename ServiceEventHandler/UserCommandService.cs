@@ -77,7 +77,7 @@ namespace Abrazos.ServiceEventHandler
             user.Description = entity_.Description ?? user.Description;
             user.Height = entity_.Height ?? user.Height;
             user.UserIdFirebase = entity_.UserIdFirebase ??  user.UserIdFirebase;
-            if (entity_.TypeEvents != null)
+            if (entity_.TypeEvents.Count() > 0)
             {
                 user.TypeEventsUsers = entity_.TypeEvents.Select(ty => new TypeEventUser()
                 {
@@ -116,12 +116,12 @@ namespace Abrazos.ServiceEventHandler
             user.UserState = true; //datos en appsetting
             user.Description= entity_.Description;
             user.Height = entity_.Height;
-            user.TypeEventsUsers = entity_.TypeEvents.Select(ty => new TypeEventUser()
+            user.TypeEventsUsers = entity_.TypeEvents != null && entity_.TypeEvents.Count() > 0 ? entity_.TypeEvents.Select(ty => new TypeEventUser()
             {
                 TypeEventId=ty
 
-            }).ToList();
-            user.Address = entity_.Addresses.Select(ad => new Address()
+            }).ToList() : null;
+            user.Address = entity_.Addresses != null && entity_.Addresses.Count() > 0 ? entity_.Addresses.Select(ad => new Address()
             {
                 DetailAddress = ad.DetailAddress,
                 CityId = ad.CityId,
@@ -130,7 +130,7 @@ namespace Abrazos.ServiceEventHandler
                 VenueName = ad.VenueName,
                 StateAddress = true
 
-            }).ToList();
+            }).ToList() : null;
             return user;
         }
 

@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,7 +26,13 @@ namespace Utils.Exception
                 + context.Exception.InnerException.GetHashCode().ToString() : context.Exception.Message + context.Exception.GetHashCode().ToString();
             _logger.LogError("ERROR - " + DateTime.Now.ToShortDateString() + " - " + DateTime.Now.ToShortTimeString());
             _logger.LogError(message);
-            context.Result = new JsonResult(ExceptionHandler.CreateErrorResult(context.Exception));
+            //context.Result = new JsonResult(ExceptionHandler.CreateErrorResult(context.Exception));
+            context.Result = new ObjectResult(
+                    new JsonResult(ExceptionHandler.CreateErrorResult(context.Exception))
+                )
+            {
+                StatusCode = (int)HttpStatusCode.BadRequest
+            };
         }
     }
 }
