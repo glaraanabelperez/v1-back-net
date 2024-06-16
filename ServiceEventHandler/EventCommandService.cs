@@ -35,25 +35,12 @@ namespace Abrazos.ServiceEventHandler
         {
             // AddRange is not in Generci Repository. Is Necesary use try catch and transac here.
             ResultApp res = new ResultApp();
-            using (IDbContextTransaction transac = await _dbContext.Database.BeginTransactionAsync())
-            {
-                try
-                {
-                    _dbContext.AddRange(MapToEntity(command));
-                    _dbContext.SaveChanges();
-                    await transac.CommitAsync();
-                    res.Succeeded = true;
-                }
-                catch (System.Exception ex)
-                {
-                    await transac.RollbackAsync();
-                    string value = "Error Saving Events" + ((ex.InnerException != null) ? ex.InnerException!.Message : ex.Message);
-                    _logger.LogWarning("Error Saving Events" + ex.Message);
-                    throw;
-                }
-                return res;
 
-            }
+            _dbContext.AddRange(MapToEntity(command));
+            _dbContext.SaveChanges();
+            res.Succeeded = true;
+            return res;
+
 
         }
         public ICollection<Event> MapToEntity(EventCreateCommand command_)

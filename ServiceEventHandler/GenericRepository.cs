@@ -31,23 +31,11 @@ namespace Abrazos.ServiceEventHandler
         {
             using (IDbContextTransaction transac = await _dbContext.Database.BeginTransactionAsync())
             {
-                try
-                {
+
                     var dbSet = _dbContext.Set<T>();
                     var res_ = dbSet.Add(entity).Entity;
-                    await _dbContext.SaveChangesAsync();
-                    await transac.CommitAsync();
-                    //_logger.LogWarning(res_.Metadata.ToString());
-                   
+                    await _dbContext.SaveChangesAsync();                   
                     return res_;
-                }
-                catch (System.Exception ex)
-                {
-                    await transac.RollbackAsync();
-                    string value = ((ex.InnerException != null) ? ex.InnerException!.Message : ex.Message);
-                    _logger.LogWarning(value);
-                    throw;
-                }
 
             }
         }
@@ -56,22 +44,9 @@ namespace Abrazos.ServiceEventHandler
         {
             using (IDbContextTransaction transac = await _dbContext.Database.BeginTransactionAsync())
             {
-                try
-                {
-
-                    var dbSet = _dbContext.Set<T>();
-                    var entyResult = dbSet.Remove(entity);
-                    _dbContext.SaveChanges();
-                    await transac.CommitAsync();
-                    return entity;
-                }
-                catch (System.Exception ex)
-                {
-                    await transac.RollbackAsync();
-                    string value = ((ex.InnerException != null) ? ex.InnerException!.Message : ex.Message);
-                    _logger.LogWarning(value);
-                    throw;
-                }
+                var dbSet = _dbContext.Set<T>();
+                var entyResult = dbSet.Remove(entity);
+                return entity;
 
             }
         }
@@ -80,22 +55,13 @@ namespace Abrazos.ServiceEventHandler
         {
             using (IDbContextTransaction transac = await _dbContext.Database.BeginTransactionAsync())
             {
-                try
-                {
-                    var dbSet = _dbContext.Set<T1>();
-                    var entyResult = dbSet.Attach(entity).Entity;
-                    _dbContext.Entry(entity).State = EntityState.Modified;
-                    _dbContext.SaveChanges();
-                    await transac.CommitAsync();
-                    return entyResult;
-                }
-                catch (System.Exception ex)
-                {
-                    await transac.RollbackAsync();
-                    string value = ((ex.InnerException != null) ? ex.InnerException!.Message : ex.Message);
-                    _logger.LogWarning(value);
-                    throw ;
-                }
+
+                var dbSet = _dbContext.Set<T1>();
+                var entyResult = dbSet.Attach(entity).Entity;
+                _dbContext.Entry(entity).State = EntityState.Modified;
+                _dbContext.SaveChanges();
+                await transac.CommitAsync();
+                return entyResult;
 
             }
         }

@@ -1,18 +1,11 @@
 ﻿
 
 using Abrazos.Persistence.Database;
-using Abrazos.Services.Dto;
 using Abrazos.ServicesEvenetHandler.Intefaces;
 using AutoMapper;
-using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
 using Models;
-using ServiceEventHandler.Command;
 using ServiceEventHandler.Command.CreateCommand;
-using ServiceEventHandler.Command.UpdateCommand;
-using ServicesQueries.Dto;
-using System.Data.Entity;
-using System.Net.NetworkInformation;
 using Utils;
 
 namespace Abrazos.ServiceEventHandler
@@ -37,11 +30,8 @@ namespace Abrazos.ServiceEventHandler
         {
 
             ResultApp res = new ResultApp();
-
-            var user_res = await this.command.Add<User>(MapToUserEntity(entity));
+            await this.command.Add<User>(MapToUserEntity(entity));
             res.Succeeded = true;
-
-
             return res;
 
         }

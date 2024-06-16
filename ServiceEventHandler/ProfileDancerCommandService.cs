@@ -1,21 +1,12 @@
 ﻿
 
 using Abrazos.Persistence.Database;
-using Abrazos.Services.Dto;
 using Abrazos.ServicesEvenetHandler.Intefaces;
 using AutoMapper;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
 using Models;
-using ServiceEventHandler.Command;
 using ServiceEventHandler.Command.CreateCommand;
-using ServiceEventHandler.Validators;
-using System.Data.Entity;
-using System.Net.NetworkInformation;
 using Utils;
-using Utils.Exception;
 
 namespace Abrazos.ServiceEventHandler
 {
@@ -40,35 +31,21 @@ namespace Abrazos.ServiceEventHandler
         {
             ResultApp res = new ResultApp();
 
-            using (IDbContextTransaction transac = await _dbContext.Database.BeginTransactionAsync())
+            User user = _dbContext.User.FirstOrDefault(u => u.UserId == command.UserId);
+            if (user != null)
             {
-                try
-                {
-                    User user = _dbContext.User.FirstOrDefault(u => u.UserId == command.UserId);
-                    if (user != null)
-                    {
-                        // AddRange is not in Generci Repository.
-                        _dbContext.AddRange(MapToEntity(command));
-                        _dbContext.SaveChanges();
-                        await transac.CommitAsync();
-                        res.Succeeded = true;
-                    }
-                    else
-                    {
-                        res.errors = null;
-                        res.Succeeded = false;
-                        res.message = "El usuario no existe";
-                    }
-                    
-                }
-                catch (System.Exception ex)
-                {
-                    await transac.RollbackAsync();
-                    string value = "Error Saving Profile Dancer" + ((ex.InnerException != null) ? ex.InnerException!.Message : ex.Message);
-                    _logger.LogWarning("Error Saving Events" + ex.Message);
-                    throw;
-                }
+                // AddRange is not in Generci Repository.
+                _dbContext.AddRange(MapToEntity(command));
+                _dbContext.SaveChanges();
+                res.Succeeded = true;
             }
+            else
+            {
+                res.errors = null;
+                res.Succeeded = false;
+                res.message = "El usuario no existe";
+            }
+                    
             return res;
 
         }
@@ -99,17 +76,8 @@ namespace Abrazos.ServiceEventHandler
             ResultApp res = new ResultApp();
             ProfileDancer profile = null;
 
-            try
-            {
-                profile = _dbContext.ProfileDancer.FirstOrDefault(u => u.ProfileDanceId == command.ProfileDancerId);
+            profile = _dbContext.ProfileDancer.FirstOrDefault(u => u.ProfileDanceId == command.ProfileDancerId);
 
-            }
-            catch (Exception ex)
-            {
-                string value = "Error Updating Profile" + ((ex.InnerException != null) ? ex.InnerException!.Message : ex.Message);
-                _logger.LogWarning("Error Saving Events" + ex.Message);
-                throw;
-            }
 
             if (profile != null)
             {
@@ -133,15 +101,7 @@ namespace Abrazos.ServiceEventHandler
             ResultApp res = new ResultApp();
             ProfileDancer profile = null;
 
-            try
-            {
-               profile = _dbContext.ProfileDancer.SingleOrDefault(u => u.ProfileDanceId == profileDancerId);
-
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
+            profile = _dbContext.ProfileDancer.SingleOrDefault(u => u.ProfileDanceId == profileDancerId);
 
             if (profile != null)
             {
