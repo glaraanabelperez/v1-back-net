@@ -29,75 +29,36 @@ namespace Abrazos.ServiceEventHandler
 
         public async Task<T> Add<T>(T entity) where T : class
         {
-            using (IDbContextTransaction transac = await _dbContext.Database.BeginTransactionAsync())
-            {
-                try
-                {
-                    var dbSet = _dbContext.Set<T>();
-                    var res_ = dbSet.Add(entity).Entity;
-                    await _dbContext.SaveChangesAsync();
-                    await transac.CommitAsync();
-                    //_logger.LogWarning(res_.Metadata.ToString());
-                   
-                    return res_;
-                }
-                catch (System.Exception ex)
-                {
-                    await transac.RollbackAsync();
-                    string value = ((ex.InnerException != null) ? ex.InnerException!.Message : ex.Message);
-                    _logger.LogWarning(value);
-                    throw;
-                }
-
-            }
+           var dbSet = _dbContext.Set<T>();
+           var res_ = dbSet.Add(entity).Entity;
+           await _dbContext.SaveChangesAsync();                   
+           return res_;
         }
 
         public async Task<T> Delete<T>(T entity) where T : class
         {
-            using (IDbContextTransaction transac = await _dbContext.Database.BeginTransactionAsync())
-            {
-                try
-                {
+            //var dbSet = _dbContext.Set<T>();
+            //var res_ = dbSet.Remove(entity);
+            //await _dbContext.SaveChangesAsync();
+            //return entity;
 
-                    var dbSet = _dbContext.Set<T>();
-                    var entyResult = dbSet.Remove(entity);
-                    _dbContext.SaveChanges();
-                    await transac.CommitAsync();
-                    return entity;
-                }
-                catch (System.Exception ex)
-                {
-                    await transac.RollbackAsync();
-                    string value = ((ex.InnerException != null) ? ex.InnerException!.Message : ex.Message);
-                    _logger.LogWarning(value);
-                    throw;
-                }
+            var dbSet = _dbContext.Set<T>();
+            var entyResult = dbSet.Attach(entity).Entity;
+            _dbContext.Entry(entity).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
+            return entyResult;
 
-            }
         }
 
         public async Task<T1> Update<T1>(T1 entity) where T1 : class
         {
-            using (IDbContextTransaction transac = await _dbContext.Database.BeginTransactionAsync())
-            {
-                try
-                {
-                    var dbSet = _dbContext.Set<T1>();
-                    var entyResult = dbSet.Attach(entity).Entity;
-                    _dbContext.Entry(entity).State = EntityState.Modified;
-                    _dbContext.SaveChanges();
-                    await transac.CommitAsync();
-                    return entyResult;
-                }
-                catch (System.Exception ex)
-                {
-                    await transac.RollbackAsync();
-                    string value = ((ex.InnerException != null) ? ex.InnerException!.Message : ex.Message);
-                    _logger.LogWarning(value);
-                    throw ;
-                }
 
-            }
+            var dbSet = _dbContext.Set<T1>();
+            var entyResult = dbSet.Attach(entity).Entity;
+            _dbContext.Entry(entity).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
+            return entyResult;
+
         }
 
 

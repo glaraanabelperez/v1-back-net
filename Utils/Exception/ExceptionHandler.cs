@@ -31,10 +31,10 @@ namespace Utils.Exception
                 if (text2.Contains("Cannot insert duplicate key in object"))
                 {
                     errorResult.status = "452";
-                    key = "Ya existe un registro similar. Revise los datos enviados";
-                    list.Add("Un usuario no puede tener mas de un nivel por Rol de Baile ");
-
+                    key = "Ya existe un registro similar. Revisar valor: " ;
                     list.Add(text2);
+
+                    //list.Add(text2);
                 }
                 else
                 {
@@ -42,7 +42,7 @@ namespace Utils.Exception
                     if (text3.StartsWith("Invalid column"))
                     {
                         errorResult.status = "480";
-                        key = "Invalid Column";
+                        key = "Invalid Column, Revisar valor: ";
                         list.Add(text3);
                     }
                     else
@@ -52,7 +52,7 @@ namespace Utils.Exception
                         {
                             string text5 = text4.Substring(text4.IndexOf("'"), 11);
                             errorResult.status = "481";
-                            key = "Formato de fecha no válido";
+                            key = "Formato de fecha no válido: Revisar valor: ";
                             list.Add("Revisar valor: " + text5);
                         }
                         else
@@ -67,7 +67,7 @@ namespace Utils.Exception
                 }
             }
 
-            errorResult.errors.Add(key, list);
+            errorResult.errors.Add( key, list);
             return errorResult;
         }
     }

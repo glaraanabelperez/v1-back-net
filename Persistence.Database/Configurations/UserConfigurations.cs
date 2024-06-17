@@ -47,15 +47,15 @@ namespace Abrazos.Persistence.Database.Configurations
             builder.Property(e => e.Height)
                 .HasColumnName("Height");
 
+
+
             builder.HasMany(e => e.Address)
                 .WithOne()
                 .HasForeignKey(e => e.UserId);
 
-
             builder.HasMany(e => e.Images)
                 .WithOne()
                 .HasForeignKey(e => e.UserId);
-
 
             builder.HasMany(e => e.UserPermissions)
                 .WithOne(u => u.User)

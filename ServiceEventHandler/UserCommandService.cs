@@ -1,18 +1,11 @@
 ﻿
 
 using Abrazos.Persistence.Database;
-using Abrazos.Services.Dto;
 using Abrazos.ServicesEvenetHandler.Intefaces;
 using AutoMapper;
-using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
 using Models;
-using ServiceEventHandler.Command;
 using ServiceEventHandler.Command.CreateCommand;
-using ServiceEventHandler.Command.UpdateCommand;
-using ServicesQueries.Dto;
-using System.Data.Entity;
-using System.Net.NetworkInformation;
 using Utils;
 
 namespace Abrazos.ServiceEventHandler
@@ -37,11 +30,8 @@ namespace Abrazos.ServiceEventHandler
         {
 
             ResultApp res = new ResultApp();
-
-            var user_res = await this.command.Add<User>(MapToUserEntity(entity));
+            await this.command.Add<User>(MapToUserEntity(entity));
             res.Succeeded = true;
-
-
             return res;
 
         }
@@ -77,7 +67,7 @@ namespace Abrazos.ServiceEventHandler
             user.Description = entity_.Description ?? user.Description;
             user.Height = entity_.Height ?? user.Height;
             user.UserIdFirebase = entity_.UserIdFirebase ??  user.UserIdFirebase;
-            if (entity_.TypeEvents != null)
+            if (entity_.TypeEvents.Count() > 0)
             {
                 user.TypeEventsUsers = entity_.TypeEvents.Select(ty => new TypeEventUser()
                 {
@@ -116,12 +106,12 @@ namespace Abrazos.ServiceEventHandler
             user.UserState = true; //datos en appsetting
             user.Description= entity_.Description;
             user.Height = entity_.Height;
-            user.TypeEventsUsers = entity_.TypeEvents.Select(ty => new TypeEventUser()
+            user.TypeEventsUsers = entity_.TypeEvents != null && entity_.TypeEvents.Count() > 0 ? entity_.TypeEvents.Select(ty => new TypeEventUser()
             {
                 TypeEventId=ty
 
-            }).ToList();
-            user.Address = entity_.Addresses.Select(ad => new Address()
+            }).ToList() : null;
+            user.Address = entity_.Addresses != null && entity_.Addresses.Count() > 0 ? entity_.Addresses.Select(ad => new Address()
             {
                 DetailAddress = ad.DetailAddress,
                 CityId = ad.CityId,
@@ -130,11 +120,32 @@ namespace Abrazos.ServiceEventHandler
                 VenueName = ad.VenueName,
                 StateAddress = true
 
-            }).ToList();
+            }).ToList() : null;
             return user;
         }
 
- 
+        public async Task<ResultApp> DeleteAsync(int userId)
+        {
+            ResultApp res = new ResultApp();
+            User user = null;
+            user = _dbContext.User.SingleOrDefault(u => u.UserId == userId);
+            user.UserState = false;
+            if (user != null)
+            {
+
+                await this.command.Delete<User>(user);
+                res.Succeeded = true;
+            }
+            else
+            {
+                res.Succeeded = false;
+                res.message = "El usuario no se encuentra";
+            }
+
+            return res;
+
+        }
+
     }
 }
 

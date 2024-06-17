@@ -146,5 +146,20 @@ namespace api.abrazos.Controllers
 
         }
 
+        /// <summary>
+        /// Delete user by Id.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        [HttpDelete("{userId}")]
+        public async Task<IActionResult> DeleteAsync(int userId)
+        {
+
+            var result = await _userCommandHandler.DeleteAsync(userId);
+            return result?.Succeeded ?? false
+                    ? Ok(result)
+                    : BadRequest(result?.message);
+
+        }
     }
 }
