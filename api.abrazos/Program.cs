@@ -42,8 +42,9 @@ builder.Services.AddTransient<IProfileDancerCommandService, ProfileDancerCommand
 builder.Services.AddTransient<IUserCommandService, UserCommandService>();
 builder.Services.AddTransient<IEventCommandService, EventCommandService>();
 builder.Services.AddTransient<IProfileDancerQueryService, ProfileDancerQueryService>(); 
-//Query services
 
+
+//Query services
 builder.Services.AddTransient<IUserQueryService, UserQueryService>();
 builder.Services.AddTransient<IEventQueryService, EventQueryService>();
 

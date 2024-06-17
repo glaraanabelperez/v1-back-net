@@ -61,9 +61,9 @@ namespace api.abrazos.Controllers
         public async Task<IActionResult> GetAsync(int profileId)
         {
 
-            var event_ = await _queryService.GatAsync(profileId);
-            return event_ != null
-            ? Ok(event_)
+            var result = await _queryService.GatAsync(profileId);
+            return result != null
+            ? Ok(result)
             : StatusCode(204);
 
         }
@@ -76,10 +76,10 @@ namespace api.abrazos.Controllers
         public async Task<IActionResult> DeleteAsync(int profileId)
         {
 
-            var event_ = await _queryCommand.DeleteAsync(profileId);
-            return event_ != null
-            ? Ok(event_)
-            : StatusCode(204);
+            var result = await _queryCommand.DeleteAsync(profileId);
+            return result?.Succeeded ?? false
+                   ? Ok(result)
+                   : BadRequest(result?.message);
 
         }
     }

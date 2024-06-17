@@ -41,7 +41,6 @@ namespace Abrazos.ServiceEventHandler
             res.Succeeded = true;
             return res;
 
-
         }
         public ICollection<Event> MapToEntity(EventCreateCommand command_)
         {

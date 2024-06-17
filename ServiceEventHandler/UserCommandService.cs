@@ -124,7 +124,28 @@ namespace Abrazos.ServiceEventHandler
             return user;
         }
 
- 
+        public async Task<ResultApp> DeleteAsync(int userId)
+        {
+            ResultApp res = new ResultApp();
+            User user = null;
+            user = _dbContext.User.SingleOrDefault(u => u.UserId == userId);
+            user.UserState = false;
+            if (user != null)
+            {
+
+                await this.command.Delete<User>(user);
+                res.Succeeded = true;
+            }
+            else
+            {
+                res.Succeeded = false;
+                res.message = "El usuario no se encuentra";
+            }
+
+            return res;
+
+        }
+
     }
 }
 

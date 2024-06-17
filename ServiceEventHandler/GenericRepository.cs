@@ -29,41 +29,36 @@ namespace Abrazos.ServiceEventHandler
 
         public async Task<T> Add<T>(T entity) where T : class
         {
-            using (IDbContextTransaction transac = await _dbContext.Database.BeginTransactionAsync())
-            {
-
-                    var dbSet = _dbContext.Set<T>();
-                    var res_ = dbSet.Add(entity).Entity;
-                    await _dbContext.SaveChangesAsync();                   
-                    return res_;
-
-            }
+           var dbSet = _dbContext.Set<T>();
+           var res_ = dbSet.Add(entity).Entity;
+           await _dbContext.SaveChangesAsync();                   
+           return res_;
         }
 
         public async Task<T> Delete<T>(T entity) where T : class
         {
-            using (IDbContextTransaction transac = await _dbContext.Database.BeginTransactionAsync())
-            {
-                var dbSet = _dbContext.Set<T>();
-                var entyResult = dbSet.Remove(entity);
-                return entity;
+            //var dbSet = _dbContext.Set<T>();
+            //var res_ = dbSet.Remove(entity);
+            //await _dbContext.SaveChangesAsync();
+            //return entity;
 
-            }
+            var dbSet = _dbContext.Set<T>();
+            var entyResult = dbSet.Attach(entity).Entity;
+            _dbContext.Entry(entity).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
+            return entyResult;
+
         }
 
         public async Task<T1> Update<T1>(T1 entity) where T1 : class
         {
-            using (IDbContextTransaction transac = await _dbContext.Database.BeginTransactionAsync())
-            {
 
-                var dbSet = _dbContext.Set<T1>();
-                var entyResult = dbSet.Attach(entity).Entity;
-                _dbContext.Entry(entity).State = EntityState.Modified;
-                _dbContext.SaveChanges();
-                await transac.CommitAsync();
-                return entyResult;
+            var dbSet = _dbContext.Set<T1>();
+            var entyResult = dbSet.Attach(entity).Entity;
+            _dbContext.Entry(entity).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
+            return entyResult;
 
-            }
         }
 
 

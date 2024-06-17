@@ -106,7 +106,7 @@ namespace Abrazos.ServiceEventHandler
             if (profile != null)
             {
 
-                await this.command.Delete<ProfileDancer>(profile);
+                this.command.Delete<ProfileDancer>(profile);
                 res.Succeeded = true;
             }
             else

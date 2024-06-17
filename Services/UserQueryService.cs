@@ -61,6 +61,7 @@ namespace Abrazos.Services
                   .Where(x => userStates == null || (x.UserState != null && x.UserState == userStates))
                   .Where(x => cityId == null || (x.Address.FirstOrDefault().City.CityId == cityId))
                   .Where(x => string.IsNullOrEmpty(countryId) || (x.Address.FirstOrDefault().City.Country.CountryId.Equals(countryId)))
+                  .Where(x => x.UserState == true)
 
                   .OrderByDescending(x => x.Name)
                   .GetPagedAsync(page, take);
@@ -139,7 +140,7 @@ namespace Abrazos.Services
                   .Where(x => cityId == null || (x.Address.First().City.CityId == cityId))
                   .Where(x => string.IsNullOrEmpty(countryId) || (x.Address.First().City.Country.CountryId.Equals(countryId)))
                   .Where(x => evenType == null || (x.TypeEventsUsers != null && x.TypeEventsUsers.First().TypeEvent.TypeEventId == evenType))
-
+                  .Where(x => x.UserState == true)
                   .OrderByDescending(x => x.Name)
                   .GetPagedAsync(page, take);
 
