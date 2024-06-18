@@ -74,10 +74,10 @@ namespace Abrazos.Services
             return result;
         }
 
-        public async Task<UserDto> GatAsync(int userId)
+        public async Task<UserDto> GatAsync(int? userId, string userIdFirebase)
         {
 
-            var queryable = (await _context.User
+            var queryable = await _context.User
                                 .Include(p => p.ProfileDancer)
                                     .ThenInclude(d => d.DanceRol)
                                 .Include(p => p.ProfileDancer)
@@ -88,8 +88,9 @@ namespace Abrazos.Services
                                .Include(a => a.UserPermissions)
                                    .ThenInclude(perm => perm.Permission) 
                                 .Include(tyeu => tyeu.TypeEventsUsers)
-                                    .ThenInclude(tye => tye.TypeEvent)
-            .SingleOrDefaultAsync(x => x.UserId == userId));
+                                    .ThenInclude(tye => tye.TypeEvent) 
+                                .Where(x => userIdFirebase.Equals(x.UserIdFirebase) )
+                                .SingleAsync();
             _logger.LogWarning(queryable.ToString());
             return _mapper.Map<UserDto>(queryable);
  
@@ -132,8 +133,8 @@ namespace Abrazos.Services
                             .Include(tyeu => tyeu.TypeEventsUsers)
                                 .ThenInclude(tye => tye.TypeEvent)
 
-                  .Where(x => name == null || !name.Any() || name.Contains(x.Name))
-                  .Where(x => userName == null || !userName.Any() || userName.Contains(x.UserName))
+                  .Where(x => name == null || !name.Any() || name.Equals(x.Name))
+                  .Where(x => userName == null || !userName.Any() || userName.Equals(x.UserName))
                   .Where(x => x.UserState == state)
                   .Where(x => danceLevel == null || (x.ProfileDancer.First().DanceLevel != null && x.ProfileDancer.First().DanceLevel.DanceLevelId == danceLevel))
                   .Where(x => danceRol == null || (x.ProfileDancer.First().DanceRol != null && x.ProfileDancer.First().DanceRol.DanceRolId == danceRol))
