@@ -15,7 +15,7 @@ namespace Abrazos.Services.Interfaces
                                                     string? countryId = null
                                                 );
 
-        Task<UserDto> GatAsync(int userId);
+        Task<UserDto> GatAsync(int? userId, string userIdFirebase);
         Task<DataCollection<UserProfileDto>> GetAllUserProfileAsync(
                                                    int page = 1,
                                                    int take = 500,

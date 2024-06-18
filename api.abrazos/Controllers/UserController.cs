@@ -1,5 +1,6 @@
 using Abrazos.Services.Interfaces;
 using Abrazos.ServicesEvenetHandler.Intefaces;
+using api.abrazos.Validators;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
@@ -135,10 +136,16 @@ namespace api.abrazos.Controllers
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        [HttpGet("{userId}")]
-        public async Task<IActionResult> GetAsync(int userId)
+        [HttpGet]
+        [Route("getAsync")]
+        public async Task<IActionResult> GetAsync([FromQuery]string userIdFirebase)
         {
-            var event_ = await _userService.GatAsync(userId);
+            if(!Validations.IdisNOtNull(null, userIdFirebase))
+            {
+                return BadRequest("UserId o userFirebaseId son necesarios");
+            }
+            //Mas adelante se usara el userId-
+            var event_ = await _userService.GatAsync(null, userIdFirebase);
 
             return event_ != null
             ? Ok(event_)

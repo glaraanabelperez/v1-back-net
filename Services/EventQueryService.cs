@@ -110,7 +110,7 @@ namespace Abrazos.Services
                                .ThenInclude(c => c.Country)
 
 
-            .Where(x => eventId == null || x.EventId == eventId)
+            .Where(x =>  x.EventId == eventId)
             .SingleAsync();
             _logger.LogInformation(query.ToString());
 
