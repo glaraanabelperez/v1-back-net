@@ -28,6 +28,8 @@ namespace ServiceEventHandler.Command.CreateCommand
         public string? Description { get; set; }
         public double? Height { get; set; }
         public List<int>? TypeEvents { get; set; }
+        [MaxLength(50)]
+        public string Gender { get; set; }
 
         public List<AddressCreateCommand>? Addresses { get; set; }
 

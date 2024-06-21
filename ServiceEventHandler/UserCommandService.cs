@@ -67,13 +67,17 @@ namespace Abrazos.ServiceEventHandler
             user.Description = entity_.Description ?? user.Description;
             user.Height = entity_.Height ?? user.Height;
             user.UserIdFirebase = entity_.UserIdFirebase ??  user.UserIdFirebase;
-            if (entity_.TypeEvents.Count() > 0)
+            user.Gender = entity_.Gender ?? user.Gender;
+            if (entity_.TypeEvents != null && entity_.TypeEvents.Count() > 0)
             {
                 user.TypeEventsUsers = entity_.TypeEvents.Select(ty => new TypeEventUser()
                 {
                     TypeEventId = ty
-
                 }).ToList();
+            }
+            else
+            {
+                user.TypeEventsUsers = new List<TypeEventUser>();
             }
 
             if (entity_.Addresses != null)
@@ -106,6 +110,8 @@ namespace Abrazos.ServiceEventHandler
             user.UserState = true; //datos en appsetting
             user.Description= entity_.Description;
             user.Height = entity_.Height;
+            user.Gender = entity_.Gender;
+            
             user.TypeEventsUsers = entity_.TypeEvents != null && entity_.TypeEvents.Count() > 0 ? entity_.TypeEvents.Select(ty => new TypeEventUser()
             {
                 TypeEventId=ty

@@ -47,6 +47,9 @@ namespace Abrazos.Persistence.Database.Configurations
             builder.Property(e => e.Height)
                 .HasColumnName("Height");
 
+            builder.Property(e => e.Gender)
+                .HasColumnName("Gender");
+
 
 
             builder.HasMany(e => e.Address)

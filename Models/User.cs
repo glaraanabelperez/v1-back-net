@@ -19,6 +19,7 @@ namespace Models
         public string? Description { get; set; }
         public double? Height { get; set; }
         public bool UserState { get; set; }
+        public string? Gender { get; set; }
         public ICollection<Address>? Address { get; set; } = new List<Address>();
         public ICollection<Image>? Images { get; set; } = new List<Image>();
         public ICollection<UserPermission>? UserPermissions { get; set; } = new List<UserPermission>();

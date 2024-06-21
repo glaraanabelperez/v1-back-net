@@ -19,6 +19,7 @@ namespace ServicesQueries.Dto
 
         public string? Description { get; set; }
         public double? Height { get; set; }
+        public string Gender { get; set; }
         //public ICollection<AddressDto>? Address { get; set; } = new List<AddressDto>();
         public ICollection<ImageDto>? Images { get; set; } = new List<ImageDto>();
         //public ICollection<UserPermissionDto>? UserPermissions { get; set; } = new List<UserPermissionDto>();
