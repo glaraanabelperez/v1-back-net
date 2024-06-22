@@ -29,7 +29,7 @@ namespace ServiceEventHandler.Command.CreateCommand
         public double? Height { get; set; }
         public List<int>? TypeEvents { get; set; }
         [MaxLength(50)]
-        public string Gender { get; set; }
+        public string? Gender { get; set; }
 
         public List<AddressCreateCommand>? Addresses { get; set; }
 
