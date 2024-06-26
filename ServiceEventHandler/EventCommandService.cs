@@ -127,6 +127,12 @@ namespace Abrazos.ServiceEventHandler
             entity.CycleId = command_.CycleId ?? entity.CycleId;
                 
 
+            List<int> nums = new List<int>() { 
+                1,2,3,4
+            };
+            List<string> numsSting = nums.Select(x => string.Format("0,00",x )).ToList();
+
+
                 return entity;
         }
 
