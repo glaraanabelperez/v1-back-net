@@ -18,7 +18,7 @@ namespace ServiceEventHandler.Validators
             {
                 if (dateRange.dateInit == null || dateRange.dateFinish == null || dateRange.dateInit >= dateRange.dateFinish || dateRange.dateInit < DateTime.Now)
                 {
-                    return new ValidationResult($"La fecha de inicio ({dateRange.dateInit}) no puede ser ni nulas ni mayor que la fecha de fin ({dateRange.dateFinish}).");
+                    return new ValidationResult($"La fecha de inicio ({dateRange.dateInit}) no puede ser ni nulas ni mayor que la fecha de fin ({dateRange.dateFinish}) o a la fecha de Hoy.");
                 }
    
             }
@@ -35,7 +35,7 @@ namespace ServiceEventHandler.Validators
 
             if (date.dateInit == null || date.dateFinish == null || date.dateInit >= date.dateFinish || date.dateInit < DateTime.Now)
             {
-                return new ValidationResult($"La fecha de inicio ({date.dateInit}) no puede ser mayor que la fecha de fin ({date.dateFinish}).");
+                return new ValidationResult($"La fecha de inicio ({date.dateInit}) no puede ser mayor que la fecha de fin ({date.dateFinish})o a la fecha de Hoy.");
             }
 
 
