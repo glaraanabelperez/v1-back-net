@@ -36,15 +36,21 @@ namespace Abrazos.ServiceEventHandler
             // AddRange is not in Generci Repository. Is Necesary use try catch and transac here.
             ResultApp res = new ResultApp();
 
-            _dbContext.AddRange(MapToEntity(command));
+            //_dbContext.AddRange(MapToEntity(command));
+            _dbContext.Add(MapToEntity(command));
+
             _dbContext.SaveChanges();
             res.Succeeded = true;
             return res;
 
         }
-        public ICollection<Event> MapToEntity(EventCreateCommand command_)
+        public Cycle MapToEntity(EventCreateCommand command_)
         {
-            ICollection<Event> Eventos = new List<Event>();
+            Cycle cicle = new Cycle();
+            cicle.CycleTitle = command_.Name;
+            cicle.Description = command_.Description;
+
+            ICollection <Event> Eventos = new List<Event>();
 
             foreach(var e in command_.dateTimes)
             {
@@ -82,14 +88,15 @@ namespace Abrazos.ServiceEventHandler
                     entity.Address = Address_;
                 }
  
-                Cycle cicle = new Cycle();
-                cicle.CycleTitle = command_.Name;
-                cicle.Description = command_.Description;
-                entity.Cycle = cicle;
+                //Cycle cicle = new Cycle();
+                //cicle.CycleTitle = command_.Name;
+                //cicle.Description = command_.Description;
+                //entity.Cycle = cicle;
                 Eventos.Add(entity);
             }
+            cicle.Events = Eventos;
 
-            return Eventos;
+            return cicle;
         }
 
         /// <summary>
