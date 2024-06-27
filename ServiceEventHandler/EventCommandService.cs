@@ -122,8 +122,12 @@ namespace Abrazos.ServiceEventHandler
             entity.UserIdCreator = command_.UserIdCreator??entity.UserIdCreator;
             entity.Name = command_.Name?? entity.Name;
             entity.Description = command_.Description?? entity.Description;
-            entity.DateInit = command_.dateTimes.dateInit?? entity.DateInit;
-            entity.DateFinish = command_.dateTimes.dateFinish ?? entity.DateFinish;
+            if (command_.dateTimes != null)
+            {
+                entity.DateInit = command_.dateTimes.dateInit ?? entity.DateInit;
+                entity.DateFinish = command_.dateTimes.dateFinish ?? entity.DateFinish;
+            }
+
             entity.EventStateId = command_.EventStateId ?? entity.EventStateId;
             entity.TypeEventId = command_.TypeEventId ?? entity.TypeEventId;
             entity.LevelId = command_.LevelId ?? entity.LevelId;

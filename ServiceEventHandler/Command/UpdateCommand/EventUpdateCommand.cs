@@ -14,8 +14,7 @@ namespace ServiceEventHandler.Command.UpdateCommand
         public string? Image { get; set; }
         public int? AddressId { get; set; }
 
-        [ValidateDateTimeAtributte(ErrorMessage = "Las fechas en el campo DateTimes no son válidas.")]
-        public RangedateUpdate dateTimes { get; set; }
+        public RangedateUpdate? dateTimes { get; set; }
 
         [Range(1, long.MaxValue, ErrorMessage = "El valor estado debe ser mayor que cero.")]
         public int? EventStateId { get; set; }
@@ -35,7 +34,9 @@ namespace ServiceEventHandler.Command.UpdateCommand
     }
     public class RangedateUpdate
     {
+        [ValidateDateTimeAtributte(ErrorMessage = "Las fechas en el campo DateTimes no son válidas.")]
         public DateTime? dateInit { get; set; }
+        [ValidateDateTimeAtributte(ErrorMessage = "Las fechas en el campo DateTimes no son válidas.")]
         public DateTime? dateFinish { get; set; }
 
     }
