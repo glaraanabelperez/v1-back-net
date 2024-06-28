@@ -78,7 +78,7 @@ namespace Abrazos.Services
                                           && (countryId == null || x.Address.City.CountryId.Equals(countryId))
                                           && (addressId == null || x.Address.AddressId == addressId)
                                           && (evenType == null || x.TypeEventId == evenType)
-                                          && (dateInit == null || dateFinish == null || (dateInit >= x.DateInit && x.DateFinish >= dateFinish))
+                                          && (dateInit == null || dateFinish == null || (dateInit >= x.DateInit && x.DateFinish <= dateFinish))
 
                                   )
                   .OrderByDescending(x => x.EventId);

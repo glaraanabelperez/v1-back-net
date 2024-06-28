@@ -137,15 +137,23 @@ namespace api.abrazos.Controllers
         /// <param name="userId"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("getAsync")]
-        public async Task<IActionResult> GetAsync([FromQuery]string userIdFirebase)
+        [Route("getUserIdFirebase")]
+        public async Task<IActionResult> GetAsyncIdFirebase([FromQuery] string userIdFirebase)
         {
-            if(!Validations.IdisNOtNull(null, userIdFirebase))
-            {
-                return BadRequest("UserId o userFirebaseId son necesarios");
-            }
             //Mas adelante se usara el userId-
-            var event_ = await _userService.GatAsync(null, userIdFirebase);
+            var user = await _userService.GetAsyncIdFirebase(userIdFirebase);
+
+            return user != null
+            ? Ok(user)
+            : StatusCode(204);
+
+        }
+
+        [HttpGet]
+        [Route("getUserId")]
+        public async Task<IActionResult> GetAsyncUserId([FromQuery] int userId)
+        {
+            var event_ = await _userService.GetAsyncUserId(userId);
 
             return event_ != null
             ? Ok(event_)
