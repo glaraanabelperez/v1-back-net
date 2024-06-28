@@ -74,7 +74,7 @@ namespace Abrazos.Services
             return result;
         }
 
-        public async Task<UserDto> GatAsync(int? userId, string userIdFirebase)
+        public async Task<UserDto> GetAsyncIdFirebase(string userIdFirebase)
         {
 
             var queryable = await _context.User
@@ -94,6 +94,27 @@ namespace Abrazos.Services
             _logger.LogWarning(queryable.ToString());
             return _mapper.Map<UserDto>(queryable);
  
+        }
+        public async Task<UserDto> GetAsyncUserId(int userId)
+        {
+
+            var queryable = await _context.User
+                                .Include(p => p.ProfileDancer)
+                                    .ThenInclude(d => d.DanceRol)
+                                .Include(p => p.ProfileDancer)
+                                    .ThenInclude(d => d.DanceLevel)
+                                .Include(a => a.Address)
+                                .ThenInclude(x => x.City)
+                                .ThenInclude(x => x.Country)
+                               .Include(a => a.UserPermissions)
+                                   .ThenInclude(perm => perm.Permission)
+                                .Include(tyeu => tyeu.TypeEventsUsers)
+                                    .ThenInclude(tye => tye.TypeEvent)
+                                .Where(x => userId.Equals(x.UserId))
+                                .SingleAsync();
+            _logger.LogWarning(queryable.ToString());
+            return _mapper.Map<UserDto>(queryable);
+
         }
 
         /// <summary>
