@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistence.Database", "Per
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csproj", "{FB0DD677-3D5F-4DFF-BD85-CBBA0E01F1AE}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ServicesQueries", "ServicesQueries", "{08D1554C-6F2A-483F-AF6D-160F1086FF4B}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ServiceQueries", "ServiceQueries", "{08D1554C-6F2A-483F-AF6D-160F1086FF4B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServicesQueries", "Services\ServicesQueries.csproj", "{0E0EBD45-5672-4423-ADA8-4CF6D4B630D6}"
 EndProject
@@ -24,6 +24,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utils", "Utils", "{1A9C9D5A-DE9C-414A-B1AE-3BF9FA5BE722}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utils", "Utils\Utils.csproj", "{67A04ADD-8FAE-4B29-82BE-7F4DD3A15F0F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ScriptSql", "ScriptSql", "{54B895F5-4EE7-4CDD-AC15-A2ACAE6785A7}"
+	ProjectSection(SolutionItems) = preProject
+		SqlQuery_1.sql = SqlQuery_1.sql
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
